@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
+  <defs>
+    <pattern id="flowers" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse">
+      <!-- Small 5-petal flower - mauve tones -->
+      <g fill="none" stroke="rgba(129,61,110,0.16)" stroke-width="0.6" transform="translate(20,20)">
+        <circle cx="0" cy="0" r="3" fill="rgba(129,61,110,0.06)"/>
+        <ellipse cx="0" cy="-4" rx="2" ry="3"/>
+        <ellipse cx="3.5" cy="-2" rx="2" ry="3"/>
+        <ellipse cx="3.5" cy="2" rx="2" ry="3"/>
+        <ellipse cx="0" cy="4" rx="2" ry="3"/>
+        <ellipse cx="-3.5" cy="2" rx="2" ry="3"/>
+        <ellipse cx="-3.5" cy="-2" rx="2" ry="3"/>
+      </g>
+      <g fill="none" stroke="rgba(129,61,110,0.12)" stroke-width="0.5" transform="translate(80,60)">
+        <circle cx="0" cy="0" r="2.5" fill="rgba(215,173,205,0.08)"/>
+        <ellipse cx="0" cy="-3" rx="1.5" ry="2.5"/>
+        <ellipse cx="2.6" cy="-1.5" rx="1.5" ry="2.5"/>
+        <ellipse cx="2.6" cy="1.5" rx="1.5" ry="2.5"/>
+        <ellipse cx="0" cy="3" rx="1.5" ry="2.5"/>
+        <ellipse cx="-2.6" cy="1.5" rx="1.5" ry="2.5"/>
+        <ellipse cx="-2.6" cy="-1.5" rx="1.5" ry="2.5"/>
+      </g>
+      <g fill="none" stroke="rgba(129,61,110,0.1)" stroke-width="0.4" transform="translate(50,95)">
+        <circle cx="0" cy="0" r="2" fill="rgba(215,173,205,0.05)"/>
+        <ellipse cx="0" cy="-2.5" rx="1.2" ry="2"/>
+        <ellipse cx="2.2" cy="-1.2" rx="1.2" ry="2"/>
+        <ellipse cx="2.2" cy="1.2" rx="1.2" ry="2"/>
+        <ellipse cx="0" cy="2.5" rx="1.2" ry="2"/>
+        <ellipse cx="-2.2" cy="1.2" rx="1.2" ry="2"/>
+        <ellipse cx="-2.2" cy="-1.2" rx="1.2" ry="2"/>
+      </g>
+      <!-- Leaf accents - olive seasoning -->
+      <path d="M95 25 Q98 22 101 25 Q98 28 95 25" fill="rgba(125,118,72,0.06)" stroke="rgba(125,118,72,0.1)" stroke-width="0.3"/>
+      <path d="M35 85 Q38 82 41 85 Q38 88 35 85" fill="rgba(166,162,97,0.05)" stroke="rgba(125,118,72,0.08)" stroke-width="0.25"/>
+    </pattern>
+  </defs>
+  <rect width="120" height="120" fill="url(#flowers)"/>
+</svg>
