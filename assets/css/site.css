@@ -1,6 +1,6 @@
 :root {
   --font-header: "Noto Serif Display", serif;
-  --font-body: "Gowun Batang", "Atteron", Georgia, serif;
+  --font-body: "Gowun Batang", "Noto Serif", "Atteron", Georgia, serif;
   --bg-base: #b5c1b5;
   --primary: #813d6e;
   --secondary: #d7adcd;
@@ -44,12 +44,58 @@
   top: 1rem;
 }
 
+.scroll-indicator {
+  position: absolute;
+  bottom: -2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  opacity: 1;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: none;
+}
+
+.scroll-indicator.is-hidden {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-8px);
+  pointer-events: none;
+}
+
+.scroll-indicator-icon {
+  font-family: var(--font-header);
+  font-size: 1.75rem;
+  color: var(--primary);
+  display: inline-block;
+  transform: rotate(90deg);
+  animation: scroll-bounce 1.5s ease-in-out infinite;
+}
+
+@keyframes scroll-bounce {
+  0%, 100% {
+    transform: rotate(90deg) translateY(0);
+  }
+  50% {
+    transform: rotate(90deg) translateY(6px);
+  }
+}
+
 .header-shell {
   background: rgb(253 228 234 / 65%);
   backdrop-filter: blur(4px);
   border: 1px solid rgb(129 61 110 / 18%);
   border-radius: 0.4rem;
   padding: 0.6rem;
+}
+
+.site-brand-link {
+  flex-wrap: nowrap;
+}
+
+.site-brand-title {
+  white-space: nowrap;
 }
 
 .torn-edge {
@@ -78,7 +124,7 @@
   padding: 0.5rem 0.9rem;
   border: 1px solid rgb(129 61 110 / 22%);
   transition: background-color 0.25s ease, border-color 0.25s ease;
-  font-family: "Gowun Batang", "Atteron", Georgia, serif;
+  font-family: "Gowun Batang", "Noto Serif", "Atteron", Georgia, serif;
   font-size: 0.75rem;
   line-height: 1rem;
   text-transform: uppercase;
@@ -97,7 +143,7 @@
   padding: 0.5rem 1.5rem;
   box-shadow: 0 3px 8px rgb(0 0 0 / 16%);
   border: 1px solid rgb(0 0 0 / 20%);
-  font-family: "Gowun Batang", "Atteron", Georgia, serif;
+  font-family: "Gowun Batang", "Noto Serif", "Atteron", Georgia, serif;
   font-size: 0.75rem;
   line-height: 1rem;
   font-weight: 700;
@@ -142,7 +188,7 @@
   gap: 0.5rem;
   padding: 0.85rem 1.75rem;
   font-size: 1.05rem;
-  font-family: "Gowun Batang", "Atteron", Georgia, serif;
+  font-family: "Gowun Batang", "Noto Serif", "Atteron", Georgia, serif;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -223,6 +269,12 @@
   background: #fff;
 }
 
+.menu-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .mobile-nav-panel .note-link,
 .mobile-nav-panel .cta-link {
   display: block;
@@ -257,6 +309,48 @@
   margin-top: 0.5rem;
   justify-content: center;
   text-align: center;
+}
+
+.lang-flags {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+}
+
+.lang-flag-btn {
+  border: 1px solid rgb(129 61 110 / 25%);
+  background: rgb(255 255 255 / 88%);
+  width: 2.1rem;
+  height: 1.7rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.15rem;
+  padding: 0;
+  cursor: pointer;
+}
+
+.lang-flag-btn img {
+  display: block;
+  width: 20px;
+  height: 15px;
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+.lang-flag-btn:hover,
+.lang-flag-btn:focus-visible {
+  background: rgb(215 173 205 / 26%);
+  border-color: rgb(129 61 110 / 45%);
+}
+
+.lang-flag-btn.is-active,
+.lang-flag-btn:disabled {
+  filter: grayscale(1);
+  opacity: 0.5;
+  cursor: default;
 }
 
 .timeline-list {
@@ -340,20 +434,54 @@
 }
 
 .story-paper {
-  background: rgb(194 203 236 / 92%);
-  border: 1px dashed rgb(129 61 110 / 30%);
-  box-shadow: 0 10px 20px rgb(0 0 0 / 8%);
-  padding: 1.15rem;
+  position: relative;
+  background:
+    repeating-linear-gradient(
+      transparent,
+      transparent 1.6rem,
+      rgb(129 61 110 / 7%) 1.6rem,
+      rgb(129 61 110 / 7%) 1.62rem
+    ),
+    rgb(250 248 242);
+  border: 2px solid rgb(129 61 110 / 28%);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 60%) inset,
+    0 12px 28px rgb(0 0 0 / 12%),
+    3px 3px 0 rgb(215 173 205 / 30%);
+  padding: 2rem 2.25rem 2.5rem;
   display: grid;
   gap: 0.95rem;
   font-size: 0.95rem;
-  line-height: 1.6;
+  line-height: 1.75;
+  font-family: "Gowun Batang", "Noto Serif", "Atteron", Georgia, serif;
+  color: rgb(40 38 35);
+}
+
+/* Letter-style margin line */
+.story-paper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, rgb(129 61 110 / 20%), rgb(129 61 110 / 8%));
+  border-radius: 1px;
 }
 
 .story-paper::after {
   content: "";
   display: block;
   clear: both;
+}
+
+.story-letter-stamp {
+  position: absolute;
+  top: 0.85rem;
+  right: 1.25rem;
+  font-size: 1.35rem;
+  opacity: 0.32;
+  color: var(--primary);
 }
 
 .story-inline-figure {
@@ -579,7 +707,7 @@
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
-  font-family: "Gowun Batang", "Atteron", Georgia, serif;
+  font-family: "Gowun Batang", "Noto Serif", "Atteron", Georgia, serif;
   font-size: 1.08rem;
   text-transform: uppercase;
   margin-bottom: 0.6rem;
@@ -651,7 +779,7 @@
 
 .travel-subtitle {
   margin-top: 0.5rem;
-  font-family: "Gowun Batang", "Atteron", Georgia, serif;
+  font-family: "Gowun Batang", "Noto Serif", "Atteron", Georgia, serif;
   font-size: 0.72rem;
   letter-spacing: 0.09em;
   text-transform: uppercase;
@@ -690,7 +818,17 @@
   font-size: 0.9rem;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1200px) {
+  .menu-toggle-btn,
+  .menu-close {
+    display: none;
+  }
+
+  .header-shell {
+    align-items: center;
+    gap: 0.9rem;
+  }
+
   .mobile-nav-panel {
     position: static;
     height: auto;
@@ -708,15 +846,20 @@
     flex-direction: row;
     gap: 0.55rem;
     align-items: center;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
   }
 
   .mobile-nav-panel .note-link {
+    width: auto;
+    display: inline-flex;
+    align-items: center;
     border: 1px solid rgb(129 61 110 / 20%);
     border-bottom: 2px solid rgb(129 61 110 / 45%);
     background: rgb(255 255 255 / 88%);
-    padding: 0.44rem 0.9rem;
-    font-size: 0.69rem;
-    letter-spacing: 0.06em;
+    padding: 0.42rem 0.72rem;
+    font-size: 0.64rem;
+    letter-spacing: 0.05em;
     box-shadow: 0 2px 6px rgb(0 0 0 / 7%);
   }
 
@@ -763,6 +906,54 @@
   .mobile-nav-panel .rsvp-home-btn {
     margin-top: 0;
     display: inline-flex;
+    width: auto;
+    flex-shrink: 0;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.72rem;
+    line-height: 1;
+    letter-spacing: 0.05em;
+    animation: none;
+    box-shadow: 0 3px 8px rgb(0 0 0 / 12%);
+  }
+
+  .mobile-nav-panel .lang-flags {
+    margin-top: 0;
+    margin-left: 0.15rem;
+    width: auto;
+    flex-shrink: 0;
+    padding: 0.28rem 0.34rem;
+    background: rgb(255 255 255 / 88%);
+    border: 1px solid rgb(129 61 110 / 20%);
+    border-radius: 999px;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 7%);
+    gap: 0.3rem;
+  }
+
+  .mobile-nav-panel .lang-flag-btn {
+    width: 1.95rem;
+    height: 1.5rem;
+    border-radius: 0.8rem;
+    border-color: rgb(129 61 110 / 26%);
+    background: rgb(255 255 255 / 94%);
+  }
+
+  .mobile-nav-panel .lang-flag-btn:hover,
+  .mobile-nav-panel .lang-flag-btn:focus-visible {
+    border-color: rgb(129 61 110 / 48%);
+    background: rgb(215 173 205 / 24%);
+    transform: translateY(-1px);
+  }
+
+  .mobile-nav-panel .lang-flag-btn.is-active,
+  .mobile-nav-panel .lang-flag-btn:disabled {
+    transform: none;
+  }
+
+  .mobile-nav-panel .note-link:nth-of-type(1),
+  .mobile-nav-panel .note-link:nth-of-type(2),
+  .mobile-nav-panel .note-link:nth-of-type(3),
+  .mobile-nav-panel .note-link:nth-of-type(4) {
+    transform: none;
   }
 
   .location-grid {
@@ -814,4 +1005,49 @@
 
 ::-webkit-scrollbar-thumb {
   background: var(--primary);
+}
+
+/* Google Translate widget: hide default UI, use our own select */
+.translate-widget-host {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.goog-te-banner-frame.skiptranslate,
+iframe.goog-te-banner-frame,
+iframe.skiptranslate,
+.goog-te-balloon-frame,
+#goog-gt-tt {
+  display: none !important;
+}
+
+.goog-te-gadget,
+.goog-te-gadget-simple,
+.goog-te-menu-value,
+a.goog-te-menu-value {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+}
+
+.goog-text-highlight {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+#rsvp,
+#home,
+#schedule,
+#locations,
+#events,
+#travel,
+#story {
+  scroll-margin-top: 8rem;
 }

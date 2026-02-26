@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wdth,wght@70,100..900&family=Gowun+Batang:wght@400;700&family=Pinyon+Script&family=La+Belle+Aurore&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wdth,wght@70,100..900&family=Noto+Serif:ital,wght@0,400;0,700&family=Gowun+Batang:wght@400;700&family=Pinyon+Script&family=La+Belle+Aurore&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap">
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script>
     tailwind.config = {
@@ -28,7 +28,7 @@
           },
           fontFamily: {
             header: ["Noto Serif Display", "serif"],
-            body: ["Gowun Batang", "Atteron", "Georgia", "serif"],
+            body: ["Gowun Batang", "Noto Serif", "Atteron", "Georgia", "serif"],
             script: ["Pinyon Script", "cursive"],
             handwriting: ["La Belle Aurore", "cursive"],
             typewriter: ["Courier Prime", "monospace"]
@@ -39,31 +39,42 @@
   </script>
   <link rel="stylesheet" href="assets/css/site.css">
 </head>
-<body class="scrapbook-bg text-ink font-body antialiased overflow-x-hidden selection:bg-primary selection:text-bg-base">
-  <a href="#story" class="skip-link">Skip to main content</a>
+<body data-page="story" class="scrapbook-bg text-ink font-body antialiased overflow-x-hidden selection:bg-primary selection:text-bg-base">
+  <a href="#story" class="skip-link" data-scroll-to="story">Skip to main content</a>
 
   <header class="fixed top-0 left-0 right-0 z-[80] p-4" aria-label="Main header">
     <div class="max-w-7xl mx-auto flex items-start justify-between gap-4 relative header-shell">
-      <div class="bg-white/90 p-4 border border-sepia/20 shadow-lg">
-        <div class="flex items-center gap-2">
-          <span class="material-symbols-outlined text-sepia" aria-hidden="true">favorite</span>
-          <p class="font-header text-3xl leading-none">Thomas &amp; Annamaria</p>
-        </div>
-      </div>
-      <button id="menu-toggle" class="lg:hidden bg-white/90 border border-sepia/30 px-3 py-2 text-xs font-body uppercase tracking-widest shadow-sm" aria-expanded="false" aria-controls="main-nav">
+      <a href="index.html#home" class="site-brand-link bg-white/90 p-4 border border-sepia/20 shadow-lg flex items-center gap-2 no-underline text-inherit hover:opacity-90 transition-opacity" aria-label="Back to home">
+        <span class="material-symbols-outlined text-sepia" aria-hidden="true">favorite</span>
+        <span class="site-brand-title font-header text-3xl leading-none notranslate">Thomas &amp; Annamaria</span>
+      </a>
+      <button id="menu-toggle" class="menu-toggle-btn bg-white/90 border border-sepia/30 px-3 py-2 text-xs font-body uppercase tracking-widest shadow-sm" aria-expanded="false" aria-controls="main-nav">
         Menu
       </button>
-      <nav id="main-nav" class="mobile-nav-panel lg:flex lg:flex-row lg:gap-4" aria-label="Primary" aria-hidden="true">
-        <button id="menu-close" class="menu-close lg:hidden" aria-label="Close menu">×</button>
+      <nav id="main-nav" class="mobile-nav-panel" aria-label="Primary" aria-hidden="true">
+        <button id="menu-close" class="menu-close" aria-label="Close menu">×</button>
         <a class="note-link" href="index.html#home">Home</a>
-        <a class="note-link" href="story.html">Story</a>
         <a class="note-link" href="index.html#schedule">Schedule</a>
         <a class="note-link" href="index.html#locations">Locations</a>
-        <a class="note-link" href="travel.html">Travel</a>
+        <a class="note-link" href="travel.html#events">Events</a>
+        <a class="note-link" href="travel.html#travel">Travel</a>
+        <a class="note-link" href="story.html">Story</a>
         <a class="rsvp-home-btn" href="index.html#rsvp">
           <span class="material-symbols-outlined" aria-hidden="true">edit_note</span>
           RSVP
         </a>
+        <div class="lang-flags" role="group" aria-label="Language">
+          <button type="button" class="lang-flag-btn" data-lang="en" aria-label="English" title="English">
+            <img src="https://flagcdn.com/w20/gb.png" alt="" width="20" height="15" loading="lazy" decoding="async">
+          </button>
+          <button type="button" class="lang-flag-btn" data-lang="sk" aria-label="Slovenčina" title="Slovenčina">
+            <img src="https://flagcdn.com/w20/sk.png" alt="" width="20" height="15" loading="lazy" decoding="async">
+          </button>
+          <button type="button" class="lang-flag-btn" data-lang="sv" aria-label="Svenska" title="Svenska">
+            <img src="https://flagcdn.com/w20/se.png" alt="" width="20" height="15" loading="lazy" decoding="async">
+          </button>
+        </div>
+        <div id="google_translate_element" class="translate-widget-host"></div>
       </nav>
     </div>
   </header>
@@ -78,48 +89,53 @@
         Written by Thomas, with love (and mild exaggeration)
       </p>
       <article class="story-paper" aria-label="Background story text">
-        <p>Thomas and Annamaria first met in the most modern romantic way possible: Tinder. Annamaria had a strict rule, no matches outside the Copenhagen area, under 20 km. And yet somehow, Thomas slipped through the defenses like a friendly bug in the system and they matched. From there it was nonstop messaging, with Thomas doing what Thomas does best: persistently, optimistically, and with suspiciously high uptime, trying to convince Annamaria to actually meet in real life.</p>
-        <p>The day before the date, Annamaria almost cancelled. She said she did not think she could do it, which is honestly hilarious to think about now, considering how far this has all gone. Thomas somehow talked her into it. Woopie. Their first date was at the Maritime Museum in Helsingør, and it had the exact emotional arc of a classic romance: it started fine and ended horrendously, which in a weird way made it feel exactly right.</p>
-        <p>Sparks flew, at least according to Thomas. They walked around, talked about hobbies, and tried to look normal. They even ended up talking about Elon Musk. Thomas was very into him. Annamaria quietly filed that under potential red flags, which is absolutely its own separate story. Then Thomas’s back decided to make a dramatic entrance. A massive pain hit, the kind he has dealt with for a long time, and they had to sit down in the cafeteria.</p>
-        <p>It felt like five minutes and several hours at the same time. Somewhere in that very unglamorous moment, they learned something oddly sweet: later Annamaria told Thomas she gets migraines too, and they laughed about how they might be made for each other, because they both came with a few extra quirks and warning labels.</p>
+        <span class="story-letter-stamp" aria-hidden="true">✉</span>
+        <p>Thomas and Annamaria first met in the most modern romantic way possible: <em>Tinder</em>. Annamaria had a strict rule, no matches outside the Copenhagen area, <em>under 20 km</em>. And yet somehow, Thomas slipped through the defenses like a friendly bug in the system and they matched. From there it was nonstop messaging, with Thomas doing what Thomas does best: <em>persistently, optimistically, and with suspiciously high uptime</em>, trying to convince Annamaria to actually meet in real life.</p>
+        <p>The day before the date, Annamaria almost cancelled. She said she did not think she could do it, which is honestly hilarious to think about now, considering how far this has all gone. Thomas somehow talked her into it. <strong>Woopie.</strong> Their first date was at the Maritime Museum in Helsingør, and it had the exact emotional arc of a classic romance: <em>it started fine and ended horrendously</em>, which in a weird way made it feel exactly right.</p>
+        <p>Sparks flew, at least according to Thomas. They walked around, talked about hobbies, and tried to look normal. They even ended up talking about Elon Musk. Thomas was very into him. Annamaria quietly filed that under <em>potential red flags</em>, which is absolutely its own separate story. Then Thomas’s back decided to make a dramatic entrance. A massive pain hit, the kind he has dealt with for a long time, and they had to sit down in the cafeteria.</p>
+        <p>It felt like five minutes and several hours at the same time. Somewhere in that very unglamorous moment, they learned something oddly sweet: later Annamaria told Thomas she gets migraines too, and they laughed about how they might be <em>made for each other</em>, because they both came with a few extra quirks and warning labels.</p>
         <p>As they kept dating, they started collecting these small moments that quietly explained them. One of the clearest happened on a grassy slope by the Royal Hunting Lodge in Denmark. It started when Thomas noticed Annamaria noticing the nature. She was soaking it in, the colors, the mood, the whole scene, and Thomas, being Thomas, got curious.</p>
-        <p>He wanted to know what she was seeing, not just looking at. So he asked. Annamaria described the beauty and the feeling of it, and Thomas responded with his own version of poetry: wind, forces on straw, and how a tiny push can ripple through and move everything else. Not as a lecture, more like an honest peek into how his mind works. And instead of clashing, it clicked.</p>
-        <p>They saw each other’s strengths right there. Thomas sees the logic of the world, and Annamaria sees the beauty. Same field, same wind, totally different superpowers. Not long after, they celebrated Annamaria’s diploma, one of those proud, glowing milestones that makes time feel like it is moving in the right direction. The diploma is still hanging on Thomas’s wall with her graduation hat, and he still cannot look at it without feeling ridiculously proud.</p>
+        <p>He wanted to know what she was seeing, not just looking at. So he asked. Annamaria described the beauty and the feeling of it, and Thomas responded with his own version of poetry: wind, forces on straw, and how a tiny push can ripple through and move everything else. Not as a lecture, more like an honest peek into how his mind works. And instead of clashing, <em>it clicked</em>.</p>
+        <p>They saw each other’s strengths right there. Thomas sees the logic of the world, and Annamaria sees the beauty. Same field, same wind, <em>totally different superpowers</em>. Not long after, they celebrated Annamaria’s diploma, one of those proud, glowing milestones that makes time feel like it is moving in the right direction. The diploma is still hanging on Thomas’s wall with her graduation hat, and he still cannot look at it without feeling ridiculously proud.</p>
         <p>Around the same time, life started getting more serious in the best way. Annamaria accepted work with the European Capital of Culture in Trenčín, Slovakia, and they decided together it was not just okay, it was genuinely good. She got exciting work, independence, and a fantastic CV. Thomas kept pushing through his studies and later went on an exchange trip to Taiwan for half a year, which might have been the hardest stretch they have done.</p>
-        <p>They still spoke and texted, but less, because time zones are rude and life is busy. Thomas made new friends there, in school and outside it, too. Hey Jerry, I know you are reading this ;) And Annamaria built her own circle as well, including her bridesmaids and new friends through her new, intense, exciting job. It was a lot of distance, but it also taught them something important: they do not fall apart when life gets complicated. They just get better at navigating it.</p>
-        <p>Somewhere in the middle of all that grown up planning, they had one of those very them conversations. Long before any rings showed up, they were sitting in a sauna and basically agreed: yes, they want to get married. Also yes, they are both the kind of people who would want to propose. So they made a pact that someday they would both do it, and that they would both like the chance to propose to each other.</p>
+        <p>They still spoke and texted, but less, because time zones are rude and life is busy. Thomas made new friends there, in school and outside it, too. <em>Hey Jerry, I know you are reading this ;)</em> And Annamaria built her own circle as well, including her bridesmaids and new friends through her new, intense, exciting job. It was a lot of distance, but it also taught them something important: they do not fall apart when life gets complicated. They just get better at navigating it.</p>
+        <p>Somewhere in the middle of all that grown up planning, they had one of those <em>very them</em> conversations. Long before any rings showed up, they were sitting in a sauna and basically agreed: yes, they want to get married. Also yes, they are both the kind of people who would want to propose. So they made a <em>sauna pact</em> that someday they would both do it, and that they would both like the chance to propose to each other.</p>
         <figure class="story-inline-figure story-inline-left">
           <img src="images/wedding ring.jpg" alt="Wedding ring close-up." loading="lazy">
           <figcaption>The ring that made it real.</figcaption>
         </figure>
-        <p>Then Iceland happened. Annamaria went on a class trip to Iceland and Thomas followed along. If Iceland is already the kind of place that looks like it was designed by a fantasy author who loves waterfalls, then Gullfoss is the dramatic highlight, and that is exactly where Annamaria proposed first. Yes, first. Yes, Annamaria. Not the other way around. Plot twist.</p>
+        <p>Then Iceland happened. Annamaria went on a class trip to Iceland and Thomas followed along. If Iceland is already the kind of place that looks like it was designed by a fantasy author who loves waterfalls, then Gullfoss is the dramatic highlight, and that is exactly where Annamaria proposed first. <strong>Yes, first. Yes, Annamaria. Not the other way around. Plot twist.</strong></p>
         <figure class="story-inline-figure story-inline-right">
           <img src="images/Annamaria Propose.jpg" alt="Annamaria proposing in Iceland." loading="lazy">
           <figcaption>Annamaria's proposal in Iceland.</figcaption>
         </figure>
-        <p>Earlier that same day, Thomas had already managed to get humbled by nature. He slipped while walking into a hot spring, because the stone had algae, his foot had confidence, and reality had other plans. He sprained it. So yes, the proposal happened on the same day Thomas tried to fight Iceland and lost. Still, it was perfect. They rented a car, drove for miles on end, and stacked up happy memories like it was their new full time job.</p>
-        <p>And when the moment came at Gullfoss, Annamaria did not go down on one knee, not because she was not serious, but because she wanted to leave that honor to Thomas if he wanted it. He did.</p>
-        <p>About a year after that sauna pact, it was Thomas’s turn to propose. He planned a picnic and a trip to Norrviken Gardens in Båstad, and he even brought his best friend along to help set it up. Very stealthy. Very smooth. Hey Pontus, I see you too ;) Annamaria did not know too much, but she definitely had the feeling that something was coming.</p>
+        <p>Earlier that same day, Thomas had already managed to get humbled by nature. He slipped while walking into a hot spring, because the stone had algae, his foot had confidence, and reality had other plans. He sprained it. So yes, the proposal happened on the same day <em>Thomas tried to fight Iceland and lost</em>. Still, it was perfect. They rented a car, drove for miles on end, and stacked up happy memories like it was their new full time job.</p>
+        <p>And when the moment came at Gullfoss, Annamaria did not go down on one knee, not because she was not serious, but because she wanted to leave that honor to Thomas if he wanted it. <em>He did.</em></p>
+        <p>About a year after that sauna pact, it was Thomas’s turn to propose. He planned a picnic and a trip to Norrviken Gardens in Båstad, and he even brought his best friend along to help set it up. <em>Very stealthy. Very smooth.</em> <em>Hey Pontus, I see you too ;)</em> Annamaria did not know too much, but she definitely had the feeling that something was coming.</p>
         <figure class="story-inline-figure story-inline-left">
           <img src="images/Thomas Propose.jpg" alt="Thomas proposing in Båstad." loading="lazy">
           <figcaption>Thomas's turn to propose.</figcaption>
         </figure>
-        <p>She had already chosen the ring she wanted, and Thomas gave it to her that day. And yes, it is beautiful. Of course Thomas went down on one knee, in front of a garden cave with a waterfall in the background, because if you are going to do this, you might as well commit to the aesthetic. They both said yes, by the way. Just in case that part was unclear.</p>
-        <p>Fast forward to now. Thomas is writing this while trying to finish his Master Thesis, and this fantastic wife in limbo is carrying the majority of the wedding planning like a champion, even from a different country. Thomas cannot wait to marry his Panda. And Annamaria probably cannot wait to marry Thomas either.</p>
+        <p>She had already chosen the ring she wanted, and Thomas gave it to her that day. And yes, it is beautiful. Of course Thomas went down on one knee, in front of a garden cave with a waterfall in the background, because if you are going to do this, you might as well <em>commit to the aesthetic</em>. They both said yes, by the way. <em>Just in case that part was unclear.</em></p>
+        <p>Fast forward to now. Thomas is writing this while trying to finish his Master Thesis, and this fantastic <em>wife in limbo</em> is carrying the majority of the wedding planning like a champion, even from a different country. Thomas cannot wait to marry <em>his Panda</em>. And Annamaria probably cannot wait to marry Thomas either.</p>
         <p>The end. 💛🐼</p>
       </article>
     </section>
   </main>
 
   <footer class="text-center pt-8 pb-12 border-t border-sepia/20 space-y-7 max-w-6xl mx-auto px-4">
-    <h2 class="text-6xl font-header text-sepia">Thomas &amp; Annamaria</h2>
+    <a href="index.html#home" class="block no-underline text-inherit hover:opacity-90 transition-opacity" aria-label="Back to home">
+      <h2 class="text-6xl font-header text-sepia notranslate">Thomas &amp; Annamaria</h2>
+    </a>
     <p class="font-body text-sm">
       Back to the main wedding page:
       <a href="index.html#home" class="text-primary hover:underline italic font-bold">Open wedding site</a>
     </p>
     <p class="text-[10px] font-body tracking-[0.3em] uppercase opacity-60">© 2026 Thomas &amp; Annamaria Wedding</p>
+    <p class="text-[10px] font-body opacity-50">Translation by Google. Results may vary.</p>
   </footer>
 
+  <script defer src="assets/js/auto-translate.js"></script>
   <script defer src="assets/js/main.js"></script>
 </body>
 </html>

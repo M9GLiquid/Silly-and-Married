@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Travel guidance for international guests: Vienna Airport to Trenčín by bus, train, or car.">
+  <meta name="description" content="Events and travel for wedding guests: nearby festivals, Trenčín Castle, and Vienna Airport to Trenčín by bus, train, or car.">
   <title>Thomas &amp; Annamaria - Travel</title>
   <link rel="icon" href="images/hearts.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wdth,wght@70,100..900&family=Gowun+Batang:wght@400;700&family=Pinyon+Script&family=La+Belle+Aurore&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wdth,wght@70,100..900&family=Noto+Serif:ital,wght@0,400;0,700&family=Gowun+Batang:wght@400;700&family=Pinyon+Script&family=La+Belle+Aurore&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap">
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script>
     tailwind.config = {
@@ -28,7 +28,7 @@
           },
           fontFamily: {
             header: ["Noto Serif Display", "serif"],
-            body: ["Gowun Batang", "Atteron", "Georgia", "serif"],
+            body: ["Gowun Batang", "Noto Serif", "Atteron", "Georgia", "serif"],
             script: ["Pinyon Script", "cursive"],
             handwriting: ["La Belle Aurore", "cursive"],
             typewriter: ["Courier Prime", "monospace"]
@@ -39,38 +39,118 @@
   </script>
   <link rel="stylesheet" href="assets/css/site.css">
 </head>
-<body class="scrapbook-bg text-ink font-body antialiased overflow-x-hidden selection:bg-primary selection:text-bg-base">
-  <a href="#travel" class="skip-link">Skip to main content</a>
+<body data-page="travel" class="scrapbook-bg text-ink font-body antialiased overflow-x-hidden selection:bg-primary selection:text-bg-base">
+  <a href="#events" class="skip-link" data-scroll-to="events">Skip to main content</a>
 
   <header class="fixed top-0 left-0 right-0 z-[80] p-4" aria-label="Main header">
     <div class="max-w-7xl mx-auto flex items-start justify-between gap-4 relative header-shell">
-      <div class="bg-white/90 p-4 border border-sepia/20 shadow-lg">
-        <div class="flex items-center gap-2">
-          <span class="material-symbols-outlined text-sepia" aria-hidden="true">favorite</span>
-          <p class="font-header text-3xl leading-none">Thomas &amp; Annamaria</p>
-        </div>
-      </div>
-      <button id="menu-toggle" class="lg:hidden bg-white/90 border border-sepia/30 px-3 py-2 text-xs font-body uppercase tracking-widest shadow-sm" aria-expanded="false" aria-controls="main-nav">
+      <a href="index.html#home" class="site-brand-link bg-white/90 p-4 border border-sepia/20 shadow-lg flex items-center gap-2 no-underline text-inherit hover:opacity-90 transition-opacity" aria-label="Back to home">
+        <span class="material-symbols-outlined text-sepia" aria-hidden="true">favorite</span>
+        <span class="site-brand-title font-header text-3xl leading-none notranslate">Thomas &amp; Annamaria</span>
+      </a>
+      <button id="menu-toggle" class="menu-toggle-btn bg-white/90 border border-sepia/30 px-3 py-2 text-xs font-body uppercase tracking-widest shadow-sm" aria-expanded="false" aria-controls="main-nav">
         Menu
       </button>
-      <nav id="main-nav" class="mobile-nav-panel lg:flex lg:flex-row lg:gap-4" aria-label="Primary" aria-hidden="true">
-        <button id="menu-close" class="menu-close lg:hidden" aria-label="Close menu">×</button>
+      <nav id="main-nav" class="mobile-nav-panel" aria-label="Primary" aria-hidden="true">
+        <button id="menu-close" class="menu-close" aria-label="Close menu">×</button>
         <a class="note-link" href="index.html#home">Home</a>
-        <a class="note-link" href="story.html">Story</a>
         <a class="note-link" href="index.html#schedule">Schedule</a>
         <a class="note-link" href="index.html#locations">Locations</a>
-        <a class="note-link" href="travel.html">Travel</a>
+        <a class="note-link" href="travel.html#events" data-scroll-to="events">Events</a>
+        <a class="note-link" href="travel.html#travel" data-scroll-to="travel">Travel</a>
+        <a class="note-link" href="story.html">Story</a>
         <a class="rsvp-home-btn" href="index.html#rsvp">
           <span class="material-symbols-outlined" aria-hidden="true">edit_note</span>
           RSVP
         </a>
+        <div class="lang-flags" role="group" aria-label="Language">
+          <button type="button" class="lang-flag-btn" data-lang="en" aria-label="English" title="English">
+            <img src="https://flagcdn.com/w20/gb.png" alt="" width="20" height="15" loading="lazy" decoding="async">
+          </button>
+          <button type="button" class="lang-flag-btn" data-lang="sk" aria-label="Slovenčina" title="Slovenčina">
+            <img src="https://flagcdn.com/w20/sk.png" alt="" width="20" height="15" loading="lazy" decoding="async">
+          </button>
+          <button type="button" class="lang-flag-btn" data-lang="sv" aria-label="Svenska" title="Svenska">
+            <img src="https://flagcdn.com/w20/se.png" alt="" width="20" height="15" loading="lazy" decoding="async">
+          </button>
+        </div>
+        <div id="google_translate_element" class="translate-widget-host"></div>
       </nav>
     </div>
   </header>
   <div id="menu-overlay" class="menu-overlay" hidden aria-hidden="true"></div>
 
-  <main id="travel" class="max-w-6xl mx-auto px-4 pt-32 pb-20">
-    <section class="travel-section" aria-labelledby="travel-title">
+  <main class="max-w-6xl mx-auto px-4 pt-32 pb-20 space-y-28">
+    <section id="events" class="travel-section" aria-labelledby="events-title">
+      <div class="travel-sheet">
+        <div class="travel-header">
+          <h1 id="events-title" class="travel-title">Events &amp; Things to Do</h1>
+          <p class="travel-subtitle">For guests staying longer — festivals, castle visits, and Trenčín 2026 highlights.</p>
+        </div>
+
+        <article class="travel-card">
+          <h2 class="travel-heading">
+            <span class="material-symbols-outlined" aria-hidden="true">festival</span>
+            Pohoda Festival
+          </h2>
+          <p><strong>July 8–11, 2026</strong> — Slovakia&apos;s biggest music festival, two weeks before the wedding. 30th anniversary edition with The Cure headlining. Held at Trenčín Airport.</p>
+          <ul class="travel-links">
+            <li><a href="https://www.pohodafestival.sk/en/tickets-2026" target="_blank" rel="noopener noreferrer">Pohoda Festival — tickets &amp; info</a></li>
+          </ul>
+        </article>
+
+        <article class="travel-card">
+          <h2 class="travel-heading">
+            <span class="material-symbols-outlined" aria-hidden="true">castle</span>
+            Trenčín Castle
+          </h2>
+          <p>One of the largest castles in Central Europe, overlooking Trenčín. Summer opening hours (May–Sept) typically 9:00–18:45. Hosts exhibitions and cultural events. In 2026, <em>The Well of Love</em> exhibition runs until late August.</p>
+          <ul class="travel-links">
+            <li><a href="https://visit.trencin.sk/en/trencin-castle/" target="_blank" rel="noopener noreferrer">Trenčín Castle — visitor info</a></li>
+          </ul>
+        </article>
+
+        <article class="travel-card">
+          <h2 class="travel-heading">
+            <span class="material-symbols-outlined" aria-hidden="true">celebration</span>
+            Trenčín 2026 — European Capital of Culture
+          </h2>
+          <p>Trenčín is European Capital of Culture for 2026. Year-round program of concerts, exhibitions, theatre, and more. Check the official calendar for events around the wedding dates.</p>
+          <ul class="travel-links">
+            <li><a href="https://www.trencin2026.eu/en/events/" target="_blank" rel="noopener noreferrer">Trenčín 2026 — events calendar</a></li>
+          </ul>
+        </article>
+
+        <article class="travel-card">
+          <h2 class="travel-heading">
+            <span class="material-symbols-outlined" aria-hidden="true">event</span>
+            Beckov Castle events (day trip)
+          </h2>
+          <p>Beckov Castle is about 20 km from Trenčín and regularly hosts themed historical events. If you are staying a bit longer, this is an easy and popular day trip from the city.</p>
+          <ul class="travel-links">
+            <li><a href="https://visit.trencin.sk/en/beckov-castle/" target="_blank" rel="noopener noreferrer">Visit Trenčín — Beckov Castle overview</a></li>
+            <li><a href="https://www.hrad-beckov.sk/podujatia" target="_blank" rel="noopener noreferrer">Beckov Castle — event calendar</a></li>
+          </ul>
+        </article>
+
+        <article class="travel-card">
+          <h2 class="travel-heading">
+            <span class="material-symbols-outlined" aria-hidden="true">explore</span>
+            Things to do in the area
+          </h2>
+          <p>Besides scheduled events, here are easy local activities for guests extending their stay in or around Trenčín.</p>
+          <ul class="travel-links">
+            <li><a href="https://visit.trencin.sk/en/matus-cak-tourist-train/" target="_blank" rel="noopener noreferrer">Matúš Čák Tourist Train (seasonal city + castle route)</a></li>
+            <li><a href="https://visit.trencin.sk/wp-content/uploads/2018/04/City-Walks-Tren%C4%8D%C3%ADn.pdf" target="_blank" rel="noopener noreferrer">City Walks guide (self-guided old-town route)</a></li>
+            <li><a href="https://visit.trencin.sk/en/information-about-trencin/" target="_blank" rel="noopener noreferrer">Tourist Office details and local practical info</a></li>
+          </ul>
+        </article>
+
+        <p class="font-body text-xs text-sepia/80 italic mt-4">Last verified February 2026. Check official sites for updates.</p>
+      </div>
+    </section>
+
+    <section id="travel" class="travel-section" aria-labelledby="travel-title">
       <div class="travel-sheet">
         <div class="travel-header">
           <h1 id="travel-title" class="travel-title">Travel for International Guests</h1>
@@ -88,7 +168,7 @@
         <article class="travel-card">
           <h2 class="travel-heading">
             <span class="material-symbols-outlined" aria-hidden="true">directions_bus</span>
-            Step 2A - Bus option (default first check)
+            Step 2A - Bus option
           </h2>
           <p>Check direct buses from VIE to Trenčín on FlixBus first. If timings do not match your flight, use a coach via Bratislava as fallback.</p>
           <ul class="travel-links">
@@ -100,7 +180,7 @@
         <article class="travel-card">
           <h2 class="travel-heading">
             <span class="material-symbols-outlined" aria-hidden="true">train</span>
-            Step 2B - Train option (common rail approach)
+            Step 2B - Train option
           </h2>
           <p>Start at <strong>Flughafen Wien</strong> (airport rail station), connect through Vienna (usually <strong>Wien Hbf</strong> or <strong>Wien Mitte</strong>, depending on your connection), then continue toward Slovakia and onward to Trenčín.</p>
           <ul class="travel-links">
@@ -125,10 +205,12 @@
                   <span class="copy-label">Copy</span>
                 </button>
               </div>
-              <pre id="travel-church-address" class="address-block"> Church
-Zemianske Podhradie 119
-913 07 Zemianske Podhradie
-Slovakia</pre>
+              <pre id="travel-church-address" class="address-block">
+                Church
+                Zemianske Podhradie 119
+                913 07 Zemianske Podhradie
+                Slovakia
+              </pre>
             </div>
             <div class="address-card">
               <div class="flex items-center justify-between gap-2 mb-2">
@@ -138,11 +220,13 @@ Slovakia</pre>
                   <span class="copy-label">Copy</span>
                 </button>
               </div>
-              <pre id="travel-venue-address" class="address-block"> Venue
-zelenýdeň
-Bošáca 247
-913 07 Bošáca
-Slovakia</pre>
+              <pre id="travel-venue-address" class="address-block">
+                Venue
+                zelenýdeň
+                Bošáca 247
+                913 07 Bošáca
+                Slovakia
+              </pre>
             </div>
           </div>
         </article>
@@ -151,14 +235,18 @@ Slovakia</pre>
   </main>
 
   <footer class="text-center pt-8 pb-12 border-t border-sepia/20 space-y-7 max-w-6xl mx-auto px-4">
-    <h2 class="text-6xl font-header text-sepia">Thomas &amp; Annamaria</h2>
+    <a href="index.html#home" class="block no-underline text-inherit hover:opacity-90 transition-opacity" aria-label="Back to home">
+      <h2 class="text-6xl font-header text-sepia notranslate">Thomas &amp; Annamaria</h2>
+    </a>
     <p class="font-body text-sm">
       Back to the main wedding page:
       <a href="index.html#home" class="text-primary hover:underline italic font-bold">Open wedding site</a>
     </p>
     <p class="text-[10px] font-body tracking-[0.3em] uppercase opacity-60">© 2026 Thomas &amp; Annamaria Wedding</p>
+    <p class="text-[10px] font-body opacity-50">Translation by Google. Results may vary.</p>
   </footer>
 
+  <script defer src="assets/js/auto-translate.js"></script>
   <script defer src="assets/js/main.js"></script>
 </body>
 </html>

@@ -1,8 +1,32 @@
+document.addEventListener("click", (e) => {
+  const link = e.target.closest("a[data-scroll-to]");
+  if (!link) return;
+  const targetId = link.getAttribute("data-scroll-to");
+  const target = targetId ? document.getElementById(targetId) : null;
+  if (!target) return;
+  e.preventDefault();
+  target.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+const scrollIndicator = document.getElementById("scroll-indicator");
+if (scrollIndicator) {
+  const hideThreshold = 80;
+  const checkScroll = () => {
+    if (window.scrollY > hideThreshold) {
+      scrollIndicator.classList.add("is-hidden");
+    } else {
+      scrollIndicator.classList.remove("is-hidden");
+    }
+  };
+  window.addEventListener("scroll", checkScroll, { passive: true });
+  checkScroll();
+}
+
 const menuToggle = document.getElementById("menu-toggle");
 const mainNav = document.getElementById("main-nav");
 const menuOverlay = document.getElementById("menu-overlay");
 const menuClose = document.getElementById("menu-close");
-const desktopBreakpoint = 1024;
+const desktopBreakpoint = 1200;
 
 if (menuToggle && mainNav) {
   const isDesktop = () => window.innerWidth >= desktopBreakpoint;
@@ -117,6 +141,7 @@ if (menuToggle && mainNav) {
 }
 
 const copyAddressButtons = document.querySelectorAll(".copy-address-btn");
+const copyFeedback = { success: "Copied", failure: "Failed", successAria: "Address copied", failureAria: "Copy failed" };
 
 const fallbackCopyText = (text) => {
   const textArea = document.createElement("textarea");
@@ -161,8 +186,8 @@ if (copyAddressButtons.length) {
 
       const originalLabel = label.textContent;
       const originalAriaLabel = button.getAttribute("aria-label");
-      label.textContent = isCopied ? "Copied" : "Failed";
-      button.setAttribute("aria-label", isCopied ? "Address copied" : "Copy failed");
+      label.textContent = isCopied ? copyFeedback.success : copyFeedback.failure;
+      button.setAttribute("aria-label", isCopied ? copyFeedback.successAria : copyFeedback.failureAria);
 
       window.setTimeout(() => {
         label.textContent = originalLabel;

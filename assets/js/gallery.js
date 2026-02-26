@@ -4,6 +4,8 @@ const lightboxCaption = document.getElementById("lightbox-caption");
 const lightboxClose = document.getElementById("lightbox-close");
 const galleryItems = document.querySelectorAll(".gallery-item");
 
+const getCaption = (button) => button.getAttribute("data-caption") || "";
+
 const closeLightbox = () => {
   if (!lightbox || !lightboxImage) {
     return;
@@ -16,7 +18,7 @@ const closeLightbox = () => {
 galleryItems.forEach((button) => {
   button.addEventListener("click", () => {
     const fullSrc = button.getAttribute("data-fullsrc");
-    const caption = button.getAttribute("data-caption") || "";
+    const caption = getCaption(button);
     const thumbImage = button.querySelector("img");
 
     if (!lightbox || !lightboxImage || !fullSrc) {
