@@ -1,5 +1,7 @@
 :root {
-  --bg-base: #fde4ea;
+  --font-header: "Noto Serif Display", serif;
+  --font-body: "Gowun Batang", "Atteron", Georgia, serif;
+  --bg-base: #b5c1b5;
   --primary: #813d6e;
   --secondary: #d7adcd;
   --paper: #c2cbec;
@@ -8,6 +10,15 @@
   --deep-olive: #7d7648;
   --ink: #2b2b2b;
   --tape: rgba(215, 173, 205, 0.4);
+}
+
+.font-header {
+  font-family: var(--font-header);
+  font-variation-settings: "wdth" 70;
+}
+
+.font-body {
+  font-family: var(--font-body);
 }
 
 .scrapbook-bg {
@@ -67,7 +78,7 @@
   padding: 0.5rem 0.9rem;
   border: 1px solid rgb(129 61 110 / 22%);
   transition: background-color 0.25s ease, border-color 0.25s ease;
-  font-family: "Special Elite", system-ui;
+  font-family: "Gowun Batang", "Atteron", Georgia, serif;
   font-size: 0.75rem;
   line-height: 1rem;
   text-transform: uppercase;
@@ -86,7 +97,7 @@
   padding: 0.5rem 1.5rem;
   box-shadow: 0 3px 8px rgb(0 0 0 / 16%);
   border: 1px solid rgb(0 0 0 / 20%);
-  font-family: "Special Elite", system-ui;
+  font-family: "Gowun Batang", "Atteron", Georgia, serif;
   font-size: 0.75rem;
   line-height: 1rem;
   font-weight: 700;
@@ -131,7 +142,7 @@
   gap: 0.5rem;
   padding: 0.85rem 1.75rem;
   font-size: 1.05rem;
-  font-family: "Special Elite", system-ui;
+  font-family: "Gowun Batang", "Atteron", Georgia, serif;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -568,7 +579,7 @@
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
-  font-family: "Special Elite", system-ui;
+  font-family: "Gowun Batang", "Atteron", Georgia, serif;
   font-size: 1.08rem;
   text-transform: uppercase;
   margin-bottom: 0.6rem;
@@ -632,7 +643,7 @@
 }
 
 .travel-title {
-  font-family: "Pinyon Script", cursive;
+  font-family: "Noto Serif Display", serif;
   font-size: clamp(2.5rem, 8vw, 4rem);
   line-height: 1;
   color: var(--primary);
@@ -640,7 +651,7 @@
 
 .travel-subtitle {
   margin-top: 0.5rem;
-  font-family: "Special Elite", system-ui;
+  font-family: "Gowun Batang", "Atteron", Georgia, serif;
   font-size: 0.72rem;
   letter-spacing: 0.09em;
   text-transform: uppercase;

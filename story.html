@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Background story of Thomas and Annamaria.">
   <title>Thomas &amp; Annamaria - Our Story</title>
+  <link rel="icon" href="images/hearts.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Pinyon+Script&family=La+Belle+Aurore&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wdth,wght@70,100..900&family=Gowun+Batang:wght@400;700&family=Pinyon+Script&family=La+Belle+Aurore&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap">
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script>
     tailwind.config = {
@@ -26,10 +27,11 @@
             ink: "#2b2b2b"
           },
           fontFamily: {
+            header: ["Noto Serif Display", "serif"],
+            body: ["Gowun Batang", "Atteron", "Georgia", "serif"],
             script: ["Pinyon Script", "cursive"],
             handwriting: ["La Belle Aurore", "cursive"],
-            typewriter: ["Special Elite", "system-ui"],
-            mono: ["Courier Prime", "monospace"]
+            typewriter: ["Courier Prime", "monospace"]
           }
         }
       }
@@ -37,7 +39,7 @@
   </script>
   <link rel="stylesheet" href="assets/css/site.css">
 </head>
-<body class="scrapbook-bg text-ink font-mono antialiased overflow-x-hidden selection:bg-primary selection:text-bg-base">
+<body class="scrapbook-bg text-ink font-body antialiased overflow-x-hidden selection:bg-primary selection:text-bg-base">
   <a href="#story" class="skip-link">Skip to main content</a>
 
   <header class="fixed top-0 left-0 right-0 z-[80] p-4" aria-label="Main header">
@@ -45,10 +47,10 @@
       <div class="bg-white/90 p-4 border border-sepia/20 shadow-lg">
         <div class="flex items-center gap-2">
           <span class="material-symbols-outlined text-sepia" aria-hidden="true">favorite</span>
-          <p class="font-script text-3xl leading-none">Thomas &amp; Annamaria</p>
+          <p class="font-header text-3xl leading-none">Thomas &amp; Annamaria</p>
         </div>
       </div>
-      <button id="menu-toggle" class="lg:hidden bg-white/90 border border-sepia/30 px-3 py-2 text-xs font-typewriter uppercase tracking-widest shadow-sm" aria-expanded="false" aria-controls="main-nav">
+      <button id="menu-toggle" class="lg:hidden bg-white/90 border border-sepia/30 px-3 py-2 text-xs font-body uppercase tracking-widest shadow-sm" aria-expanded="false" aria-controls="main-nav">
         Menu
       </button>
       <nav id="main-nav" class="mobile-nav-panel lg:flex lg:flex-row lg:gap-4" aria-label="Primary" aria-hidden="true">
@@ -70,7 +72,7 @@
   <main id="story" class="max-w-6xl mx-auto px-4 pt-32 pb-20">
     <section class="relative space-y-8" aria-labelledby="story-title">
       <div class="max-w-3xl">
-        <h1 id="story-title" class="story-main-title text-5xl font-script text-sepia mb-1">Our story</h1>
+        <h1 id="story-title" class="story-main-title text-5xl font-header text-sepia mb-1">Our story</h1>
       </div>
       <p class="story-byline font-handwriting text-sepia/80">
         Written by Thomas, with love (and mild exaggeration)
@@ -110,12 +112,12 @@
   </main>
 
   <footer class="text-center pt-8 pb-12 border-t border-sepia/20 space-y-7 max-w-6xl mx-auto px-4">
-    <h2 class="text-6xl font-script text-sepia">Thomas &amp; Annamaria</h2>
-    <p class="font-typewriter text-sm">
+    <h2 class="text-6xl font-header text-sepia">Thomas &amp; Annamaria</h2>
+    <p class="font-body text-sm">
       Back to the main wedding page:
       <a href="index.html#home" class="text-primary hover:underline italic font-bold">Open wedding site</a>
     </p>
-    <p class="text-[10px] font-mono tracking-[0.3em] uppercase opacity-60">© 2026 Thomas &amp; Annamaria Wedding</p>
+    <p class="text-[10px] font-body tracking-[0.3em] uppercase opacity-60">© 2026 Thomas &amp; Annamaria Wedding</p>
   </footer>
 
   <script defer src="assets/js/main.js"></script>

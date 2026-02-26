@@ -15,10 +15,26 @@ A nice touch is adding a small heading above it like “Our story” and a littl
 - [x] Move the Travel to it's own Page/Tab so that it is no longer along the main scrolling page. Keep the main scrolling page for important stuff.
 - [x] Add flowers to the background
 - [x] Use the new Color Schema 'color-schema.md'
-- [ ] Use the favicon for the website favicon in 'images/'
+- [x] Use the favicon for the website favicon in 'images/'
 - [ ] Add a new tab not connected to the main index.html About Events in the near dates and a what todo. Research a little. I know there is a Festival with good bands a few weeks before. A castle in Trencin and a European Capital of Culture thing going on (Maybe find something specific of the days surrounding the wedding) This is for those that decide to stay longer...
 - [ ] For the Story add in Italic and Bold to emphasis the proper things.
 - [ ] The card (Border) around the story text feels a little baren. Can we make it feel like written hand letter on a letter or something? Be creative. 
 - [ ] Add a small indicator that the page is scrollable. Like to >> but downwards or something.
 - [ ] Add a localization to the website. English per default, slovakia and swedish as options. For all text.
 - [ ] Add more complex floral svg patterns for the background
+
+## Google Drive Media (Future)
+- [ ] Add a media page/tab for guest uploads and gallery viewing.
+- [ ] Connect uploads to Google Drive using Netlify Functions (free-tier friendly).
+- [ ] Allow uploads for photos and videos only (block all other file types).
+- [ ] Show only photos and videos from Google Drive in the gallery/list view.
+- [ ] Add backend MIME-type validation (`image/*`, `video/*`) for security.
+- [ ] Add frontend file picker filter for photos/videos only.
+- [ ] Use moderated publishing flow (new uploads are hidden until approved).
+- [ ] Add moderation actions (approve/reject) for pending uploads.
+- [ ] Add pagination to the gallery so only a few items load/show per page.
+- [ ] Use Google Drive subfolders: `images/` for photos and `videos/` for videos.
+- [ ] Set max image upload size to `20MB`.
+- [ ] Set max video upload size to `500MB`.
+- [ ] Add clear error/help text when uploads exceed limits.
+- [ ] Treat upload access as restricted-by-link for wedding guests only.
