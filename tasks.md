@@ -58,6 +58,7 @@ Church and venue details with navigation-ready addresses'
 - [x] Remove "Save the Date" badge from home section.
 - [x] Add specific lodging options to Lodging card (Penzión Pod Tureckom, Penzión Žákovic, Airbnb, Booking.com).
 - [x] Add Atteron font across pages.
+- [ ] Navbar button. Remove Schedule, Location and Events.
 
 ## Localization
 - [x] Add a localization to the website. English per default, slovakia and swedish as options. For all text.
