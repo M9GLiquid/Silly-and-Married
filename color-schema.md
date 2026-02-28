@@ -1,4 +1,4 @@
-# Wedding Website — Design System
+# Wedding Website: Design System
 
 Quick reference for colors and fonts used across the site.
 

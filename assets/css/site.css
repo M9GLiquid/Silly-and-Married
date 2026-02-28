@@ -970,6 +970,29 @@
   opacity: 0.85;
 }
 
+.dress-code-tips {
+  margin: 0;
+  padding-left: 1.25rem;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dress-code-tips li {
+  position: relative;
+  padding-left: 0.5rem;
+}
+
+.dress-code-tips li::before {
+  content: "·";
+  position: absolute;
+  left: -1.25rem;
+  color: var(--primary);
+  opacity: 0.7;
+  font-weight: 400;
+}
+
 .travel-section {
   margin: 0 auto;
   padding: 0 0.35rem;
