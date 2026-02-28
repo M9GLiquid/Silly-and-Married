@@ -10,6 +10,8 @@
   --deep-olive: #7d7648;
   --ink: #2b2b2b;
   --tape: rgba(215, 173, 205, 0.4);
+  --frost-pink-bg: rgb(253 228 234 / 65%);
+  --frost-pink-border: rgb(129 61 110 / 18%);
 }
 
 .font-header {
@@ -83,11 +85,17 @@
 }
 
 .header-shell {
-  background: rgb(253 228 234 / 65%);
+  background: var(--frost-pink-bg);
   backdrop-filter: blur(4px);
-  border: 1px solid rgb(129 61 110 / 18%);
+  border: 1px solid var(--frost-pink-border);
   border-radius: 0.4rem;
   padding: 0.6rem;
+}
+
+.frost-pink-card {
+  background: var(--frost-pink-bg);
+  backdrop-filter: blur(4px);
+  border-color: var(--frost-pink-border);
 }
 
 .site-brand-link {
@@ -637,8 +645,9 @@
   gap: 1rem;
   align-items: start;
   padding: 0.35rem;
-  background: rgb(194 203 236 / 55%);
-  border: 1px dashed rgb(129 61 110 / 22%);
+  background: var(--frost-pink-bg);
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--frost-pink-border);
 }
 
 .gallery-item {
@@ -736,8 +745,9 @@
   margin: 0 auto;
   background:
     linear-gradient(to bottom, rgb(129 61 110 / 6%) 1px, transparent 1px) 0 0 / 100% 2rem,
-    rgb(194 203 236 / 95%);
-  border: 1px solid rgb(129 61 110 / 28%);
+    var(--frost-pink-bg);
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--frost-pink-border);
   box-shadow: 0 14px 28px rgb(0 0 0 / 12%);
   padding: 1.2rem 1rem 1.1rem;
   position: relative;
