@@ -84,9 +84,9 @@
 }
 
 .header-shell {
-  background: rgb(125 118 72 / 70%);
+  background: rgb(253 228 234 / 65%);
   backdrop-filter: blur(4px);
-  border: 1px solid rgb(125 118 72 / 40%);
+  border: 1px solid rgb(129 61 110 / 18%);
   border-radius: 0.4rem;
   padding: 0.6rem;
 }
@@ -249,8 +249,8 @@
   right: 0;
   height: 100vh;
   width: min(320px, 88vw);
-  background: rgb(125 118 72 / 92%);
-  border-left: 1px solid rgb(125 118 72 / 50%);
+  background: rgb(253 228 234 / 98%);
+  border-left: 1px solid rgb(129 61 110 / 22%);
   box-shadow: -12px 0 28px rgb(0 0 0 / 18%);
   padding: 5rem 1rem 1rem;
   display: flex;
@@ -307,7 +307,7 @@
 
 .mobile-nav-panel .note-link {
   border-bottom: 1px solid rgb(129 61 110 / 18%);
-  background: rgb(255 255 255 / 25%);
+  background: transparent;
   padding: 0.65rem 0.4rem;
   border-top: 0;
   border-right: 0;
@@ -577,8 +577,8 @@
 .time-chip {
   background: var(--primary);
   color: var(--bg-base);
-  font-size: 0.7rem;
-  padding: 0.15rem 0.45rem;
+  font-size: 1.1rem;
+  padding: 0.25rem 0.6rem;
 }
 
 .location-card {
@@ -857,9 +857,9 @@
     position: static;
     height: auto;
     width: auto;
-    border: 1px solid rgb(125 118 72 / 40%);
+    border: 1px solid rgb(129 61 110 / 15%);
     box-shadow: 0 8px 16px rgb(0 0 0 / 8%);
-    background: rgb(125 118 72 / 75%);
+    background: rgb(253 228 234 / 75%);
     padding: 0.45rem;
     border-radius: 0.3rem;
     transform: none;
