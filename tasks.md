@@ -32,15 +32,24 @@
 - [x] Make the title "Thomas & Annamaria" clickable to go back to the main page at the top.
 - [x] Reorder the navbar tabs.
 - [x] There is 2 menues in the travel.html. I do not want 2...
-- [ ] The 'Events & Things to Do' & 'Travel for International Guests' main card can be removed please. and change the style to this:
+- [x] The 'Events & Things to Do' & 'Travel for International Guests' main card can be removed please. and change the style to this:
 'Locations
 Church and venue details with navigation-ready addresses'
-- [ ] Grid the events into a 2xm grid instead of a single card per row.
+- [x] Grid the events into a 2xm grid instead of a single card per row.
+- [x] Change so that Events is at bottom of Travel.htrml and Travel is at the top. Reorder the navbar buttons to align with it also please.
+- [x] Make the thumbnails of the Eventscards clickable so that we can see all the photos and enlarged.
+- [x] Grid the Travel cards like the Events. Also add Thumbnails for it. Split Step 3 Car Travel into A and B Cards.
+- [x] Travel cards should be Title only and click/hover opens the full card up.
+- [ ] Make the Schedule into a timeline. Timeline thread in the middle with schedule-event cards on either side of the timeline thread.
+- [ ] The 'Wedding Day Schedule' main card can be changed to the style to the same as:
+'Locations
+Church and venue details with navigation-ready addresses'
 
 ## Localization
 - [x] Add a localization to the website. English per default, slovakia and swedish as options. For all text.
 - [x] Fix Swedish special characters rendering (`å`, `ä`, `ö`) across all pages and UI labels.
 - [x] Fix Slovak special characters rendering (e.g. `á`, `ä`, `č`, `ď`, `é`, `í`, `ĺ`, `ľ`, `ň`, `ó`, `ô`, `ŕ`, `š`, `ť`, `ú`, `ý`, `ž`) across all pages and UI labels.
+- [x] Make the text for the Events more entising and interesting. Valuable information only and it needs to flow
 
 ## Design
 - [x] Seperate the color for the card of the Ceremony, Reception & Dinner and Celebration from the rest of the cards.
@@ -52,8 +61,8 @@ Church and venue details with navigation-ready addresses'
 - [x] Change the colors of the navbar both the blurry transparent part and the box behind the menubuttons. #E9DCDC
 - [x] Remove the circles around the flags.
 - [x] Change background color of 'Ceremony', 'Reception & Dinner' and 'Celebration' to #FEFCF9.
-- [ ] Enlarge the size of the times on the 'Ceremony', 'Reception & Dinner' and 'Celebration'.
-- [ ] Change background color of 'Ceremony', 'Reception & Dinner' and 'Celebration' to a slight tint of  #FEFCF9.
+- [x] Enlarge the size of the times on the 'Ceremony', 'Reception & Dinner' and 'Celebration'.
+- [x] Change background color of 'Ceremony', 'Reception & Dinner' and 'Celebration' to a slight tint of  #FEFCF9.
 
 
 

@@ -756,6 +756,94 @@
   padding: 0 0.35rem;
 }
 
+.travel-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.travel-card-collapsible.travel-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.travel-card-collapsible {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.travel-card-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 4rem;
+  padding: 1rem 1.1rem;
+  text-align: left;
+  background: rgb(255 255 255 / 96%);
+  border: 1px solid rgb(129 61 110 / 22%);
+  border-left: 5px solid var(--primary);
+  box-shadow: 0 4px 10px rgb(0 0 0 / 8%);
+  border-radius: 0.2rem;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition: box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.travel-card-collapsible[data-expanded] .travel-card-toggle {
+  border-bottom: none;
+  border-radius: 0.2rem 0.2rem 0 0;
+}
+
+.travel-card-toggle:hover {
+  background: rgb(255 255 255 / 99%);
+  box-shadow: 0 6px 14px rgb(0 0 0 / 12%);
+}
+
+.travel-card-toggle .travel-heading {
+  margin-bottom: 0;
+  flex: 1;
+}
+
+.travel-card-chevron {
+  flex-shrink: 0;
+  font-size: 1.25rem;
+  color: var(--primary);
+  transition: transform 0.25s ease;
+}
+
+.travel-card-collapsible[data-expanded] .travel-card-chevron {
+  transform: rotate(90deg);
+}
+
+.travel-card-body {
+  padding: 0 1.1rem 1.1rem;
+  border: 1px solid rgb(129 61 110 / 22%);
+  border-top: none;
+  border-left: 5px solid var(--primary);
+  margin-left: 0;
+  border-radius: 0 0 0.2rem 0.2rem;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 8%);
+  background: rgb(255 255 255 / 98%);
+}
+
+
+.travel-card-body[hidden] {
+  display: none;
+}
+
+.travel-card-body > p {
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.travel-card-body .travel-links {
+  margin-top: 0.5rem;
+}
+
 .events-cards-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -790,39 +878,62 @@
   width: 100px;
   height: 100px;
   flex-shrink: 0;
-  pointer-events: none;
+  display: flex;
+  gap: 0;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.thumb-lightbox-trigger {
+  position: absolute;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 0.2rem;
+}
+
+.thumb-lightbox-trigger:hover .travel-card-thumb,
+.thumb-lightbox-trigger:focus-visible .travel-card-thumb {
+  filter: brightness(1.05);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 25%);
 }
 
 .events-cards-grid .travel-card-thumb {
-  position: absolute;
   width: 64px;
   height: 64px;
   border-radius: 0.2rem;
   object-fit: cover;
   border: 1px solid rgb(129 61 110 / 25%);
   box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
+  display: block;
+  transition: filter 0.2s ease, box-shadow 0.2s ease;
 }
 
-.events-cards-grid .travel-card-thumb:nth-child(1) {
+.events-cards-grid .thumb-lightbox-trigger:nth-child(1) {
   bottom: 0;
   right: 0;
   z-index: 3;
   transform: rotate(4deg);
 }
 
-.events-cards-grid .travel-card-thumb:nth-child(2) {
+.events-cards-grid .thumb-lightbox-trigger:nth-child(2) {
   bottom: 6px;
   right: 6px;
   z-index: 2;
   transform: rotate(-3deg);
 }
 
-.events-cards-grid .travel-card-thumb:nth-child(3) {
+.events-cards-grid .thumb-lightbox-trigger:nth-child(3) {
   bottom: 12px;
   right: 12px;
   z-index: 1;
   transform: rotate(2deg);
 }
+
+.events-cards-grid .thumb-lightbox-trigger:nth-child(1) .travel-card-thumb { transform: rotate(4deg); }
+.events-cards-grid .thumb-lightbox-trigger:nth-child(2) .travel-card-thumb { transform: rotate(-3deg); }
+.events-cards-grid .thumb-lightbox-trigger:nth-child(3) .travel-card-thumb { transform: rotate(2deg); }
 
 .events-cards-grid .travel-card {
   padding-bottom: 0.5rem;
@@ -928,7 +1039,33 @@
   color: #fff;
   font-size: 2rem;
   line-height: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
 }
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+  font-size: 3rem;
+  line-height: 1;
+  background: rgb(0 0 0 / 40%);
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  z-index: 1;
+  transition: background 0.2s ease;
+}
+
+.lightbox-nav:hover {
+  background: rgb(0 0 0 / 60%);
+}
+
+.lightbox-prev { left: 0.5rem; }
+.lightbox-next { right: 0.5rem; }
 
 .lightbox-caption {
   color: #fff;

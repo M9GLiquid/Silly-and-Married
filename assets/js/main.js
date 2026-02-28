@@ -140,6 +140,33 @@ if (menuToggle && mainNav) {
   }
 }
 
+const travelCardToggles = document.querySelectorAll(".travel-card-toggle");
+const travelCardsContainer = document.querySelector(".travel-cards-list");
+travelCardToggles.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const card = btn.closest(".travel-card-collapsible");
+    const body = card?.querySelector(".travel-card-body");
+    const isExpanded = card?.getAttribute("data-expanded") === "true";
+    if (!card || !body) return;
+    if (isExpanded) {
+      card.removeAttribute("data-expanded");
+      body.hidden = true;
+      btn.setAttribute("aria-expanded", "false");
+    } else {
+      travelCardsContainer?.querySelectorAll(".travel-card-collapsible[data-expanded]").forEach((other) => {
+        other.removeAttribute("data-expanded");
+        const otherBody = other.querySelector(".travel-card-body");
+        const otherBtn = other.querySelector(".travel-card-toggle");
+        if (otherBody) otherBody.hidden = true;
+        if (otherBtn) otherBtn.setAttribute("aria-expanded", "false");
+      });
+      card.setAttribute("data-expanded", "true");
+      body.hidden = false;
+      btn.setAttribute("aria-expanded", "true");
+    }
+  });
+});
+
 const copyAddressButtons = document.querySelectorAll(".copy-address-btn");
 const copyFeedback = { success: "Copied", failure: "Failed", successAria: "Address copied", failureAria: "Copy failed" };
 
