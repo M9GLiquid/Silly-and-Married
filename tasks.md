@@ -40,10 +40,12 @@ Church and venue details with navigation-ready addresses'
 - [x] Make the thumbnails of the Eventscards clickable so that we can see all the photos and enlarged.
 - [x] Grid the Travel cards like the Events. Also add Thumbnails for it. Split Step 3 Car Travel into A and B Cards.
 - [x] Travel cards should be Title only and click/hover opens the full card up.
-- [ ] Make the Schedule into a timeline. Timeline thread in the middle with schedule-event cards on either side of the timeline thread.
+- [x] Add Lodging Card to the Travel information cards.
 - [ ] The 'Wedding Day Schedule' main card can be changed to the style to the same as:
+- [ ] Make the Schedule into a timeline. Timeline thread in the middle with schedule-event cards on right and left side of the timeline thread in accordance with their times.
 'Locations
 Church and venue details with navigation-ready addresses'
+- [ ] Add a General Information about dress code and gift ideas with a copy pastable banknumber. Gifts we want is not stuff but rather money for honeymoon. But should laso make it clear it's also good with a gift.
 
 ## Localization
 - [x] Add a localization to the website. English per default, slovakia and swedish as options. For all text.
@@ -63,8 +65,6 @@ Church and venue details with navigation-ready addresses'
 - [x] Change background color of 'Ceremony', 'Reception & Dinner' and 'Celebration' to #FEFCF9.
 - [x] Enlarge the size of the times on the 'Ceremony', 'Reception & Dinner' and 'Celebration'.
 - [x] Change background color of 'Ceremony', 'Reception & Dinner' and 'Celebration' to a slight tint of  #FEFCF9.
-
-
 
 ---
 

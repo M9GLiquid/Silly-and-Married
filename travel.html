@@ -97,7 +97,7 @@
             <span class="travel-card-chevron" aria-hidden="true">›</span>
           </button>
           <div id="travel-card-1" class="travel-card-body" hidden>
-            <p>For most international guests, the easiest entry point is <strong>Vienna International Airport (VIE)</strong>.</p>
+            <p>For most international guests, the easiest entry point is <strong>Vienna International Airport (VIE)</strong>. It has good connections to Trenčín by bus or train. Car rental is also available at the airport if you prefer to drive.</p>
           </div>
         </article>
 
@@ -110,7 +110,7 @@
             <span class="travel-card-chevron" aria-hidden="true">›</span>
           </button>
           <div id="travel-card-2a" class="travel-card-body" hidden>
-            <p>Check direct buses from VIE to Trenčín on FlixBus first. If timings do not match your flight, use a coach via Bratislava as fallback.</p>
+            <p>Check direct buses from VIE to Trenčín on FlixBus first — usually the fastest option. If timings do not match your flight, use a coach via Bratislava as fallback. Journey time is roughly 2–3 hours depending on connections.</p>
             <ul class="travel-links">
               <li><a href="https://global.flixbus.com/bus-routes/bus-vienna-airport-trencin" target="_blank" rel="noopener noreferrer">FlixBus: Vienna Airport (VIE) - Trenčín</a></li>
               <li><a href="https://www.slovaklines.sk/en/vienna-schwechat-airport/" target="_blank" rel="noopener noreferrer">Slovak Lines: Vienna Airport - Bratislava coach service</a></li>
@@ -127,7 +127,7 @@
             <span class="travel-card-chevron" aria-hidden="true">›</span>
           </button>
           <div id="travel-card-2b" class="travel-card-body" hidden>
-            <p>Start at <strong>Flughafen Wien</strong> (airport rail station), connect through Vienna (usually <strong>Wien Hbf</strong> or <strong>Wien Mitte</strong>, depending on your connection), then continue toward Slovakia and onward to Trenčín.</p>
+            <p>Start at <strong>Flughafen Wien</strong> (airport rail station), connect through Vienna (usually <strong>Wien Hbf</strong> or <strong>Wien Mitte</strong>, depending on your connection), then continue toward Slovakia and onward to Trenčín. Use the ÖBB journey planner to check times and book.</p>
             <ul class="travel-links">
               <li><a href="https://fahrplan.oebb.at/webapp/?language=en_GB" target="_blank" rel="noopener noreferrer">ÖBB journey planner</a></li>
               <li><a href="https://www.oebb.at/en/" target="_blank" rel="noopener noreferrer">ÖBB official website</a></li>
@@ -137,57 +137,60 @@
         </article>
 
         <article class="travel-card travel-card-collapsible">
-          <button type="button" class="travel-card-toggle" aria-expanded="false" aria-controls="travel-card-3a">
+          <button type="button" class="travel-card-toggle" aria-expanded="false" aria-controls="travel-card-3">
             <h2 class="travel-heading">
-              <span class="material-symbols-outlined" aria-hidden="true">church</span>
-              Step 3A — Church address
+              <span class="material-symbols-outlined" aria-hidden="true">directions_car</span>
+              Step 3 — Car (Church &amp; Venue)
             </h2>
             <span class="travel-card-chevron" aria-hidden="true">›</span>
           </button>
-          <div id="travel-card-3a" class="travel-card-body" hidden>
-            <p>For guests who prefer full flexibility, renting a car from VIE is a practical direct option. Church address:</p>
-            <div class="address-card">
-              <div class="flex items-center justify-between gap-2 mb-2">
-                <h3 class="font-body text-xs uppercase tracking-widest">Adress</h3>
-                <button type="button" class="copy-address-btn inline-flex items-center gap-1 border border-sepia/25 px-2 py-1 text-[11px] uppercase tracking-wider" data-copy-target="travel-church-address" aria-label="Copy church address">
-                  <span class="material-symbols-outlined text-sm" aria-hidden="true">content_copy</span>
-                  <span class="copy-label">Copy</span>
-                </button>
-              </div>
-              <pre id="travel-church-address" class="address-block">
-Church
-Zemianske Podhradie 119
+          <div id="travel-card-3" class="travel-card-body" hidden>
+            <p>For guests who prefer full flexibility, renting a car from VIE is a practical option. Drive time to the wedding area is about 1.5–2 hours. Copy the addresses below for navigation:</p>
+            <div class="address-grid-compact">
+              <div class="address-card address-card-compact">
+                <div class="address-card-header">
+                  <span class="address-label">Church</span>
+                  <button type="button" class="copy-address-btn inline-flex items-center gap-1 border border-sepia/25 px-2 py-1 text-[10px] uppercase tracking-wider" data-copy-target="travel-church-address" aria-label="Copy church address">
+                    <span class="material-symbols-outlined text-xs" aria-hidden="true">content_copy</span>
+                    <span class="copy-label">Copy</span>
+                  </button>
+                </div>
+                <pre id="travel-church-address" class="address-block">Zemianske Podhradie 119
 913 07 Zemianske Podhradie
 Slovakia</pre>
+              </div>
+              <div class="address-card address-card-compact">
+                <div class="address-card-header">
+                  <span class="address-label">Venue</span>
+                  <button type="button" class="copy-address-btn inline-flex items-center gap-1 border border-sepia/25 px-2 py-1 text-[10px] uppercase tracking-wider" data-copy-target="travel-venue-address" aria-label="Copy venue address">
+                    <span class="material-symbols-outlined text-xs" aria-hidden="true">content_copy</span>
+                    <span class="copy-label">Copy</span>
+                  </button>
+                </div>
+                <pre id="travel-venue-address" class="address-block">zelenýdeň
+Bošáca 247
+913 07 Bošáca
+Slovakia</pre>
+              </div>
             </div>
           </div>
         </article>
 
         <article class="travel-card travel-card-collapsible">
-          <button type="button" class="travel-card-toggle" aria-expanded="false" aria-controls="travel-card-3b">
+          <button type="button" class="travel-card-toggle" aria-expanded="false" aria-controls="travel-card-lodging">
             <h2 class="travel-heading">
-              <span class="material-symbols-outlined" aria-hidden="true">home</span>
-              Step 3B — Venue address
+              <span class="material-symbols-outlined" aria-hidden="true">hotel</span>
+              Step 4 — Lodging
             </h2>
             <span class="travel-card-chevron" aria-hidden="true">›</span>
           </button>
-          <div id="travel-card-3b" class="travel-card-body" hidden>
-            <p>Venue address for navigation:</p>
-            <div class="address-card">
-              <div class="flex items-center justify-between gap-2 mb-2">
-                <h3 class="font-body text-xs uppercase tracking-widest">Adress</h3>
-                <button type="button" class="copy-address-btn inline-flex items-center gap-1 border border-sepia/25 px-2 py-1 text-[11px] uppercase tracking-wider" data-copy-target="travel-venue-address" aria-label="Copy venue address">
-                  <span class="material-symbols-outlined text-sm" aria-hidden="true">content_copy</span>
-                  <span class="copy-label">Copy</span>
-                </button>
-              </div>
-              <pre id="travel-venue-address" class="address-block">
-Venue
-zelenýdeň
-Bošáca 247
-913 07 Bošáca
-Slovakia</pre>
-            </div>
+          <div id="travel-card-lodging" class="travel-card-body" hidden>
+            <p>For guests who need accommodation, our venue offers <strong>20 single beds</strong> in a shared sleeping area and <strong>5 family rooms</strong>. These are available from Friday, 24 July to Sunday, 26 July.</p>
+            <p>If you are interested in staying at the venue, please indicate this in the RSVP form or send us a message directly. Since space is limited, these spots will be reserved first for guests traveling the farthest and for those who would benefit most from a budget-friendly option, with allocation on a first come, first served basis.</p>
+            <p>There are also nearby accommodation options available, including Airbnb, hotels, and similar lodging.</p>
+            <ul class="travel-links">
+              <li><a href="https://visit.trencin.sk/en/information-about-trencin/" target="_blank" rel="noopener noreferrer">Visit Trenčín — tourist info &amp; accommodation</a></li>
+            </ul>
           </div>
         </article>
       </div>
