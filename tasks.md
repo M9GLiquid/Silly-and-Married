@@ -35,6 +35,7 @@
 - [ ] The 'Events & Things to Do' & 'Travel for International Guests' main card can be removed please. and change the style to this:
 'Locations
 Church and venue details with navigation-ready addresses'
+- [ ] Grid the events into a 2xm grid instead of a single card per row.
 
 ## Localization
 - [x] Add a localization to the website. English per default, slovakia and swedish as options. For all text.

@@ -754,6 +754,37 @@
   padding: 0 0.35rem;
 }
 
+.events-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.25rem;
+  align-items: stretch;
+}
+
+.events-cards-grid .travel-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.events-cards-grid .travel-card .travel-links {
+  margin-top: auto;
+}
+
+.events-cards-grid > .travel-card {
+  margin: 0;
+}
+
+.events-cards-grid > p:last-child {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 768px) {
+  .events-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .travel-sheet {
   max-width: 920px;
   margin: 0 auto;
