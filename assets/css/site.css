@@ -1,7 +1,7 @@
 :root {
   --font-header: "Noto Serif Display", serif;
   --font-body: "Gowun Batang", "Noto Serif", "Atteron", Georgia, serif;
-  --bg-base: #b5c1b5;
+  --bg-base: #fbf3ea;
   --primary: #813d6e;
   --secondary: #d7adcd;
   --paper: #c2cbec;
@@ -25,10 +25,9 @@
 
 .scrapbook-bg {
   background:
-    url("../images/floral-pattern.svg"),
     url("https://www.transparenttextures.com/patterns/light-paper-fibers.png"),
     var(--bg-base);
-  background-size: 180px 180px, auto, auto;
+  background-size: auto, auto;
 }
 
 .skip-link {
@@ -96,6 +95,10 @@
   background: var(--frost-pink-bg);
   backdrop-filter: blur(4px);
   border-color: var(--frost-pink-border);
+}
+
+.schedule-event-card {
+  background: var(--paper);
 }
 
 .site-brand-link {

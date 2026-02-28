@@ -39,8 +39,9 @@
 - [x] Fix Slovak special characters rendering (e.g. `á`, `ä`, `č`, `ď`, `é`, `í`, `ĺ`, `ľ`, `ň`, `ó`, `ô`, `ŕ`, `š`, `ť`, `ú`, `ý`, `ž`) across all pages and UI labels.
 
 ## Design
-- [x] Replace the blue box colors with the transparent pink blurry look. Navbar has the pink blurry transparent box.  
-- [ ] Add more complex floral svg patterns for the background
+- [x] Seperate the color for the card of the Ceremony, Reception & Dinner and Celebration from the rest of the cards.
+- [x] Change the background color to #fbf3ea.
+- [x] Remove the Floral patterns from the background.
 - [ ] Menu button for mobile is falling outside the screen. 
 
 
