@@ -43,6 +43,12 @@
 - [x] Change the background color to #fbf3ea.
 - [x] Remove the Floral patterns from the background.
 - [ ] Menu button for mobile is falling outside the screen. 
+- [ ] Remove the tape on the main picture since it can rotate.
+- [ ] Add shadow to the box of Wedding Day Schedule.
+- [ ] Change the colors of the navbar both the blurry transparent part and the box behind the menubuttons. #7D7648
+- [ ] Remove the circles around the flags.
+- [ ] Change background color of 'Ceremony', 'Reception & Dinner' and 'Celebration' to #FEFCF9.
+
 
 
 ---

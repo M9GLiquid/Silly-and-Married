@@ -84,11 +84,23 @@
 }
 
 .header-shell {
-  background: var(--frost-pink-bg);
+  background: rgb(125 118 72 / 70%);
   backdrop-filter: blur(4px);
-  border: 1px solid var(--frost-pink-border);
+  border: 1px solid rgb(125 118 72 / 40%);
   border-radius: 0.4rem;
   padding: 0.6rem;
+}
+
+.header-shell .site-brand-link {
+  min-width: 0;
+}
+
+.header-shell .menu-toggle-btn {
+  flex-shrink: 0;
+}
+
+.schedule-header-box {
+  box-shadow: 0 6px 20px rgb(0 0 0 / 12%);
 }
 
 .frost-pink-card {
@@ -98,7 +110,7 @@
 }
 
 .schedule-event-card {
-  background: var(--paper);
+  background: #FEFCF9;
 }
 
 .site-brand-link {
@@ -237,8 +249,8 @@
   right: 0;
   height: 100vh;
   width: min(320px, 88vw);
-  background: rgb(253 228 234 / 98%);
-  border-left: 1px solid rgb(129 61 110 / 22%);
+  background: rgb(125 118 72 / 92%);
+  border-left: 1px solid rgb(125 118 72 / 50%);
   box-shadow: -12px 0 28px rgb(0 0 0 / 18%);
   padding: 5rem 1rem 1rem;
   display: flex;
@@ -295,7 +307,7 @@
 
 .mobile-nav-panel .note-link {
   border-bottom: 1px solid rgb(129 61 110 / 18%);
-  background: transparent;
+  background: rgb(255 255 255 / 25%);
   padding: 0.65rem 0.4rem;
   border-top: 0;
   border-right: 0;
@@ -351,10 +363,9 @@
   pointer-events: none;
 }
 
-.lang-flag-btn:hover,
-.lang-flag-btn:focus-visible {
-  background: rgb(215 173 205 / 26%);
-  border-color: rgb(129 61 110 / 45%);
+.lang-flag-btn:not(.is-active):not(:disabled):hover,
+.lang-flag-btn:not(.is-active):not(:disabled):focus-visible {
+  filter: grayscale(0.9);
 }
 
 .lang-flag-btn.is-active,
@@ -846,9 +857,9 @@
     position: static;
     height: auto;
     width: auto;
-    border: 1px solid rgb(129 61 110 / 15%);
+    border: 1px solid rgb(125 118 72 / 40%);
     box-shadow: 0 8px 16px rgb(0 0 0 / 8%);
-    background: rgb(253 228 234 / 75%);
+    background: rgb(125 118 72 / 75%);
     padding: 0.45rem;
     border-radius: 0.3rem;
     transform: none;
@@ -934,11 +945,6 @@
     margin-left: 0.15rem;
     width: auto;
     flex-shrink: 0;
-    padding: 0.28rem 0.34rem;
-    background: rgb(255 255 255 / 88%);
-    border: 1px solid rgb(129 61 110 / 20%);
-    border-radius: 999px;
-    box-shadow: 0 2px 6px rgb(0 0 0 / 7%);
     gap: 0.3rem;
   }
 
@@ -950,11 +956,9 @@
     background: rgb(255 255 255 / 94%);
   }
 
-  .mobile-nav-panel .lang-flag-btn:hover,
-  .mobile-nav-panel .lang-flag-btn:focus-visible {
-    border-color: rgb(129 61 110 / 48%);
-    background: rgb(215 173 205 / 24%);
-    transform: translateY(-1px);
+  .mobile-nav-panel .lang-flag-btn:not(.is-active):not(:disabled):hover,
+  .mobile-nav-panel .lang-flag-btn:not(.is-active):not(:disabled):focus-visible {
+    filter: grayscale(0.9);
   }
 
   .mobile-nav-panel .lang-flag-btn.is-active,
