@@ -1307,6 +1307,21 @@
   color: rgb(43 43 43 / 80%);
 }
 
+.main-photo-trigger {
+  font: inherit;
+  line-height: 0;
+}
+
+.main-photo-trigger:hover img,
+.main-photo-trigger:focus-visible img {
+  filter: brightness(1.02);
+}
+
+.main-photo-trigger:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
 .lightbox {
   position: fixed;
   inset: 0;

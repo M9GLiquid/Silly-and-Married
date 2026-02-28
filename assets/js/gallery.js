@@ -168,3 +168,15 @@ document.addEventListener("keydown", (event) => {
 });
 
 populateGalleryContainers();
+
+const mainPhotoTrigger = document.getElementById("main-photo-trigger");
+if (mainPhotoTrigger) {
+  mainPhotoTrigger.addEventListener("click", () => {
+    const img = document.getElementById("main-photo");
+    if (!img || !img.src || !lightbox || !lightboxImage) return;
+    currentGroup = [];
+    showImage(img.src, img.alt, img.alt);
+    if (lightboxPrev) lightboxPrev.hidden = true;
+    if (lightboxNext) lightboxNext.hidden = true;
+  });
+}
