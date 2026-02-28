@@ -30,6 +30,18 @@ const showImage = (src, caption, alt) => {
   lightbox.classList.remove("hidden");
 };
 
+const updateNavState = () => {
+  const hasMultiple = currentGroup.length > 1;
+  if (lightboxPrev) {
+    lightboxPrev.hidden = !hasMultiple;
+    lightboxPrev.disabled = currentIndex <= 0;
+  }
+  if (lightboxNext) {
+    lightboxNext.hidden = !hasMultiple;
+    lightboxNext.disabled = currentIndex >= currentGroup.length - 1;
+  }
+};
+
 const showAtIndex = (index) => {
   if (index < 0 || index >= currentGroup.length) return;
   currentIndex = index;
@@ -38,8 +50,7 @@ const showAtIndex = (index) => {
   const caption = getCaption(btn);
   const img = btn.querySelector("img");
   if (src) showImage(src, caption, img ? img.alt : "");
-  if (lightboxPrev) lightboxPrev.hidden = currentGroup.length <= 1;
-  if (lightboxNext) lightboxNext.hidden = currentGroup.length <= 1;
+  updateNavState();
 };
 
 galleryItems.forEach((button) => {
@@ -61,7 +72,8 @@ thumbTriggers.forEach((button) => {
     const group = container ? Array.from(container.querySelectorAll(".thumb-lightbox-trigger")) : [button];
     const idx = group.indexOf(button);
     currentGroup = group;
-    currentIndex = idx >= 0 ? idx : 0;
+    // Location cards (6 thumbs): always start at index 0; Events (3 thumbs): start at clicked index
+    currentIndex = container && container.classList.contains("location-thumbs") ? 0 : (idx >= 0 ? idx : 0);
     showAtIndex(currentIndex);
   });
 });
@@ -69,14 +81,16 @@ thumbTriggers.forEach((button) => {
 if (lightboxPrev) {
   lightboxPrev.addEventListener("click", (e) => {
     e.stopPropagation();
-    if (currentGroup.length) showAtIndex(Math.max(0, currentIndex - 1));
+    if (lightboxPrev.disabled || !currentGroup.length) return;
+    showAtIndex(Math.max(0, currentIndex - 1));
   });
 }
 
 if (lightboxNext) {
   lightboxNext.addEventListener("click", (e) => {
     e.stopPropagation();
-    if (currentGroup.length) showAtIndex(Math.min(currentGroup.length - 1, currentIndex + 1));
+    if (lightboxNext.disabled || !currentGroup.length) return;
+    showAtIndex(Math.min(currentGroup.length - 1, currentIndex + 1));
   });
 }
 

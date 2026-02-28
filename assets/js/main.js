@@ -20,6 +20,10 @@ if (scrollIndicator) {
   };
   window.addEventListener("scroll", checkScroll, { passive: true });
   checkScroll();
+
+  scrollIndicator.addEventListener("click", () => {
+    window.scrollBy({ top: window.innerHeight * 0.8, behavior: "smooth" });
+  });
 }
 
 const menuToggle = document.getElementById("menu-toggle");

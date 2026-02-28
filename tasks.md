@@ -41,11 +41,23 @@ Church and venue details with navigation-ready addresses'
 - [x] Grid the Travel cards like the Events. Also add Thumbnails for it. Split Step 3 Car Travel into A and B Cards.
 - [x] Travel cards should be Title only and click/hover opens the full card up.
 - [x] Add Lodging Card to the Travel information cards.
-- [ ] The 'Wedding Day Schedule' main card can be changed to the style to the same as:
-- [ ] Make the Schedule into a timeline. Timeline thread in the middle with schedule-event cards on right and left side of the timeline thread in accordance with their times.
+- [x] The 'Wedding Day Schedule' main card can be changed to the style to the same as:
+- [x] Make the Schedule into a timeline. Timeline thread in the middle with schedule-event cards on right and left side of the timeline thread in accordance with their times.
 'Locations
 Church and venue details with navigation-ready addresses'
-- [ ] Add a General Information about dress code and gift ideas with a copy pastable banknumber. Gifts we want is not stuff but rather money for honeymoon. But should laso make it clear it's also good with a gift.
+- [x] Add a General Information about dress code and gift ideas with a copy pastable banknumber. Gifts we want is not stuff but rather money for honeymoon. But should laso make it clear it's also good with a gift.
+- [x] Replace 'The beginning of forever...' with 'True love is a story that never ends.'.
+- [x] Replace 'True love is a story that never ends.' with 'We cannot wait to celebrate with our families and friends. Below you will find the full schedule and both event locations. For travel guidance from Vienna Airport, see the Travel page.' and remove the quotation marks. And remove the card where the text is currently in.
+- [x] Change the style of the Location cards to be like the Event cards. one grid with 2 next to eachother and the cards as a thumbnails. Much the same way as the Events.The text for the Copy of the Adress should be the copy icon and then the text should be Adress.
+- [x] Position the small indicator for 'page is scrollable >>' a little down.
+- [x] The schedule cards should overlap not be one card on the left and then first after that does the next one start.
+- [x] Add prev/next navigation arrows to the gallery lightbox.
+- [x] Replace copy-address block on Location cards with Maps button; add place descriptions for Church and Venue.
+- [x] Restyle Schedule section header (centered, larger title).
+- [x] Style General Information cards like Events (travel-card grid).
+- [x] Remove "Save the Date" badge from home section.
+- [x] Add specific lodging options to Lodging card (Penzión Pod Tureckom, Penzión Žákovic, Airbnb, Booking.com).
+- [x] Add Atteron font across pages.
 
 ## Localization
 - [x] Add a localization to the website. English per default, slovakia and swedish as options. For all text.
@@ -65,6 +77,7 @@ Church and venue details with navigation-ready addresses'
 - [x] Change background color of 'Ceremony', 'Reception & Dinner' and 'Celebration' to #FEFCF9.
 - [x] Enlarge the size of the times on the 'Ceremony', 'Reception & Dinner' and 'Celebration'.
 - [x] Change background color of 'Ceremony', 'Reception & Dinner' and 'Celebration' to a slight tint of  #FEFCF9.
+- [x] The Scroll down indicator should be clickable and it takes you down a slight bit. Position it  closer to the bottom of the window.
 
 ---
 

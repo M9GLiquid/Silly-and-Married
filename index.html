@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wdth,wght@70,100..900&family=Noto+Serif:ital,wght@0,400;0,700&family=Gowun+Batang:wght@400;700&family=Pinyon+Script&family=La+Belle+Aurore&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="https://db.onlinewebfonts.com/c/8376ccd594d2b66789059cbeb4f3f472?family=Atteron" type="text/css">
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script>
     tailwind.config = {
@@ -86,16 +87,14 @@
         <div class="relative">
           <figure class="polaroid -rotate-2 transition-transform hover:rotate-0 duration-500">
             <img src="images/venue3.png" alt="Romantic view of zelenýdeň wedding venue in Bošáca." class="w-full h-[430px] object-cover grayscale sepia brightness-90" loading="eager" fetchpriority="high">
-            <figcaption class="font-handwriting text-2xl text-center mt-6 text-sepia/80 italic">The beginning of forever...</figcaption>
+            <figcaption class="font-handwriting text-2xl text-center mt-6 text-sepia/80 italic">True love is a story that never ends.</figcaption>
           </figure>
         </div>
         <div class="space-y-6 text-center md:text-left">
-          <p class="inline-block px-3 py-1 bg-white/40 font-body text-sm tracking-widest uppercase border border-sepia/10">Save the Date</p>
           <h1 id="home-title" class="text-6xl md:text-8xl font-header text-sepia leading-none notranslate">Thomas &amp; Annamaria</h1>
           <div class="h-px w-24 bg-sepia/30 mx-auto md:mx-0"></div>
           <p class="font-body text-lg md:text-xl text-ink">July 25, 2026<br>Trenčín, Slovakia</p>
-          <p class="font-handwriting text-primary text-2xl -rotate-2">"True love is a story that never ends."</p>
-          <p class="frost-pink-card p-4 border-l-4 border-primary text-sm leading-relaxed">
+          <p class="font-handwriting text-primary text-xl -rotate-2 leading-relaxed">
             We cannot wait to celebrate with our families and friends. Below you will find the full schedule and both event locations. For travel guidance from Vienna Airport, see the Travel page.
           </p>
           <div class="rsvp-home-block">
@@ -107,19 +106,19 @@
           </div>
         </div>
       </div>
-      <div id="scroll-indicator" class="scroll-indicator" aria-hidden="true">
+      <button type="button" id="scroll-indicator" class="scroll-indicator" aria-label="Scroll down" title="Scroll down">
         <span class="scroll-indicator-icon" aria-hidden="true">»»</span>
-      </div>
+      </button>
     </section>
 
     <section id="schedule" class="relative" aria-labelledby="schedule-title">
-      <div class="schedule-header-box bg-white/65 p-8 border-l-4 border-primary rotate-1 max-w-3xl">
-        <h2 id="schedule-title" class="text-4xl font-header text-sepia mb-1">Wedding Day Schedule</h2>
-        <p class="font-body text-xs uppercase tracking-widest text-sepia/70">Saturday, July 25, 2026</p>
+      <div class="text-center">
+        <h2 id="schedule-title" class="text-6xl font-header text-sepia mb-2">Wedding Day Schedule</h2>
+        <p class="font-body text-xs uppercase tracking-widest opacity-70">Saturday, July 25, 2026</p>
       </div>
 
-      <ol class="mt-10 space-y-8 pl-4 timeline-list">
-        <li class="timeline-item">
+      <ol class="timeline-alternating mt-10" aria-label="Wedding day timeline">
+        <li class="timeline-row timeline-row-left">
           <article class="schedule-event-card p-6 shadow-md border-b-2 border-primary/20">
             <div class="flex justify-between items-start gap-4 mb-3">
               <h3 class="font-body font-bold text-xl uppercase tracking-tight">Ceremony</h3>
@@ -129,8 +128,8 @@
             <p class="text-xs opacity-80">Zemianske Podhradie 119, 913 07 Zemianske Podhradie, Slovakia</p>
           </article>
         </li>
-        <li class="timeline-item">
-          <article class="schedule-event-card p-6 shadow-md border-b-2 border-primary/20 -rotate-1">
+        <li class="timeline-row timeline-row-right">
+          <article class="schedule-event-card p-6 shadow-md border-b-2 border-primary/20">
             <div class="flex justify-between items-start gap-4 mb-3">
               <h3 class="font-body font-bold text-xl uppercase tracking-tight">Reception &amp; Dinner</h3>
               <span class="time-chip">16:30</span>
@@ -139,8 +138,8 @@
             <p class="text-xs opacity-80">Bošáca 247, 913 07 Bošáca, Slovakia</p>
           </article>
         </li>
-        <li class="timeline-item">
-          <article class="schedule-event-card p-6 shadow-md border-b-2 border-primary/20 rotate-1">
+        <li class="timeline-row timeline-row-left">
+          <article class="schedule-event-card p-6 shadow-md border-b-2 border-primary/20">
             <div class="flex justify-between items-start gap-4 mb-3">
               <h3 class="font-body font-bold text-xl uppercase tracking-tight">Celebration</h3>
               <span class="time-chip">20:00</span>
@@ -158,97 +157,116 @@
         <p class="font-body text-xs uppercase tracking-widest opacity-70">Church and venue details with navigation-ready addresses</p>
       </div>
 
-      <div class="space-y-16">
-        <article class="location-card">
-          <div class="location-head">
-            <h3 class="font-header text-5xl text-sepia">Church - Zemianske Podhradie</h3>
-            <a href="https://www.google.com/maps/search/?api=1&query=Zemianske+Podhradie+119%2C+913+07+Zemianske+Podhradie%2C+Slovakia" target="_blank" rel="noopener noreferrer" class="map-link">
-              Open Church in Google Maps
-              <span class="material-symbols-outlined text-sm" aria-hidden="true">open_in_new</span>
+      <div class="events-cards-grid">
+        <article class="travel-card">
+          <div class="location-card-header">
+            <h2 class="travel-heading">
+              <span class="material-symbols-outlined" aria-hidden="true">church</span>
+              Church — Zemianske Podhradie
+            </h2>
+            <a href="https://www.google.com/maps/search/?api=1&query=Zemianske+Podhradie+119%2C+913+07+Zemianske+Podhradie%2C+Slovakia" target="_blank" rel="noopener noreferrer" class="location-map-btn inline-flex items-center gap-1 border border-sepia/25 px-2 py-1 text-[10px] uppercase tracking-wider" aria-label="Open church in Google Maps">
+              <span class="material-symbols-outlined text-xs" aria-hidden="true">location_on</span>
+              Maps
             </a>
           </div>
-          <div class="location-grid">
-            <div class="address-card">
-              <div class="flex items-center justify-between gap-2 mb-2">
-                <h4 class="font-body text-sm uppercase tracking-widest">Adress</h4>
-                <button type="button" class="copy-address-btn inline-flex items-center gap-1 border border-sepia/25 px-2 py-1 text-[11px] uppercase tracking-wider" data-copy-target="church-address" aria-label="Copy church address">
-                  <span class="material-symbols-outlined text-sm" aria-hidden="true">content_copy</span>
-                  <span class="copy-label">Copy</span>
-                </button>
-              </div>
-              <pre id="church-address" class="address-block">Zemianske Podhradie 119
-913 07 Zemianske Podhradie
-Slovakia</pre>
-            </div>
-            <div class="gallery-grid" data-gallery="church">
-              <button class="gallery-item" data-fullsrc="images/church.jpg" data-caption="Church exterior view">
-                <img src="images/church.jpg" alt="Church exterior view in Zemianske Podhradie." loading="lazy">
+          <p>A traditional church in the village of Zemianske Podhradie, in the Trenčín region. The ceremony will be held in this historic setting.</p>
+          <div class="travel-card-bottom">
+            <div class="travel-card-thumbs location-thumbs">
+              <button type="button" class="thumb-lightbox-trigger" data-fullsrc="images/church.jpg" data-caption="Church exterior view">
+                <img class="travel-card-thumb" src="images/church.jpg" alt="Church exterior view" loading="lazy">
               </button>
-              <button class="gallery-item" data-fullsrc="images/church2.png" data-caption="Church photo 2">
-                <img src="images/church2.png" alt="Church location photo in Zemianske Podhradie." loading="lazy">
+              <button type="button" class="thumb-lightbox-trigger" data-fullsrc="images/church2.png" data-caption="Church photo 2">
+                <img class="travel-card-thumb" src="images/church2.png" alt="Church photo 2" loading="lazy">
               </button>
-              <button class="gallery-item" data-fullsrc="images/church3.png" data-caption="Church photo 3">
-                <img src="images/church3.png" alt="Church location photo near ceremony site." loading="lazy">
+              <button type="button" class="thumb-lightbox-trigger" data-fullsrc="images/church3.png" data-caption="Church photo 3">
+                <img class="travel-card-thumb" src="images/church3.png" alt="Church photo 3" loading="lazy">
               </button>
-              <button class="gallery-item" data-fullsrc="images/church4.png" data-caption="Church photo 4">
-                <img src="images/church4.png" alt="Detailed church architecture for ceremony location." loading="lazy">
+              <button type="button" class="thumb-lightbox-trigger" data-fullsrc="images/church4.png" data-caption="Church photo 4">
+                <img class="travel-card-thumb" src="images/church4.png" alt="Church photo 4" loading="lazy">
               </button>
-              <button class="gallery-item" data-fullsrc="images/church5.png" data-caption="Church photo 5">
-                <img src="images/church5.png" alt="Church location surroundings in Zemianske Podhradie." loading="lazy">
+              <button type="button" class="thumb-lightbox-trigger" data-fullsrc="images/church5.png" data-caption="Church photo 5">
+                <img class="travel-card-thumb" src="images/church5.png" alt="Church photo 5" loading="lazy">
               </button>
-              <button class="gallery-item" data-fullsrc="images/church6.png" data-caption="Church photo 6">
-                <img src="images/church6.png" alt="Wedding ceremony church reference photo." loading="lazy">
+              <button type="button" class="thumb-lightbox-trigger" data-fullsrc="images/church6.png" data-caption="Church photo 6">
+                <img class="travel-card-thumb" src="images/church6.png" alt="Church photo 6" loading="lazy">
               </button>
             </div>
           </div>
         </article>
 
-        <article class="location-card rotate-1">
-          <div class="location-head">
-            <h3 class="font-header text-5xl text-sepia notranslate">Venue - zelenýdeň</h3>
-            <a href="https://www.google.com/maps/search/?api=1&query=Bo%C5%A1%C3%A1ca+247%2C+913+07+Bo%C5%A1%C3%A1ca%2C+Slovakia" target="_blank" rel="noopener noreferrer" class="map-link">
-              Open Venue in Google Maps
-              <span class="material-symbols-outlined text-sm" aria-hidden="true">open_in_new</span>
+        <article class="travel-card">
+          <div class="location-card-header">
+            <h2 class="travel-heading">
+              <span class="material-symbols-outlined" aria-hidden="true">celebration</span>
+              <span class="notranslate">Venue — zelenýdeň</span>
+            </h2>
+            <a href="https://www.google.com/maps/search/?api=1&query=Bo%C5%A1%C3%A1ca+247%2C+913+07+Bo%C5%A1%C3%A1ca%2C+Slovakia" target="_blank" rel="noopener noreferrer" class="location-map-btn inline-flex items-center gap-1 border border-sepia/25 px-2 py-1 text-[10px] uppercase tracking-wider" aria-label="Open venue in Google Maps">
+              <span class="material-symbols-outlined text-xs" aria-hidden="true">location_on</span>
+              Maps
             </a>
           </div>
-          <div class="location-grid">
-            <div class="address-card">
-              <div class="flex items-center justify-between gap-2 mb-2">
-                <h4 class="font-body text-sm uppercase tracking-widest">Adress</h4>
-                <button type="button" class="copy-address-btn inline-flex items-center gap-1 border border-sepia/25 px-2 py-1 text-[11px] uppercase tracking-wider" data-copy-target="venue-address" aria-label="Copy venue address">
-                  <span class="material-symbols-outlined text-sm" aria-hidden="true">content_copy</span>
-                  <span class="copy-label">Copy</span>
-                </button>
-              </div>
-              <pre id="venue-address" class="address-block">zelenýdeň
-Bošáca 247
-913 07 Bošáca
-Slovakia</pre>
-              <p class="text-xs mt-3">
-                Official venue site:
-                <a href="https://zelenyden.com/" target="_blank" rel="noopener noreferrer" class="text-primary underline">zelenyden.com</a>
-              </p>
-            </div>
-            <div class="gallery-grid" data-gallery="venue">
-              <button class="gallery-item" data-fullsrc="images/Venue.png" data-caption="Venue exterior view">
-                <img src="images/Venue.png" alt="zelenýdeň venue exterior in Bošáca." loading="lazy">
+          <p>An outdoor venue in Bošáca with gardens and event spaces. The name means &quot;green day&quot; — a fitting setting for our celebration. Visit zelenyden.com for more about the venue.</p>
+          <div class="travel-card-bottom">
+            <ul class="travel-links">
+              <li><a href="https://zelenyden.com/" target="_blank" rel="noopener noreferrer">zelenyden.com</a></li>
+            </ul>
+            <div class="travel-card-thumbs location-thumbs">
+              <button type="button" class="thumb-lightbox-trigger" data-fullsrc="images/Venue.png" data-caption="Venue exterior view">
+                <img class="travel-card-thumb" src="images/Venue.png" alt="Venue exterior" loading="lazy">
               </button>
-              <button class="gallery-item" data-fullsrc="images/venue2.png" data-caption="Venue photo 2">
-                <img src="images/venue2.png" alt="zelenýdeň wedding venue atmosphere." loading="lazy">
+              <button type="button" class="thumb-lightbox-trigger" data-fullsrc="images/venue2.png" data-caption="Venue photo 2">
+                <img class="travel-card-thumb" src="images/venue2.png" alt="Venue photo 2" loading="lazy">
               </button>
-              <button class="gallery-item" data-fullsrc="images/venue3.png" data-caption="Venue photo 3">
-                <img src="images/venue3.png" alt="zelenýdeň gardens and event spaces." loading="lazy">
+              <button type="button" class="thumb-lightbox-trigger" data-fullsrc="images/venue3.png" data-caption="Venue photo 3">
+                <img class="travel-card-thumb" src="images/venue3.png" alt="Venue photo 3" loading="lazy">
               </button>
-              <button class="gallery-item" data-fullsrc="images/venue4.png" data-caption="Venue photo 4">
-                <img src="images/venue4.png" alt="Reception area at zelenýdeň venue." loading="lazy">
+              <button type="button" class="thumb-lightbox-trigger" data-fullsrc="images/venue4.png" data-caption="Venue photo 4">
+                <img class="travel-card-thumb" src="images/venue4.png" alt="Venue photo 4" loading="lazy">
               </button>
-              <button class="gallery-item" data-fullsrc="images/venue5.png" data-caption="Venue photo 5">
-                <img src="images/venue5.png" alt="Event setup at wedding venue in Bošáca." loading="lazy">
+              <button type="button" class="thumb-lightbox-trigger" data-fullsrc="images/venue5.png" data-caption="Venue photo 5">
+                <img class="travel-card-thumb" src="images/venue5.png" alt="Venue photo 5" loading="lazy">
               </button>
-              <button class="gallery-item" data-fullsrc="images/venue6.png" data-caption="Venue photo 6">
-                <img src="images/venue6.png" alt="Detailed venue reference photo for guests." loading="lazy">
+              <button type="button" class="thumb-lightbox-trigger" data-fullsrc="images/venue6.png" data-caption="Venue photo 6">
+                <img class="travel-card-thumb" src="images/venue6.png" alt="Venue photo 6" loading="lazy">
               </button>
             </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="general-info" class="space-y-6" aria-labelledby="general-info-title">
+      <div class="text-center">
+        <h2 id="general-info-title" class="text-6xl font-header text-sepia mb-2">Practical Details</h2>
+        <p class="font-body text-xs uppercase tracking-widest opacity-70">Dress code, gifts, and more</p>
+      </div>
+
+      <div class="events-cards-grid">
+        <article class="travel-card">
+          <h2 class="travel-heading">
+            <span class="material-symbols-outlined" aria-hidden="true">checkroom</span>
+            Dress code
+          </h2>
+          <p>Smart casual. The ceremony is in a church and the reception is outdoors at the venue — comfortable shoes are recommended.</p>
+        </article>
+
+        <article class="travel-card">
+          <h2 class="travel-heading">
+            <span class="material-symbols-outlined" aria-hidden="true">card_giftcard</span>
+            Gifts
+          </h2>
+          <p>Your presence is the greatest gift. If you wish to give something, we would be delighted with a contribution toward our honeymoon rather than physical gifts. That said, we are equally happy with any gift — the thought matters most.</p>
+          <div class="mt-4 address-card address-card-compact">
+            <div class="address-card-header">
+              <span class="address-label">Bank transfer (honeymoon fund)</span>
+              <button type="button" class="copy-address-btn inline-flex items-center gap-1 border border-sepia/25 px-2 py-1 text-[10px] uppercase tracking-wider" data-copy-target="bank-details" aria-label="Copy bank details">
+                <span class="material-symbols-outlined text-xs" aria-hidden="true">content_copy</span>
+                <span class="copy-label">Copy</span>
+              </button>
+            </div>
+            <pre id="bank-details" class="address-block">IBAN: [Add your IBAN here]
+BIC/SWIFT: [Add your BIC here]
+Account holder: Thomas &amp; Annamaria</pre>
           </div>
         </article>
       </div>
@@ -278,6 +296,8 @@ Slovakia</pre>
 
   <div id="lightbox" class="lightbox hidden" role="dialog" aria-modal="true" aria-labelledby="lightbox-caption">
     <button id="lightbox-close" class="lightbox-close" aria-label="Close photo viewer">×</button>
+    <button id="lightbox-prev" class="lightbox-nav lightbox-prev" aria-label="Previous photo" hidden>‹</button>
+    <button id="lightbox-next" class="lightbox-nav lightbox-next" aria-label="Next photo" hidden>›</button>
     <img id="lightbox-image" src="" alt="">
     <p id="lightbox-caption" class="lightbox-caption"></p>
   </div>
