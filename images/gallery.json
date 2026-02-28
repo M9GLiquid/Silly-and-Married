@@ -1,0 +1,75 @@
+{
+  "main": {
+    "src": "images/main/AM&Thomas.png",
+    "alt": "Thomas and Annamária's first ceremony image.."
+  },
+  "church": {
+    "src": "images/church/",
+    "photos": [
+      { "name": "church.jpg", "caption": "Church exterior in the summer" },
+      { "name": "church2.png", "caption": "Church exterior in the winter" },
+      { "name": "church3.png", "caption": "Church from the front" },
+      { "name": "church4.png", "caption": "Church altar" },
+      { "name": "church5.png", "caption": "Church seating level 3" },
+      { "name": "church6.png", "caption": "Church seating level 2" },
+      { "name": "church7.jpg", "caption": "Church exterior in the summer" }
+    ]
+  },
+  "venue": {
+    "src": "images/venue/",
+    "photos": [
+      { "name": "venue3.png", "caption": "Venue exterior" },
+      { "name": "venue4.png", "caption": "Garden area" },
+      { "name": "venue5.png", "caption": "Event space" },
+      { "name": "venue6.png", "caption": "Venue detail" },
+      { "name": "venue7.jpg", "caption": "Venue photo" },
+      { "name": "venue8.jpg", "caption": "Venue photo" },
+      { "name": "venue9.jpg", "caption": "Venue photo" },
+      { "name": "venue10.jpg", "caption": "Venue photo" }
+    ]
+  },
+  "events": {
+    "pohoda": {
+      "src": "",
+      "photos": [
+        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Bukahara_Pohoda_Festival_2019.jpg/800px-Bukahara_Pohoda_Festival_2019.jpg", "caption": "Pohoda Festival" },
+        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Pohoda_Areal-shot_Adam_Zvolensky.jpg/800px-Pohoda_Areal-shot_Adam_Zvolensky.jpg", "caption": "Pohoda festival grounds" },
+        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/20240712-_PHD7217_PEGGY_GOU_ATMOSF%C3%89RA_ONDREJ_KOSCIK.PHOTOS_POHODA_2024.jpg/800px-20240712-_PHD7217_PEGGY_GOU_ATMOSF%C3%89RA_ONDREJ_KOSCIK.PHOTOS_POHODA_2024.jpg", "caption": "Pohoda 2024" },
+        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/The_Pixies_at_Pohoda_music_festival_2006.jpg/800px-The_Pixies_at_Pohoda_music_festival_2006.jpg", "caption": "The Pixies at Pohoda 2006" }
+      ]
+    },
+    "castle": {
+      "src": "",
+      "photos": [
+        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Tren%C4%8D%C3%ADn_Castle_60.jpg/800px-Tren%C4%8D%C3%ADn_Castle_60.jpg", "caption": "Trenčín Castle" },
+        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Trencin_Castle_030.jpg/800px-Trencin_Castle_030.jpg", "caption": "Trenčín Castle view" },
+        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Tren%C4%8Din.JPG/800px-Tren%C4%8Din.JPG", "caption": "Trenčín" }
+      ]
+    },
+    "trencin2026": {
+      "src": "",
+      "photos": [
+        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Tren%C4%8D%C3%ADn_16.jpg/800px-Tren%C4%8D%C3%ADn_16.jpg", "caption": "Trenčín 2026" },
+        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Katapult%2C_Tren%C4%8Diansky_hrad_%282008%29.jpg/800px-Katapult%2C_Tren%C4%8Diansky_hrad_%282008%29.jpg", "caption": "Trenčín Castle concert" },
+        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Map_slovakia_trencin.png/800px-Map_slovakia_trencin.png", "caption": "Trenčín region" }
+      ]
+    },
+    "beckov": {
+      "src": "",
+      "photos": [
+        { "src": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweoBtfXMhpz7xQEu_Cj9nPbH8IincN1hhTmiTycNjhAtaYwKbNKFow66aYsEGIV_sXGCQ8IORKKNnwpJQ-IamSf7QnSh2IENc2OgInVaawR8JRiGAb9IzEU3IDFQuGtm1tPQNCdt=s680-w680-h510-rw", "caption": "Beckov Castle" },
+        { "src": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwequp9CZHIrIyAti6XPYGXAqteJckJQAl3RFvSguMarP411fyJXryHFZEjtJW-U2Ql9EWs_sxAPMw7GI6cU-8M-as791LPeBhKA98vTblmVVE6iTIE0DgP387xCudSZE19AMECaX9Q=s680-w680-h510-rw", "caption": "Beckov Castle" },
+        { "src": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweq1eQ-_9Khvro-bApLLQvPZu2esqWi_hyncqNlbvDyn37BWnDfIhVYG_kJQ-fVRsofWqoHOrIOCrrMOzyVKMtDwnmJ_bdxd2MlkbkQRPejMoaH2fJTh0ZUZvq3ZwwjVkBGrbL6g=s680-w680-h510-rw", "caption": "Beckov Castle" },
+        { "src": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerMftyA2GA1jy2w7hiV-XyNaLM8q6QJM-ukNbYDecoFh9jr4ptXbU4qK8LXlewZOZA31Zp0pjfM1hc3bQTW5-XfR2vgOHz3AzJuoHbq1m1D7CEVrkpY2O1efG3Atx3wu6r6dz4AwQ=s680-w680-h510-rw", "caption": "Beckov Castle" }
+      ]
+    },
+    "thingsToDo": {
+      "src": "",
+      "photos": [
+        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Tren%C4%8Dianske_teplice_-_park.JPG/800px-Tren%C4%8Dianske_teplice_-_park.JPG", "caption": "Trenčianske Teplice" },
+        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Trencianske_Teplice_Slovakia_aka_Jalta.JPG/800px-Trencianske_Teplice_Slovakia_aka_Jalta.JPG", "caption": "Trenčianske Teplice spa" },
+        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Siladice%2C_Slovakia_-_The_Vah_River_-_panoramio.jpg/800px-Siladice%2C_Slovakia_-_The_Vah_River_-_panoramio.jpg", "caption": "Váh River" }
+      ]
+    }
+  }
+}

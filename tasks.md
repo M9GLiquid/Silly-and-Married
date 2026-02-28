@@ -29,7 +29,7 @@
 
 ## UI / UX
 - [x] Add a small indicator that the page is scrollable. Like to >> but downwards or something.
-- [x] Make the title "Thomas & Annamaria" clickable to go back to the main page at the top.
+- [x] Make the title "Thomas & Annamária" clickable to go back to the main page at the top.
 - [x] Reorder the navbar tabs.
 - [x] There is 2 menues in the travel.html. I do not want 2...
 - [x] The 'Events & Things to Do' & 'Travel for International Guests' main card can be removed please. and change the style to this:
@@ -58,7 +58,8 @@ Church and venue details with navigation-ready addresses'
 - [x] Remove "Save the Date" badge from home section.
 - [x] Add specific lodging options to Lodging card (Penzión Pod Tureckom, Penzión Žákovic, Airbnb, Booking.com).
 - [x] Add Atteron font across pages.
-- [ ] Navbar button. Remove Schedule, Location and Events.
+- [x] Navbar button. Remove Schedule, Location and Events.
+- [ ] Update the images, and decentralize it.
 
 ## Localization
 - [x] Add a localization to the website. English per default, slovakia and swedish as options. For all text.

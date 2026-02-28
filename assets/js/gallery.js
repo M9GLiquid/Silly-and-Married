@@ -5,12 +5,64 @@ const lightboxClose = document.getElementById("lightbox-close");
 const lightboxPrev = document.getElementById("lightbox-prev");
 const lightboxNext = document.getElementById("lightbox-next");
 const galleryItems = document.querySelectorAll(".gallery-item");
-const thumbTriggers = document.querySelectorAll(".thumb-lightbox-trigger");
 
 const getCaption = (el) => el.getAttribute("data-caption") || "";
 
 let currentGroup = [];
 let currentIndex = 0;
+
+function resolvePhotoSrc(photo, base) {
+  if (typeof photo === "string") return base + photo;
+  if (photo.src) return photo.src;
+  if (photo.name) return base + photo.name;
+  return "";
+}
+
+async function populateGalleryContainers() {
+  const containers = document.querySelectorAll("[data-gallery]");
+  const mainPhoto = document.getElementById("main-photo");
+  if (!containers.length && !mainPhoto) return;
+  let data;
+  try {
+    const res = await fetch("images/gallery.json");
+    data = await res.json();
+  } catch {
+    return;
+  }
+
+  if (mainPhoto && data.main && data.main.src) {
+    mainPhoto.src = data.main.src;
+    mainPhoto.alt = data.main.alt || "";
+  }
+
+  containers.forEach((container) => {
+    const key = container.getAttribute("data-gallery");
+    let gallery = data[key];
+    if (!gallery && key.startsWith("events-")) {
+      const eventKey = key.replace("events-", "");
+      gallery = data.events && data.events[eventKey] ? data.events[eventKey] : null;
+    }
+    if (!gallery) return;
+    const base = gallery.src || "";
+    const photos = gallery.photos || [];
+    photos.forEach((photo) => {
+      const src = resolvePhotoSrc(photo, base);
+      const caption = typeof photo === "string" ? "" : (photo.caption || "");
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "thumb-lightbox-trigger";
+      btn.setAttribute("data-fullsrc", src);
+      btn.setAttribute("data-caption", caption);
+      const img = document.createElement("img");
+      img.className = "travel-card-thumb";
+      img.src = src;
+      img.alt = caption;
+      img.loading = "lazy";
+      btn.appendChild(img);
+      container.appendChild(btn);
+    });
+  });
+}
 
 const closeLightbox = () => {
   if (!lightbox || !lightboxImage) return;
@@ -66,16 +118,15 @@ galleryItems.forEach((button) => {
   });
 });
 
-thumbTriggers.forEach((button) => {
-  button.addEventListener("click", () => {
-    const container = button.closest(".travel-card-thumbs");
-    const group = container ? Array.from(container.querySelectorAll(".thumb-lightbox-trigger")) : [button];
-    const idx = group.indexOf(button);
-    currentGroup = group;
-    // Location cards (6 thumbs): always start at index 0; Events (3 thumbs): start at clicked index
-    currentIndex = container && container.classList.contains("location-thumbs") ? 0 : (idx >= 0 ? idx : 0);
-    showAtIndex(currentIndex);
-  });
+document.addEventListener("click", (e) => {
+  const button = e.target.closest(".thumb-lightbox-trigger");
+  if (!button) return;
+  const container = button.closest(".travel-card-thumbs");
+  const group = container ? Array.from(container.querySelectorAll(".thumb-lightbox-trigger")) : [button];
+  const idx = group.indexOf(button);
+  currentGroup = group;
+  currentIndex = container && container.classList.contains("location-thumbs") ? 0 : (idx >= 0 ? idx : 0);
+  showAtIndex(currentIndex);
 });
 
 if (lightboxPrev) {
@@ -115,3 +166,5 @@ document.addEventListener("keydown", (event) => {
     }
   }
 });
+
+populateGalleryContainers();
