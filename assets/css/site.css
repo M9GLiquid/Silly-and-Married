@@ -50,6 +50,7 @@
   bottom: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 86;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -80,6 +81,7 @@
   display: inline-block;
   transform: rotate(90deg);
   animation: scroll-bounce 1.5s ease-in-out infinite;
+  pointer-events: none;
 }
 
 @keyframes scroll-bounce {
@@ -204,6 +206,14 @@
 }
 
 @media (max-width: 768px) {
+  .timeline-row {
+    margin-bottom: 0.8rem;
+  }
+
+  .timeline-row:last-child {
+    margin-bottom: 0;
+  }
+
   .timeline-alternating::before {
     left: 1rem;
     transform: none;
@@ -248,6 +258,10 @@
 
 .site-brand-title {
   white-space: nowrap;
+}
+
+.mobile-rsvp-fab {
+  display: none;
 }
 
 .torn-edge {
@@ -649,6 +663,7 @@
   object-fit: cover;
   border: 1px solid rgb(129 61 110 / 15%);
   filter: sepia(0.1) contrast(1.03);
+  cursor: pointer;
 }
 
 .story-inline-figure figcaption {
@@ -662,17 +677,17 @@
 @media (min-width: 900px) {
   .story-inline-figure {
     width: 260px;
+    float: none;
+    display: block;
+    clear: both;
+    margin: 0.75rem auto 0.95rem;
   }
 
   .story-inline-left {
-    float: left;
-    margin: 0.35rem 1rem 0.55rem 0;
     transform: rotate(-1deg);
   }
 
   .story-inline-right {
-    float: right;
-    margin: 0.35rem 0 0.55rem 1rem;
     transform: rotate(1deg);
   }
 }
@@ -1574,6 +1589,82 @@
 
   .travel-heading {
     font-size: 0.98rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .header-shell {
+    gap: 0.45rem;
+    padding: 0.5rem;
+  }
+
+  .site-brand-link {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0.5rem !important;
+    gap: 0.35rem !important;
+  }
+
+  .site-brand-link .material-symbols-outlined {
+    display: none;
+  }
+
+  .site-brand-title {
+    font-size: clamp(1.25rem, 6.2vw, 1.7rem) !important;
+  }
+
+  .menu-toggle-btn {
+    flex: 0 0 auto;
+    padding: 0.45rem 0.5rem !important;
+    font-size: 0.62rem !important;
+    letter-spacing: 0.08em;
+  }
+
+  .hero-copy {
+    order: 1;
+    text-align: center;
+  }
+
+  .hero-photo {
+    order: 2;
+  }
+
+  #main-photo {
+    height: 330px !important;
+  }
+
+  .hero-copy #home-title {
+    font-size: clamp(2.6rem, 13vw, 3.6rem) !important;
+    line-height: 0.9;
+  }
+
+  .hero-copy .rsvp-home-block {
+    margin-top: 0.75rem;
+  }
+
+  .mobile-rsvp-fab {
+    position: fixed;
+    right: 0.8rem;
+    bottom: 0.9rem;
+    z-index: 85;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.7rem 0.95rem;
+    border: 1px solid rgb(0 0 0 / 20%);
+    border-radius: 999px;
+    background: var(--primary);
+    color: var(--bg-base);
+    box-shadow: 0 7px 16px rgb(0 0 0 / 26%);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  #main-content {
+    padding-bottom: 6rem !important;
   }
 }
 

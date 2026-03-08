@@ -23,6 +23,8 @@
 
 ---
 
+## Mobile
+- [ ] 
 ## Story
 - [x] For the Story add in Italic and Bold to emphasis the proper things.
 - [x] The card (Border) around the story text feels a little bare. Can we make it feel like written hand letter on a letter or something? Be creative.

@@ -129,6 +129,21 @@ document.addEventListener("click", (e) => {
   showAtIndex(currentIndex);
 });
 
+document.addEventListener("click", (e) => {
+  const image = e.target.closest(".story-inline-figure img");
+  if (!image || !lightbox || !lightboxImage) return;
+  const figure = image.closest(".story-inline-figure");
+  const captionNode = figure ? figure.querySelector("figcaption") : null;
+  const caption = captionNode ? captionNode.textContent.trim() : "";
+  const source = image.currentSrc || image.src;
+  if (!source) return;
+
+  currentGroup = [];
+  showImage(source, caption, image.alt || caption);
+  if (lightboxPrev) lightboxPrev.hidden = true;
+  if (lightboxNext) lightboxNext.hidden = true;
+});
+
 if (lightboxPrev) {
   lightboxPrev.addEventListener("click", (e) => {
     e.stopPropagation();

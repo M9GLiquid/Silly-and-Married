@@ -1,7 +1,7 @@
 {
   "main": {
     "src": "images/main/AM&Thomas.png",
-    "alt": "Thomas and Annamária's first ceremony image.."
+    "alt": "Thomas and Annamária's first ceremony image."
   },
   "church": {
     "src": "images/church/",
@@ -32,26 +32,26 @@
     "pohoda": {
       "src": "",
       "photos": [
-        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Bukahara_Pohoda_Festival_2019.jpg/800px-Bukahara_Pohoda_Festival_2019.jpg", "caption": "Pohoda Festival" },
-        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Pohoda_Areal-shot_Adam_Zvolensky.jpg/800px-Pohoda_Areal-shot_Adam_Zvolensky.jpg", "caption": "Pohoda festival grounds" },
-        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/20240712-_PHD7217_PEGGY_GOU_ATMOSF%C3%89RA_ONDREJ_KOSCIK.PHOTOS_POHODA_2024.jpg/800px-20240712-_PHD7217_PEGGY_GOU_ATMOSF%C3%89RA_ONDREJ_KOSCIK.PHOTOS_POHODA_2024.jpg", "caption": "Pohoda 2024" },
-        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/The_Pixies_at_Pohoda_music_festival_2006.jpg/800px-The_Pixies_at_Pohoda_music_festival_2006.jpg", "caption": "The Pixies at Pohoda 2006" }
+        { "src": "https://picsum.photos/id/1011/800/600", "caption": "Festival atmosphere" },
+        { "src": "https://picsum.photos/id/1035/800/600", "caption": "Open-air crowd mood" },
+        { "src": "https://picsum.photos/id/1040/800/600", "caption": "Summer event vibes" },
+        { "src": "https://picsum.photos/id/1050/800/600", "caption": "Evening festival scene" }
       ]
     },
     "castle": {
       "src": "",
       "photos": [
-        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Tren%C4%8D%C3%ADn_Castle_60.jpg/800px-Tren%C4%8D%C3%ADn_Castle_60.jpg", "caption": "Trenčín Castle" },
-        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Trencin_Castle_030.jpg/800px-Trencin_Castle_030.jpg", "caption": "Trenčín Castle view" },
-        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Tren%C4%8Din.JPG/800px-Tren%C4%8Din.JPG", "caption": "Trenčín" }
+        { "src": "https://picsum.photos/id/1043/800/600", "caption": "Castle hill view" },
+        { "src": "https://picsum.photos/id/1069/800/600", "caption": "Old city panorama" },
+        { "src": "https://picsum.photos/id/1076/800/600", "caption": "Historic architecture" }
       ]
     },
     "trencin2026": {
       "src": "",
       "photos": [
-        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Tren%C4%8D%C3%ADn_16.jpg/800px-Tren%C4%8D%C3%ADn_16.jpg", "caption": "Trenčín 2026" },
-        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Katapult%2C_Tren%C4%8Diansky_hrad_%282008%29.jpg/800px-Katapult%2C_Tren%C4%8Diansky_hrad_%282008%29.jpg", "caption": "Trenčín Castle concert" },
-        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Map_slovakia_trencin.png/800px-Map_slovakia_trencin.png", "caption": "Trenčín region" }
+        { "src": "https://picsum.photos/id/1080/800/600", "caption": "City culture scene" },
+        { "src": "https://picsum.photos/id/1068/800/600", "caption": "Concert and events mood" },
+        { "src": "https://picsum.photos/id/1044/800/600", "caption": "City and region overview" }
       ]
     },
     "beckov": {
@@ -66,9 +66,9 @@
     "thingsToDo": {
       "src": "",
       "photos": [
-        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Tren%C4%8Dianske_teplice_-_park.JPG/800px-Tren%C4%8Dianske_teplice_-_park.JPG", "caption": "Trenčianske Teplice" },
-        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Trencianske_Teplice_Slovakia_aka_Jalta.JPG/800px-Trencianske_Teplice_Slovakia_aka_Jalta.JPG", "caption": "Trenčianske Teplice spa" },
-        { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Siladice%2C_Slovakia_-_The_Vah_River_-_panoramio.jpg/800px-Siladice%2C_Slovakia_-_The_Vah_River_-_panoramio.jpg", "caption": "Váh River" }
+        { "src": "https://picsum.photos/id/1039/800/600", "caption": "Relaxing day trip" },
+        { "src": "https://picsum.photos/id/1056/800/600", "caption": "Spa and wellness feel" },
+        { "src": "https://picsum.photos/id/1025/800/600", "caption": "Riverside and nature" }
       ]
     }
   }

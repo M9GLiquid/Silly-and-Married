@@ -57,7 +57,7 @@
         <a class="note-link" href="#home" data-scroll-to="home">Home</a>
         <a class="note-link" href="travel.html#travel">Travel</a>
         <a class="note-link" href="story.html">Story</a>
-        <a class="rsvp-home-btn" href="#rsvp" data-scroll-to="rsvp">
+        <a class="rsvp-home-btn" href="https://forms.gle/Hgje4BP29G5tbi1d7">
           <span class="material-symbols-outlined" aria-hidden="true">edit_note</span>
           RSVP
         </a>
@@ -77,28 +77,37 @@
     </div>
   </header>
   <div id="menu-overlay" class="menu-overlay" hidden aria-hidden="true"></div>
+  <a href="https://forms.gle/Hgje4BP29G5tbi1d7" class="mobile-rsvp-fab" aria-label="Open RSVP section">
+    <span class="material-symbols-outlined" aria-hidden="true">edit_note</span>
+    RSVP
+  </a>
 
   <main id="main-content" class="max-w-6xl mx-auto px-4 pt-32 pb-20 space-y-28">
     <section id="home" class="relative" aria-labelledby="home-title">
       <div class="relative z-10 grid md:grid-cols-2 gap-10 items-center">
-        <div class="relative">
+        <div class="relative hero-photo">
           <figure class="polaroid -rotate-2 transition-transform hover:rotate-0 duration-500">
             <button type="button" id="main-photo-trigger" class="main-photo-trigger block w-full cursor-pointer border-0 p-0 bg-transparent text-left" aria-label="View photo enlarged">
-              <img id="main-photo" src="images/venue/venue3.png" alt="Romantic view of zelenýdeň wedding venue in Bošáca." class="w-full h-[430px] object-cover" loading="eager" fetchpriority="high">
+              <img id="main-photo" src="images/main/AM&amp;Thomas.png" alt="Thomas and Annamária's first ceremony image." class="w-full h-[430px] object-cover" loading="eager" fetchpriority="high">
             </button>
             <figcaption class="font-handwriting text-2xl text-center mt-6 text-sepia/80 italic">True love is a story that never ends.</figcaption>
           </figure>
         </div>
-        <div class="space-y-6 text-center md:text-left">
+        <div class="space-y-6 text-center md:text-left hero-copy">
           <h1 id="home-title" class="text-6xl md:text-8xl font-header text-sepia leading-none notranslate">Thomas &amp; Annamária</h1>
           <div class="h-px w-24 bg-sepia/30 mx-auto md:mx-0"></div>
           <p class="font-body text-lg md:text-xl text-ink">July 25, 2026<br>Trenčín, Slovakia</p>
           <p class="font-handwriting text-primary text-xl -rotate-2 leading-relaxed">
-            We cannot wait to celebrate with our families and friends! Below you will find the full schedule and both event locations. For travel guidance from Vienna Airport, see the Travel page.
+            We cannot wait to celebrate our big day with all of you! <br \>
+            Below you will find the full schedule and both event locations. <br \>
+            For travel guidance and events, see the <a href="travel.html" style="text-decoration: none; color: inherit">Travel page</a>. <br \>
           </p>
           <div class="rsvp-home-block">
-            <p class="rsvp-home-desc font-body text-xs uppercase tracking-widest text-sepia/80 mb-3">Select your diet, accept the invite &amp; more</p>
-            <a href="#rsvp" class="rsvp-home-btn inline-flex items-center gap-2" data-scroll-to="rsvp">
+            <p class="rsvp-home-desc font-body text-xs uppercase tracking-widest text-sepia/80 mb-3">
+              Confirm attendance, name your party, 
+              <br \>dietary preferences &amp; more
+            </p>
+            <a href="https://forms.gle/Hgje4BP29G5tbi1d7" class="rsvp-home-btn inline-flex items-center gap-2">
               <span class="material-symbols-outlined" aria-hidden="true">edit_note</span>
               RSVP
             </a>
@@ -123,17 +132,17 @@
               <h3 class="font-body font-bold text-xl uppercase tracking-tight">Ceremony</h3>
               <span class="time-chip">13:00</span>
             </div>
-            <p class="font-handwriting text-2xl text-sepia mb-1">Church Wedding</p>
+            <p class="font-handwriting text-2xl text-sepia mb-1">Evangelic Church</p>
             <p class="text-xs opacity-80">Zemianske Podhradie 119, 913 07 Zemianske Podhradie, Slovakia</p>
           </article>
         </li>
         <li class="timeline-row timeline-row-right">
           <article class="schedule-event-card p-6 shadow-md border-b-2 border-primary/20">
             <div class="flex justify-between items-start gap-4 mb-3">
-              <h3 class="font-body font-bold text-xl uppercase tracking-tight">Reception &amp; Dinner</h3>
-              <span class="time-chip">16:30</span>
+              <h3 class="font-body font-bold text-xl uppercase tracking-tight">Wedding Reception</h3>
+              <span class="time-chip">15:00</span>
             </div>
-            <p class="font-handwriting text-2xl text-sepia mb-1 notranslate">zelenýdeň</p>
+            <p class="font-handwriting text-2xl text-sepia mb-1 notranslate">Zelenýdeň venue</p>
             <p class="text-xs opacity-80">Bošáca 247, 913 07 Bošáca, Slovakia</p>
           </article>
         </li>
@@ -144,7 +153,7 @@
               <span class="time-chip">20:00</span>
             </div>
             <p class="font-handwriting text-2xl text-sepia mb-1">Music, cake, and dancing</p>
-            <p class="text-xs opacity-80">Continue at zelenýdeň into the evening.</p>
+            <p class="text-xs opacity-80">Continue at zelenýdeň venue into the evening.</p>
           </article>
         </li>
       </ol>
@@ -168,7 +177,10 @@
               Maps
             </a>
           </div>
-          <p>Not a traditional church. This 1801 neo-classical Evangelical building has an elliptical floor plan (one of only two in Central Europe) with four doors facing each cardinal direction and no main entrance.</p>
+          <p>
+            Not a traditional church. <br \>
+            This 1801 neo-classical Evangelical building has an elliptical floor plan (one of only two in Central Europe) 
+            with four doors facing each cardinal direction and no main entrance.</p>
           <div class="travel-card-bottom">
             <div class="travel-card-thumbs location-thumbs" data-gallery="church" role="list">
               <!-- Populated by gallery.js from images/gallery.json -->
@@ -187,7 +199,11 @@
               Maps
             </a>
           </div>
-          <p>An outdoor venue in Bošáca with gardens and event spaces. The name means &quot;green day&quot;: a fitting setting for our celebration. Visit zelenyden.com for more about the venue.</p>
+          <p>
+            An outdoor venue in Bošáca with gardens and event spaces. <br \>
+            The name means &quot;green day&quot;: a fitting setting for our celebration. <br \>
+            It's a traditional slovakian farmhouse, and they even have chickens! <br \>
+          </p> 
           <div class="travel-card-bottom">
             <ul class="travel-links">
               <li><a href="https://zelenyden.com/" target="_blank" rel="noopener noreferrer">zelenyden.com</a></li>
@@ -212,10 +228,14 @@
             <span class="material-symbols-outlined" aria-hidden="true">checkroom</span>
             Dress code
           </h2>
-          <p class="mb-3">Smart casual. The ceremony is in a church and the reception is outdoors at the venue.</p>
+          <p class="mb-3">
+            Smart casual, and don't be afraid of colors! <br \>
+            The ceremony is in a church and the reception is at the venue. <br \>
+            Expect warm weather.
+          </p>
           <ul class="dress-code-tips">
-            <li>~10 minutes walk from church to venue: comfortable, walkable shoes.</li>
-            <li>Summer: light, breathable fabrics and sun protection.</li>
+            <li>About 20 minutes walk from church to venue: comfortable, walkable shoes.</li>
+            <li>Summer weather: light, breathable fabrics and sun protection.</li>
           </ul>
         </article>
 
@@ -224,7 +244,11 @@
             <span class="material-symbols-outlined" aria-hidden="true">card_giftcard</span>
             Gifts
           </h2>
-          <p>Your presence is the greatest gift. If you wish to give something, we would be delighted with a contribution toward our honeymoon rather than physical gifts. That said, we are equally happy with any gift; the thought matters most.</p>
+          <p>
+            Your presence is the greatest gift. <br \> 
+            If you wish to give us something, we would be delighted with a contribution toward our honeymoon rather than physical gifts. <br \>
+            That said, we are equally happy with any gift, its the thought matters most.
+          </p>
           <div class="mt-4 address-card address-card-compact">
             <div class="address-card-header">
               <span class="address-label">Bank transfer (honeymoon fund)</span>
@@ -241,13 +265,6 @@ Account holder: Thomas &amp; Annamária</pre>
       </div>
     </section>
 
-    <section id="rsvp" class="space-y-6" aria-labelledby="rsvp-title">
-      <div class="text-center">
-        <h2 id="rsvp-title" class="text-5xl font-header text-sepia">RSVP</h2>
-        <p class="font-body text-sm mt-2 text-sepia/80">Let us know you&apos;re coming!</p>
-        <!-- When ready: replace the paragraph above with an iframe embedding your Google form, or add a link/button that opens the form URL -->
-      </div>
-    </section>
   </main>
 
   <footer class="text-center pt-8 pb-12 border-t border-sepia/20 space-y-7 max-w-6xl mx-auto px-4">
@@ -256,7 +273,7 @@ Account holder: Thomas &amp; Annamária</pre>
     </a>
     <p class="font-body text-sm">
       Questions? Email us at
-      <a href="mailto:thomas.lundqvist.1991@gmail.com" class="text-primary hover:underline italic font-bold">thomas.lundqvist.1991@gmail.com</a>
+      <a href="mailto:sillyandmarried2026@gmail.com" class="text-primary hover:underline italic font-bold">sillyandmarried2026@gmail.com</a>
     </p>
     <p class="font-handwriting text-3xl text-sepia">We cannot wait to celebrate with you in Slovakia.</p>
     <p class="text-[10px] font-body tracking-[0.3em] uppercase opacity-60">© 2026 Thomas &amp; Annamária Wedding</p>
