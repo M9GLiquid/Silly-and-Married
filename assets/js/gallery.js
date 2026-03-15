@@ -194,8 +194,6 @@ if (document.readyState === "loading") {
   initGalleries();
 }
 
-document.addEventListener("events:rendered", initGalleries);
-
 const mainPhotoTrigger = document.getElementById("main-photo-trigger");
 if (mainPhotoTrigger) {
   mainPhotoTrigger.addEventListener("click", () => {

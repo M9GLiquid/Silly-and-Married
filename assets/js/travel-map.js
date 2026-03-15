@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   const mapElement = document.getElementById("regional-map-canvas");
   if (!mapElement || typeof L === "undefined") return;
+  const dataApi = window.travelEventData;
+  const detailViewApi = window.travelEventDetailView;
+  if (!dataApi || !detailViewApi) return;
 
   const detailModal = document.getElementById("map-detail-modal");
   const detailTitle = document.getElementById("map-detail-title");
@@ -11,21 +14,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const detailDirections = document.getElementById("map-detail-directions");
   const detailClose = document.getElementById("map-detail-close");
   const mapFocusList = document.getElementById("map-focus-list");
-
-  const normalizeText = (value) => (value || "").replace(/\s+/g, " ").trim();
-  const cardHeadingText = (card) => {
-    const heading = card.querySelector(".travel-heading");
-    if (!heading) return "";
-    const clonedHeading = heading.cloneNode(true);
-    const iconNode = clonedHeading.querySelector(".material-symbols-outlined");
-    if (iconNode) iconNode.remove();
-    return normalizeText(clonedHeading.textContent);
-  };
-
-  const findEventCardByTitle = (title) => {
-    const cards = document.querySelectorAll("#events .travel-card");
-    const wanted = normalizeText(title);
-    return Array.from(cards).find((card) => cardHeadingText(card) === wanted) || null;
+  let galleryData = {};
+  const inferGoogleMapsUrl = (links) => {
+    if (!Array.isArray(links)) return "";
+    const match = links.find((link) => {
+      const href = link && typeof link.href === "string" ? link.href : "";
+      return /google\.[^/]+\/maps\//i.test(href);
+    });
+    return match && typeof match.href === "string" ? match.href : "";
   };
 
   const map = L.map("regional-map-canvas", {
@@ -44,8 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       title: "Vienna Airport (VIE)",
       type: "Airport",
-      lat: 48.1103,
-      lng: 16.5697,
+      lat: 48.1179477,
+      lng: 16.5662578,
       markerClass: "is-airport",
       icon: "flight_takeoff",
       description:
@@ -55,7 +51,8 @@ document.addEventListener("DOMContentLoaded", () => {
           label: "Vienna Airport transport overview",
           href: "https://www.viennaairport.com/en/passengers/arrival__parking"
         }
-      ]
+      ],
+      mapsUrl: "https://www.google.com/maps/place/Vienna+International+Airport/@48.1193276,16.4513178,12.79z/data=!4m6!3m5!1s0x476c55ab471abe9b:0x247a52108dd29b4b!8m2!3d48.1179477!4d16.5662578!16zL20vMDE1MzFk?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D"
     },
     {
       title: "Wedding Church (Zemianske Podhradie)",
@@ -71,7 +68,8 @@ document.addEventListener("DOMContentLoaded", () => {
           label: "Open church location in Google Maps",
           href: "https://www.google.com/maps/search/?api=1&query=48.8391,17.8360"
         }
-      ]
+      ],
+      mapsUrl: "https://www.google.com/maps/search/?api=1&query=48.8391,17.8360"
     },
     {
       title: "Wedding Venue (zelenyden, Bosaca)",
@@ -87,7 +85,8 @@ document.addEventListener("DOMContentLoaded", () => {
           label: "Open venue location in Google Maps",
           href: "https://www.google.com/maps/search/?api=1&query=48.8278,17.8391"
         }
-      ]
+      ],
+      mapsUrl: "https://www.google.com/maps/search/?api=1&query=48.8278,17.8391"
     }
   ];
   const locationById = new Map();
@@ -113,58 +112,11 @@ document.addEventListener("DOMContentLoaded", () => {
       popupAnchor: [0, -28]
     });
 
-  const buildDirectionsUrl = (lat, lng) =>
-    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${lat},${lng}`)}`;
-
   const closeMapDetail = () => {
     if (!detailModal) return;
     detailModal.classList.add("hidden");
     document.body.classList.remove("modal-open");
     if (detailBody) detailBody.innerHTML = "";
-  };
-
-  const buildLinksList = (links) => {
-    if (!links || !links.length) return null;
-    const list = document.createElement("ul");
-    list.className = "travel-links";
-    links.forEach((link) => {
-      const item = document.createElement("li");
-      const anchor = document.createElement("a");
-      anchor.href = link.href;
-      anchor.target = "_blank";
-      anchor.rel = "noopener noreferrer";
-      anchor.textContent = link.label;
-      item.appendChild(anchor);
-      list.appendChild(item);
-    });
-    return list;
-  };
-
-  const buildStaticDetailContent = (location) => {
-    const wrapper = document.createElement("div");
-    wrapper.className = "map-detail-content";
-    if (location.description) {
-      const paragraph = document.createElement("p");
-      paragraph.textContent = location.description;
-      wrapper.appendChild(paragraph);
-    }
-    const linksList = buildLinksList(location.links);
-    if (linksList) wrapper.appendChild(linksList);
-    return wrapper;
-  };
-
-  const buildEventDetailContent = (location) => {
-    const eventCard = findEventCardByTitle(location.cardTitle || location.title);
-    if (!eventCard) return buildStaticDetailContent(location);
-    const wrapper = document.createElement("div");
-    wrapper.className = "map-detail-content events-cards-grid";
-
-    const descriptionNode = eventCard.querySelector("p");
-    if (descriptionNode) wrapper.appendChild(descriptionNode.cloneNode(true));
-    const bottomNode = eventCard.querySelector(".travel-card-bottom");
-    if (bottomNode) wrapper.appendChild(bottomNode.cloneNode(true));
-
-    return wrapper;
   };
 
   const openMapDetail = (location) => {
@@ -178,12 +130,9 @@ document.addEventListener("DOMContentLoaded", () => {
       detailIcon.textContent = location.icon || "event";
     }
     detailType.textContent = location.type;
-    detailDirections.href = buildDirectionsUrl(location.lat, location.lng);
+    detailDirections.href = detailViewApi.buildDirectionsUrl(location);
     detailBody.innerHTML = "";
-    const contentNode =
-      location.type === "Event"
-        ? buildEventDetailContent(location)
-        : buildStaticDetailContent(location);
+    const contentNode = detailViewApi.buildDetailContent(location, galleryData);
     detailBody.appendChild(contentNode);
     detailModal.classList.remove("hidden");
     document.body.classList.add("modal-open");
@@ -384,10 +333,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const loadEventLocations = async () => {
-    let data;
+    let eventLocations = [];
     try {
-      const response = await fetch("assets/data/events.json");
-      data = await response.json();
+      const loaded = await dataApi.loadTravelEventData();
+      eventLocations = Array.isArray(loaded.eventLocations) ? loaded.eventLocations : [];
+      galleryData = loaded.galleryData;
     } catch {
       assignLocationIds(baseLocations);
       addMarkers(baseLocations);
@@ -396,19 +346,10 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const eventLocations = (Array.isArray(data.items) ? data.items : [])
-      .filter((item) => item.map && typeof item.map.lat === "number" && typeof item.map.lng === "number")
-      .map((item) => ({
-        title: item.title,
-        cardTitle: item.title,
-        type: "Event",
-        lat: item.map.lat,
-        lng: item.map.lng,
-        markerClass: "is-event",
-        icon: item.icon || "event"
-      }));
-
     const allLocations = [...baseLocations, ...eventLocations];
+    allLocations.forEach((location) => {
+      if (!location.mapsUrl) location.mapsUrl = inferGoogleMapsUrl(location.links);
+    });
     assignLocationIds(allLocations);
     addMarkers(allLocations);
     renderFocusList(allLocations);

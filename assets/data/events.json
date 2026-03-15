@@ -12,6 +12,7 @@
         }
       ],
       "galleryKey": "pohoda",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Tren%C4%8D%C3%ADn+Airport",
       "map": { "lat": 48.8653, "lng": 17.9924 }
     },
     {
@@ -25,7 +26,8 @@
         }
       ],
       "galleryKey": "castle",
-      "map": { "lat": 48.8948, "lng": 18.0438 }
+      "mapsUrl": "https://www.google.com/maps/place/Tren%C4%8D%C3%ADn+Castle/@48.8941843,18.0447823,18.75z/data=!4m12!1m5!3m4!2zNDjCsDUzJzM5LjAiTiAxOMKwMDInNDEuMCJF!8m2!3d48.894167!4d18.044722!3m5!1s0x4714a189b701e7fd:0xd43326006bc9421b!8m2!3d48.8941247!4d18.0447491!16s%2Fm%2F026_hry?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D",
+      "map": { "lat": 48.8941247, "lng": 18.0447491 }
     },
     {
       "title": "Trenčín 2026: European Capital of Culture",
@@ -38,6 +40,7 @@
         }
       ],
       "galleryKey": "trencin2026",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Mierov%C3%A9+n%C3%A1mestie%2C+Tren%C4%8D%C3%ADn",
       "map": { "lat": 48.8945, "lng": 18.0444 }
     },
     {
@@ -55,7 +58,8 @@
         }
       ],
       "galleryKey": "beckov",
-      "map": { "lat": 48.7899, "lng": 17.8996 }
+      "mapsUrl": "https://www.google.com/maps/place/Castle+of+Beckov/@48.7909,17.8981,17z/data=!4m12!1m5!3m4!2zNDjCsDQ3JzI3LjIiTiAxN8KwNTMnNTMuMiJF!8m2!3d48.7909!4d17.8981!3m5!1s0x4714a7d922233917:0x56c30b8882a83811!8m2!3d48.790926!4d17.898352!16s%2Fm%2F03m4ncc?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D",
+      "map": { "lat": 48.790926, "lng": 17.898352 }
     },
     {
       "title": "Trenčianske Teplice Spa",
@@ -68,7 +72,8 @@
         }
       ],
       "galleryKey": "teplice",
-      "map": { "lat": 48.9106, "lng": 18.1660 }
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=48.9106,18.1669",
+      "map": { "lat": 48.9106, "lng": 18.1669 }
     },
     {
       "title": "Bojnice Castle",
@@ -81,7 +86,8 @@
         }
       ],
       "galleryKey": "bojnice",
-      "map": { "lat": 48.7797, "lng": 18.5808 }
+      "mapsUrl": "https://www.google.com/maps/place/Bojnice+Castle/@48.7803005,18.5778653,18.5z/data=!4m12!1m5!3m4!2zNDjCsDQ2JzQ4LjgiTiAxOMKwMzQnMzkuOCJF!8m2!3d48.780216!4d18.57773!3m5!1s0x4714c3332a67a77d:0xf02cb1e58579a967!8m2!3d48.7802456!4d18.5775439!16zL20vMGYxOWc2?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D",
+      "map": { "lat": 48.7802456, "lng": 18.5775439 }
     },
     {
       "title": "Čachtice Castle",
@@ -94,7 +100,8 @@
         }
       ],
       "galleryKey": "cachtice",
-      "map": { "lat": 48.7147, "lng": 17.7873 }
+      "mapsUrl": "https://www.google.com/maps/place/%C4%8Cachtice+Castle/@48.7217244,17.7572838,15.75z/data=!4m6!3m5!1s0x4713567c19781a49:0x36696224736e06a4!8m2!3d48.7251091!4d17.7609348!16zL20vMDZfejh4?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D",
+      "map": { "lat": 48.7251091, "lng": 17.7609348 }
     },
     {
       "title": "Mikulov",
@@ -107,6 +114,7 @@
         }
       ],
       "galleryKey": "mikulov",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=48.805556,16.637778",
       "map": { "lat": 48.8056, "lng": 16.6378 }
     },
     {
@@ -120,7 +128,8 @@
         }
       ],
       "galleryKey": "lednicevaltice",
-      "map": { "lat": 48.7660, "lng": 16.8000 }
+      "mapsUrl": "https://www.google.com/maps/place/Z%C3%A1meck%C3%BD+sklen%C3%ADk/@48.8012321,16.8036296,16.75z/data=!4m6!3m5!1s0x4712d4a2d0a6acc7:0x15fb5452b65ca014!8m2!3d48.8014842!4d16.8067271!16s%2Fg%2F11bw_41rd1?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D",
+      "map": { "lat": 48.8014842, "lng": 16.8067271 }
     },
     {
       "title": "Vienna Museums & Imperial Core",
@@ -145,7 +154,8 @@
         }
       ],
       "galleryKey": "vienna",
-      "map": { "lat": 48.2044, "lng": 16.3617 }
+      "mapsUrl": "https://www.google.com/maps/place/Maria-Theresien-Platz/@48.203333,16.358889,17z/data=!4m12!1m5!3m4!2zNDjCsDEyJzEyLjAiTiAxNsKwMjEnMzIuMCJF!8m2!3d48.203333!4d16.358889!3m5!1s0x476d079088ef6409:0xe526c1419cb0f778!8m2!3d48.2046208!4d16.3609674!16zL20vMDhxdzBx?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D",
+      "map": { "lat": 48.2046208, "lng": 16.3609674 }
     },
     {
       "title": "Bratislava Old Town & Castle Walk",
@@ -166,7 +176,8 @@
         }
       ],
       "galleryKey": "bratislava",
-      "map": { "lat": 48.1421, "lng": 17.1047 }
+      "mapsUrl": "https://www.google.com/maps/place/Hrad,+811+01+Bratislava,+Slovakia/@48.1430037,17.0963917,17z/data=!3m1!4b1!4m12!1m5!3m4!2zNDjCsDA4JzMxLjYiTiAxN8KwMDYnMDAuOSJF!8m2!3d48.142109!4d17.100235!3m5!1s0x476c8960aa541c79:0xae070216e75cadbf!8m2!3d48.1430552!4d17.1024628!16s%2Fg%2F11xd1j56s?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D",
+      "map": { "lat": 48.1430552, "lng": 17.1024628 }
     },
     {
       "title": "Červený Kameň Castle",
@@ -183,7 +194,8 @@
         }
       ],
       "galleryKey": "cervenykamen",
-      "map": { "lat": 48.3917, "lng": 17.3356 }
+      "mapsUrl": "https://www.google.com/maps/place/%C4%8Cerven%C3%BD+Kame%C5%88+Castle/@48.3914829,17.3356268,18z/data=!4m12!1m5!3m4!2zNDjCsDIzJzI5LjkiTiAxN8KwMjAnMDcuNyJF!8m2!3d48.3916389!4d17.3354722!3m5!1s0x476cbd6a9ee0ad83:0xba592cad1b2f2a7e!8m2!3d48.391572!4d17.3355219!16s%2Fm%2F0275prv?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D",
+      "map": { "lat": 48.391572, "lng": 17.3355219 }
     },
     {
       "title": "Zlín Functionalist Route",
@@ -196,7 +208,8 @@
         }
       ],
       "galleryKey": "zlin",
-      "map": { "lat": 49.2244, "lng": 17.6628 }
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=49.2265,17.6707",
+      "map": { "lat": 49.2265, "lng": 17.6707 }
     },
     {
       "title": "Vienna Prater & Danube Evening",
@@ -213,7 +226,8 @@
         }
       ],
       "galleryKey": "prater",
-      "map": { "lat": 48.2163, "lng": 16.4017 }
+      "mapsUrl": "https://www.google.com/maps/place/Viennese+Giant+Ferris+Wheel/@48.2160855,16.3956386,17.25z/data=!4m12!1m5!3m4!2zNDjCsDEyJzU4LjAiTiAxNsKwMjMnNDQuMCJF!8m2!3d48.21611!4d16.395555!3m5!1s0x476d070f8c8d8525:0xacd6a16779e55706!8m2!3d48.2166995!4d16.3959008!16zL20vMDRfMjJ0?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D",
+      "map": { "lat": 48.2166995, "lng": 16.3959008 }
     },
     {
       "title": "Thermal Day / Aquapark",
@@ -230,7 +244,8 @@
         }
       ],
       "galleryKey": "aquapark",
-      "map": { "lat": 48.2267, "lng": 17.2554 }
+      "mapsUrl": "https://www.google.com/maps/place/AQUAPARK+Senec/@48.2208363,17.415293,17z/data=!4m6!3m5!1s0x476c9ce5e2ba2bef:0xf5e734b1240c833a!8m2!3d48.220903!4d17.4156841!16s%2Fg%2F1tg80840?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D",
+      "map": { "lat": 48.220903, "lng": 17.4156841 }
     },
     {
       "title": "Zoo / Wildlife Park Stop",
@@ -243,7 +258,8 @@
         }
       ],
       "galleryKey": "zoo",
-      "map": { "lat": 48.1686, "lng": 17.0722 }
+      "mapsUrl": "https://www.google.com/maps/place/Zoo+Bratislava/@48.1733692,17.0496526,13.75z/data=!4m6!3m5!1s0x476c8b8c885014bf:0x17047c336ba8f7a6!8m2!3d48.1566878!4d17.0757307!16s%2Fm%2F02qqtxh?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D",
+      "map": { "lat": 48.1566878, "lng": 17.0757307 }
     },
     {
       "title": "Craft Beer + Food Hall Stop",
@@ -260,6 +276,7 @@
         }
       ],
       "galleryKey": "foodhall",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Star%C3%A1+tr%C5%BEnica%2C+N%C3%A1mestie+SNP+25%2C+Bratislava",
       "map": { "lat": 48.1468, "lng": 17.1133 }
     }
   ]
