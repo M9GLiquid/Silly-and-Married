@@ -32,10 +32,12 @@
     "pohoda": {
       "src": "",
       "photos": [
-        { "src": "https://picsum.photos/id/1011/800/600", "caption": "Festival atmosphere" },
-        { "src": "https://picsum.photos/id/1035/800/600", "caption": "Open-air crowd mood" },
-        { "src": "https://picsum.photos/id/1040/800/600", "caption": "Summer event vibes" },
-        { "src": "https://picsum.photos/id/1050/800/600", "caption": "Evening festival scene" }
+        { "src": "images/Pohoda-1.jpg", "caption": "Pohoda Festival photo 1" },
+        { "src": "images/Pohoda-2.jpg", "caption": "Pohoda Festival photo 2" },
+        { "src": "images/Pohoda-3.jpg", "caption": "Pohoda Festival photo 3" },
+        { "src": "images/Pohoda-4.jpg", "caption": "Pohoda Festival photo 4" },
+        { "src": "images/Pohoda-5.jpg", "caption": "Pohoda Festival photo 5" },
+        { "src": "images/Pohoda-6.png", "caption": "Pohoda Festival photo 6" }
       ]
     },
     "castle": {
