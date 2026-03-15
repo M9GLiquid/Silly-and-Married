@@ -1,0 +1,266 @@
+{
+  "lastVerified": "Last verified February 2026. Check official sites for updates.",
+  "items": [
+    {
+      "title": "Pohoda Festival",
+      "icon": "festival",
+      "description": "Slovakia's biggest music festival lands at Trenčín Airport July 8-11, two weeks before the wedding; perfect if you're extending your trip. The 30th anniversary edition features The Cure plus 130+ acts across 16 stages.",
+      "links": [
+        {
+          "label": "Pohoda Festival: tickets & info",
+          "href": "https://www.pohodafestival.sk/en/tickets-2026"
+        }
+      ],
+      "galleryKey": "pohoda",
+      "map": { "lat": 48.8653, "lng": 17.9924 }
+    },
+    {
+      "title": "Trenčín Castle",
+      "icon": "castle",
+      "description": "Perched above Trenčín, this is one of Central Europe's largest castles. Summer opening (May-Sept) 9:00-18:45. Don't miss The Well of Love running through late August 2026.",
+      "links": [
+        {
+          "label": "Trenčín Castle: visitor info",
+          "href": "https://visit.trencin.sk/en/trencin-castle/"
+        }
+      ],
+      "galleryKey": "castle",
+      "map": { "lat": 48.8948, "lng": 18.0438 }
+    },
+    {
+      "title": "Trenčín 2026: European Capital of Culture",
+      "icon": "celebration",
+      "description": "Trenčín holds the European Capital of Culture title in 2026. Concerts, exhibitions, and theatre run year-round; browse the calendar for what's on during your July visit.",
+      "links": [
+        {
+          "label": "Trenčín 2026: events calendar",
+          "href": "https://www.trencin2026.eu/en/events/"
+        }
+      ],
+      "galleryKey": "trencin2026",
+      "map": { "lat": 48.8945, "lng": 18.0444 }
+    },
+    {
+      "title": "Beckov Castle events (day trip)",
+      "icon": "event",
+      "description": "About 20 km from Trenčín, Beckov hosts themed historical events and jousting-style shows. A popular half-day trip if you're staying on.",
+      "links": [
+        {
+          "label": "Visit Trenčín: Beckov Castle overview",
+          "href": "https://visit.trencin.sk/en/beckov-castle/"
+        },
+        {
+          "label": "Beckov Castle: event calendar",
+          "href": "https://www.hrad-beckov.sk/podujatia"
+        }
+      ],
+      "galleryKey": "beckov",
+      "map": { "lat": 48.7899, "lng": 17.8996 }
+    },
+    {
+      "title": "Trenčianske Teplice Spa",
+      "icon": "hot_tub",
+      "description": "Thermal pools, wellness, and classic spa-town atmosphere. Ideal for a slower recovery day after travel or wedding celebrations.",
+      "links": [
+        {
+          "label": "Official spa site",
+          "href": "https://www.kupele-teplice.sk/en/home/"
+        }
+      ],
+      "galleryKey": "teplice",
+      "map": { "lat": 48.9106, "lng": 18.1660 }
+    },
+    {
+      "title": "Bojnice Castle",
+      "icon": "castle",
+      "description": "One of Slovakia's most iconic castles. Great day-trip option by car if you want a classic fairytale-castle experience.",
+      "links": [
+        {
+          "label": "Bojnice Castle official site",
+          "href": "https://bojnicecastle.sk/en/"
+        }
+      ],
+      "galleryKey": "bojnice",
+      "map": { "lat": 48.7797, "lng": 18.5808 }
+    },
+    {
+      "title": "Čachtice Castle",
+      "icon": "history_edu",
+      "description": "Historic hilltop ruins with panoramic views and one of the region's best-known castle legends. Easy add-on if you are driving.",
+      "links": [
+        {
+          "label": "Čachtice Castle official site",
+          "href": "https://cachtickyhrad.eu/"
+        }
+      ],
+      "galleryKey": "cachtice",
+      "map": { "lat": 48.7147, "lng": 17.7873 }
+    },
+    {
+      "title": "Mikulov",
+      "icon": "wine_bar",
+      "description": "Beautiful South Moravian town near the border, known for old-town charm, vineyards, and relaxed wine-region atmosphere.",
+      "links": [
+        {
+          "label": "Mikulov visitor info",
+          "href": "https://www.mikulov.cz/en/"
+        }
+      ],
+      "galleryKey": "mikulov",
+      "map": { "lat": 48.8056, "lng": 16.6378 }
+    },
+    {
+      "title": "Lednice & Valtice",
+      "icon": "park",
+      "description": "A UNESCO-listed chateau landscape known for elegant gardens, romantic park paths, and relaxed wine-country towns. Great full-day option if you want beautiful architecture, easy scenic stops, and a slower Czech-border pace.",
+      "links": [
+        {
+          "label": "Lednice-Valtice overview",
+          "href": "https://www.visitczechia.com/en-us/things-to-do/places/landmarks/unesco/c-lednice-valtice-area-unesco"
+        }
+      ],
+      "galleryKey": "lednicevaltice",
+      "map": { "lat": 48.7660, "lng": 16.8000 }
+    },
+    {
+      "title": "Vienna Museums & Imperial Core",
+      "icon": "museum",
+      "description": "Perfect pre- or post-flight day in one compact area. This cluster covers Kunsthistorisches Museum, Naturhistorisches Museum, Albertina, Hofburg, and nearby Ringstrasse landmarks with short walking distances between highlights.",
+      "links": [
+        {
+          "label": "Vienna official visitor guide",
+          "href": "https://www.wien.info/en"
+        },
+        {
+          "label": "Kunsthistorisches Museum",
+          "href": "https://www.khm.at/en/"
+        },
+        {
+          "label": "Albertina Museum",
+          "href": "https://www.albertina.at/en/"
+        },
+        {
+          "label": "Hofburg (Imperial Palace) info",
+          "href": "https://www.hofburg-wien.at/en/"
+        }
+      ],
+      "galleryKey": "vienna",
+      "map": { "lat": 48.2044, "lng": 16.3617 }
+    },
+    {
+      "title": "Bratislava Old Town & Castle Walk",
+      "icon": "castle",
+      "description": "A compact, walkable cluster for a half-day or full-day stop. Combine Bratislava Castle, Old Town lanes, St. Martin's Cathedral, Michael's Gate, and the Danube promenade, then finish with skyline views from the UFO area.",
+      "links": [
+        {
+          "label": "Visit Bratislava",
+          "href": "https://visitbratislava.com/"
+        },
+        {
+          "label": "Bratislava Castle",
+          "href": "https://www.snm.sk/en/museums/museum-of-history-snm/visit-us/bratislava-castle.html"
+        },
+        {
+          "label": "UFO Tower viewpoint",
+          "href": "https://www.u-f-o.sk/en/"
+        }
+      ],
+      "galleryKey": "bratislava",
+      "map": { "lat": 48.1421, "lng": 17.1047 }
+    },
+    {
+      "title": "Červený Kameň Castle",
+      "icon": "castle",
+      "description": "A much stronger stop near the Trnava corridor: a large renaissance fortress with grand halls, famous wine cellars, and regular guided tours. Easy to combine with airport-route travel days.",
+      "links": [
+        {
+          "label": "Červený Kameň Castle (official)",
+          "href": "https://hradcervenykamen.sk/en/home/"
+        },
+        {
+          "label": "Tours and opening hours",
+          "href": "https://hradcervenykamen.sk/en/tours/"
+        }
+      ],
+      "galleryKey": "cervenykamen",
+      "map": { "lat": 48.3917, "lng": 17.3356 }
+    },
+    {
+      "title": "Zlín Functionalist Route",
+      "icon": "architecture",
+      "description": "Good Czech-side detour if you are driving longer. Zlín offers Baťa-era architecture, broad viewpoints, and a different city vibe from the castle towns.",
+      "links": [
+        {
+          "label": "Visit Zlín",
+          "href": "https://www.visitzlin.eu/en/"
+        }
+      ],
+      "galleryKey": "zlin",
+      "map": { "lat": 49.2244, "lng": 17.6628 }
+    },
+    {
+      "title": "Vienna Prater & Danube Evening",
+      "icon": "attractions",
+      "description": "A fun city break before or after flights: ride the Prater area, then move toward the Danube side for an easy evening walk, skyline views, and casual dinner options.",
+      "links": [
+        {
+          "label": "Prater Vienna (official)",
+          "href": "https://www.praterwien.com/en/home/"
+        },
+        {
+          "label": "Plan your Prater visit",
+          "href": "https://wiener-prater.at/besuch_planen"
+        }
+      ],
+      "galleryKey": "prater",
+      "map": { "lat": 48.2163, "lng": 16.4017 }
+    },
+    {
+      "title": "Thermal Day / Aquapark",
+      "icon": "pool",
+      "description": "Good recovery-day option between travel legs. Water slides, warm pools, and wellness zones make this an easy low-effort reset after long drives or flights.",
+      "links": [
+        {
+          "label": "Aquapark Senec (official)",
+          "href": "https://www.aquaparksenec.sk/"
+        },
+        {
+          "label": "Opening hours",
+          "href": "https://www.aquaparksenec.sk/otvaracie-hodiny"
+        }
+      ],
+      "galleryKey": "aquapark",
+      "map": { "lat": 48.2267, "lng": 17.2554 }
+    },
+    {
+      "title": "Zoo / Wildlife Park Stop",
+      "icon": "pets",
+      "description": "Simple family-friendly stop near the route with a mix of animals and open-air walking. Works well as a lighter activity between city and wedding days.",
+      "links": [
+        {
+          "label": "Bratislava Zoo (official)",
+          "href": "https://www.zoobratislava.sk/en/home/"
+        }
+      ],
+      "galleryKey": "zoo",
+      "map": { "lat": 48.1686, "lng": 17.0722 }
+    },
+    {
+      "title": "Craft Beer + Food Hall Stop",
+      "icon": "local_bar",
+      "description": "A social evening stop in central Bratislava: local craft beer taps, market-style food, and a relaxed indoor setup that is easy for mixed groups.",
+      "links": [
+        {
+          "label": "Old Market Hall (official)",
+          "href": "https://staratrznica.sk/en/home"
+        },
+        {
+          "label": "For visitors",
+          "href": "https://staratrznica.sk/en/for-visitors"
+        }
+      ],
+      "galleryKey": "foodhall",
+      "map": { "lat": 48.1468, "lng": 17.1133 }
+    }
+  ]
+}

@@ -36,6 +36,7 @@ async function populateGalleryContainers() {
   }
 
   containers.forEach((container) => {
+    container.innerHTML = "";
     const key = container.getAttribute("data-gallery");
     let gallery = data[key];
     if (!gallery && key.startsWith("events-")) {
@@ -47,6 +48,7 @@ async function populateGalleryContainers() {
     const photos = gallery.photos || [];
     photos.forEach((photo) => {
       const src = resolvePhotoSrc(photo, base);
+      if (!src) return;
       const caption = typeof photo === "string" ? "" : (photo.caption || "");
       const btn = document.createElement("button");
       btn.type = "button";
@@ -182,7 +184,17 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-populateGalleryContainers();
+const initGalleries = () => {
+  populateGalleryContainers();
+};
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initGalleries, { once: true });
+} else {
+  initGalleries();
+}
+
+document.addEventListener("events:rendered", initGalleries);
 
 const mainPhotoTrigger = document.getElementById("main-photo-trigger");
 if (mainPhotoTrigger) {

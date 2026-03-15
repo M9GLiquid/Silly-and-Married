@@ -38,6 +38,7 @@
       }
     };
   </script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body data-page="travel" class="scrapbook-bg text-ink font-body antialiased overflow-x-hidden selection:bg-primary selection:text-bg-base">
@@ -95,7 +96,12 @@
             <span class="travel-card-chevron" aria-hidden="true">›</span>
           </button>
           <div id="travel-card-1" class="travel-card-body" hidden>
-            <p>For most international guests, the easiest entry point is <strong>Vienna International Airport (VIE)</strong>. It has good connections to Trenčín by bus or train. Car rental is also available at the airport if you prefer to drive.</p>
+            <p>For most international guests, the easiest entry point is <strong>Vienna International Airport (VIE)</strong>.</p>
+            <ul class="travel-copy-points">
+              <li>Good onward connections to Trenčín by bus or train.</li>
+              <li>Car rental is available at the airport if you prefer to drive.</li>
+              <li>Typical total transfer time to Trenčín: about 2-3 hours.</li>
+            </ul>
           </div>
         </article>
 
@@ -108,7 +114,12 @@
             <span class="travel-card-chevron" aria-hidden="true">›</span>
           </button>
           <div id="travel-card-2a" class="travel-card-body" hidden>
-            <p>Check direct buses from VIE to Trenčín on FlixBus first; usually the fastest option. If timings do not match your flight, use a coach via Bratislava as fallback. Journey time is roughly 2–3 hours depending on connections.</p>
+            <p>Check direct buses from VIE to Trenčín first; this is often the simplest option.</p>
+            <ul class="travel-copy-points">
+              <li>Typical journey time: about 2-3 hours, depending on connections.</li>
+              <li>If schedules do not match your flight, use a coach via Bratislava as fallback.</li>
+            </ul>
+            <p class="travel-subhead">Useful links</p>
             <ul class="travel-links">
               <li><a href="https://global.flixbus.com/bus-routes/bus-vienna-airport-trencin" target="_blank" rel="noopener noreferrer">FlixBus: Vienna Airport (VIE) - Trenčín</a></li>
               <li><a href="https://www.slovaklines.sk/en/vienna-schwechat-airport/" target="_blank" rel="noopener noreferrer">Slovak Lines: Vienna Airport - Bratislava coach service</a></li>
@@ -125,7 +136,12 @@
             <span class="travel-card-chevron" aria-hidden="true">›</span>
           </button>
           <div id="travel-card-2b" class="travel-card-body" hidden>
-            <p>Start at <strong>Flughafen Wien</strong> (airport rail station), connect through Vienna (usually <strong>Wien Hbf</strong> or <strong>Wien Mitte</strong>, depending on your connection), then continue toward Slovakia and onward to Trenčín. Use the ÖBB journey planner to check times and book.</p>
+            <p>Start at <strong>Flughafen Wien</strong> (airport rail station), connect through Vienna, then continue toward Slovakia and onward to Trenčín.</p>
+            <ul class="travel-copy-points">
+              <li>Most common transfer stations: <strong>Wien Hbf</strong> or <strong>Wien Mitte</strong>.</li>
+              <li>Use the ÖBB planner to confirm live connections and book.</li>
+            </ul>
+            <p class="travel-subhead">Useful links</p>
             <ul class="travel-links">
               <li><a href="https://fahrplan.oebb.at/webapp/?language=en_GB" target="_blank" rel="noopener noreferrer">ÖBB journey planner</a></li>
               <li><a href="https://www.oebb.at/en/" target="_blank" rel="noopener noreferrer">ÖBB official website</a></li>
@@ -138,37 +154,55 @@
           <button type="button" class="travel-card-toggle" aria-expanded="false" aria-controls="travel-card-3">
             <h2 class="travel-heading">
               <span class="material-symbols-outlined" aria-hidden="true">directions_car</span>
-              Step 3: Car (Church &amp; Venue)
+              Step 3: Car (Route &amp; Tolls)
             </h2>
             <span class="travel-card-chevron" aria-hidden="true">›</span>
           </button>
           <div id="travel-card-3" class="travel-card-body" hidden>
-            <p>For guests who prefer full flexibility, renting a car from VIE is a practical option. Drive time to the wedding area is about 1.5–2 hours. Copy the addresses below for navigation:</p>
-            <div class="address-grid-compact">
-              <div class="address-card address-card-compact">
-                <div class="address-card-header">
-                  <span class="address-label">Church</span>
-                  <button type="button" class="copy-address-btn inline-flex items-center gap-1 border border-sepia/25 px-2 py-1 text-[10px] uppercase tracking-wider" data-copy-target="travel-church-address" aria-label="Copy church address">
-                    <span class="material-symbols-outlined text-xs" aria-hidden="true">content_copy</span>
-                    <span class="copy-label">Copy</span>
-                  </button>
-                </div>
-                <pre id="travel-church-address" class="address-block">Zemianske Podhradie 119
+            <p>For full flexibility, renting a car from VIE is a practical option.</p>
+            <ul class="travel-copy-points">
+              <li>Drive time to the wedding area: about 1.5-2 hours.</li>
+              <li>For motorway travel, plan for two digital vignettes (Austria + Slovakia), usually about €18-24 total depending on validity.</li>
+              <li>Cross-border driving is usually possible, but declare Austria to Slovakia at pickup; rules vary by company and vehicle class.</li>
+            </ul>
+            <div class="car-step-links-and-addresses">
+              <div class="car-step-links">
+                <p class="travel-subhead">Useful links</p>
+                <ul class="travel-links mb-4">
+                  <li><a href="https://www.viennaairport.com/en/passengers/arrival__parking/car_rental" target="_blank" rel="noopener noreferrer">Vienna Airport official car rental list (VIE)</a></li>
+                  <li><a href="https://shop.asfinag.at/en/" target="_blank" rel="noopener noreferrer">Austria official vignette (ASFINAG)</a></li>
+                  <li><a href="https://eznamka.sk/en" target="_blank" rel="noopener noreferrer">Slovakia official vignette (eZnamka)</a></li>
+                </ul>
+              </div>
+              <div class="car-step-addresses">
+                <p>Copy the addresses for navigation:</p>
+                <div class="address-grid-compact">
+                  <div class="address-card address-card-compact">
+                    <div class="address-card-header">
+                      <span class="address-label">Church</span>
+                      <button type="button" class="copy-address-btn inline-flex items-center gap-1 border border-sepia/25 px-2 py-1 text-[10px] uppercase tracking-wider" data-copy-target="travel-church-address" aria-label="Copy church address">
+                        <span class="material-symbols-outlined text-xs" aria-hidden="true">content_copy</span>
+                        <span class="copy-label">Copy</span>
+                      </button>
+                    </div>
+                    <pre id="travel-church-address" class="address-block">Zemianske Podhradie 119
 913 07 Zemianske Podhradie
 Slovakia</pre>
-              </div>
-              <div class="address-card address-card-compact">
-                <div class="address-card-header">
-                  <span class="address-label">Venue</span>
-                  <button type="button" class="copy-address-btn inline-flex items-center gap-1 border border-sepia/25 px-2 py-1 text-[10px] uppercase tracking-wider" data-copy-target="travel-venue-address" aria-label="Copy venue address">
-                    <span class="material-symbols-outlined text-xs" aria-hidden="true">content_copy</span>
-                    <span class="copy-label">Copy</span>
-                  </button>
-                </div>
-                <pre id="travel-venue-address" class="address-block">zelenýdeň
+                  </div>
+                  <div class="address-card address-card-compact">
+                    <div class="address-card-header">
+                      <span class="address-label">Venue</span>
+                      <button type="button" class="copy-address-btn inline-flex items-center gap-1 border border-sepia/25 px-2 py-1 text-[10px] uppercase tracking-wider" data-copy-target="travel-venue-address" aria-label="Copy venue address">
+                        <span class="material-symbols-outlined text-xs" aria-hidden="true">content_copy</span>
+                        <span class="copy-label">Copy</span>
+                      </button>
+                    </div>
+                    <pre id="travel-venue-address" class="address-block">zelenýdeň
 Bošáca 247
 913 07 Bošáca
 Slovakia</pre>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -183,19 +217,29 @@ Slovakia</pre>
             <span class="travel-card-chevron" aria-hidden="true">›</span>
           </button>
           <div id="travel-card-lodging" class="travel-card-body" hidden>
-            <p>For guests who need accommodation, our venue offers <strong>20 single beds</strong> in a shared sleeping area. These are available from Friday, 24 July to Sunday, 26 July.</p>
-            <p>If you are interested in staying at the venue, please indicate this in the RSVP form or send us a message directly. Since space is limited, these spots will be reserved first for guests traveling the farthest and for those who would benefit most from a budget-friendly option, with allocation on a first come, first served basis.</p>
-            <p><strong>Near the venue &amp; church</strong> (further from Trenčín, closer to the wedding locations):</p>
-            <ul class="travel-links mb-4">
-              <li><a href="https://www.google.com/maps/search/?api=1&query=Trenčianske+Bohuslavice+128%2C+913+07+Trenčianske+Bohuslavice%2C+Slovakia" target="_blank" rel="noopener noreferrer">Penzión Pod Tureckom</a>: Trenčianske Bohuslavice 128, 913 07 Trenčianske Bohuslavice</li>
-              <li><a href="https://www.google.com/maps/search/?api=1&query=Trenčianske+Bohuslavice+311%2C+913+06+Trenčianske+Bohuslavice%2C+Slovakia" target="_blank" rel="noopener noreferrer">Penzión Žákovic</a>: Trenčianske Bohuslavice 311, 913 06 Trenčianske Bohuslavice</li>
+            <p>Our venue offers <strong>20 single beds</strong> in a shared sleeping area (Friday, 24 July to Sunday, 26 July).</p>
+            <ul class="travel-copy-points">
+              <li>If interested, indicate this in the RSVP form or send us a message directly.</li>
+              <li>Because space is limited, we prioritize guests traveling the farthest and guests who benefit most from a budget-friendly option.</li>
+              <li>Allocation is first come, first served.</li>
             </ul>
-            <p><strong>Other options</strong>: search Airbnb, Booking.com, and hotels in Trenčín or the surrounding area:</p>
-            <ul class="travel-links">
-              <li><a href="https://www.airbnb.com/s/Trenčín--Slovakia" target="_blank" rel="noopener noreferrer">Airbnb: Trenčín area</a></li>
-              <li><a href="https://www.booking.com/searchresults.html?ss=Tren%C4%8D%C3%ADn%2C+Slovakia" target="_blank" rel="noopener noreferrer">Booking.com: Trenčín</a></li>
-              <li><a href="https://visit.trencin.sk/en/kategoria/planning-a-trip/accommodation/" target="_blank" rel="noopener noreferrer">Visit Trenčín: accommodation list</a></li>
-            </ul>
+            <div class="lodging-links-columns">
+              <section class="lodging-links-column" aria-label="Lodging near the venue">
+                <p class="travel-subhead">Near the Venue</p>
+                <ul class="travel-links">
+                  <li><a href="https://www.google.com/maps/search/?api=1&query=Trenčianske+Bohuslavice+128%2C+913+07+Trenčianske+Bohuslavice%2C+Slovakia" target="_blank" rel="noopener noreferrer">Penzión Pod Tureckom</a></li>
+                  <li><a href="https://www.google.com/maps/search/?api=1&query=Trenčianske+Bohuslavice+311%2C+913+06+Trenčianske+Bohuslavice%2C+Slovakia" target="_blank" rel="noopener noreferrer">Penzión Žákovic</a></li>
+                </ul>
+              </section>
+              <section class="lodging-links-column" aria-label="Lodging in Trencin">
+                <p class="travel-subhead">Near Trencin</p>
+                <ul class="travel-links">
+                  <li><a href="https://www.airbnb.com/s/Trenčín--Slovakia" target="_blank" rel="noopener noreferrer">Airbnb: Trenčín area</a></li>
+                  <li><a href="https://www.booking.com/searchresults.html?ss=Tren%C4%8D%C3%ADn%2C+Slovakia" target="_blank" rel="noopener noreferrer">Booking.com: Trenčín</a></li>
+                  <li><a href="https://visit.trencin.sk/en/kategoria/planning-a-trip/accommodation/" target="_blank" rel="noopener noreferrer">Visit Trenčín: accommodation list</a></li>
+                </ul>
+              </section>
+            </div>
           </div>
         </article>
       </div>
@@ -207,81 +251,21 @@ Slovakia</pre>
         <p class="font-body text-xs uppercase tracking-widest opacity-70">For guests staying longer: festivals, castle visits, and Trenčín 2026 highlights.</p>
       </div>
 
-      <div class="events-cards-grid mt-10">
-        <article class="travel-card">
-          <h2 class="travel-heading">
-            <span class="material-symbols-outlined" aria-hidden="true">festival</span>
-            Pohoda Festival
-          </h2>
-          <p>Slovakia&apos;s biggest music festival lands at Trenčín Airport <strong>July 8–11</strong>, two weeks before the wedding; perfect if you&apos;re extending your trip. The 30th anniversary edition features The Cure plus 130+ acts across 16 stages.</p>
-          <div class="travel-card-bottom">
-            <ul class="travel-links">
-              <li><a href="https://www.pohodafestival.sk/en/tickets-2026" target="_blank" rel="noopener noreferrer">Pohoda Festival: tickets &amp; info</a></li>
-            </ul>
-            <div class="travel-card-thumbs" data-gallery="events-pohoda"></div>
-          </div>
-        </article>
+      <div id="events-cards-container" class="events-cards-grid mt-10"></div>
+      <p id="events-last-verified" class="font-body text-xs text-sepia/80 italic mt-4"></p>
+    </section>
 
-        <article class="travel-card">
-          <h2 class="travel-heading">
-            <span class="material-symbols-outlined" aria-hidden="true">castle</span>
-            Trenčín Castle
-          </h2>
-          <p>Perched above Trenčín, this is one of Central Europe&apos;s largest castles. Summer opening (May–Sept) 9:00–18:45. Don&apos;t miss <em>The Well of Love</em>: running through late August 2026.</p>
-          <div class="travel-card-bottom">
-            <ul class="travel-links">
-              <li><a href="https://visit.trencin.sk/en/trencin-castle/" target="_blank" rel="noopener noreferrer">Trenčín Castle: visitor info</a></li>
-            </ul>
-            <div class="travel-card-thumbs" data-gallery="events-castle"></div>
-          </div>
-        </article>
-
-        <article class="travel-card">
-          <h2 class="travel-heading">
-            <span class="material-symbols-outlined" aria-hidden="true">celebration</span>
-            Trenčín 2026: European Capital of Culture
-          </h2>
-          <p>Trenčín holds the European Capital of Culture title in 2026. Concerts, exhibitions, and theatre run year-round; browse the calendar for what&apos;s on during your July visit.</p>
-          <div class="travel-card-bottom">
-            <ul class="travel-links">
-              <li><a href="https://www.trencin2026.eu/en/events/" target="_blank" rel="noopener noreferrer">Trenčín 2026: events calendar</a></li>
-            </ul>
-            <div class="travel-card-thumbs" data-gallery="events-trencin2026"></div>
-          </div>
-        </article>
-
-        <article class="travel-card">
-          <h2 class="travel-heading">
-            <span class="material-symbols-outlined" aria-hidden="true">event</span>
-            Beckov Castle events (day trip)
-          </h2>
-          <p>About 20 km from Trenčín, Beckov hosts themed historical events and jousting-style shows. A popular half-day trip if you&apos;re staying on.</p>
-          <div class="travel-card-bottom">
-            <ul class="travel-links">
-              <li><a href="https://visit.trencin.sk/en/beckov-castle/" target="_blank" rel="noopener noreferrer">Visit Trenčín: Beckov Castle overview</a></li>
-              <li><a href="https://www.hrad-beckov.sk/podujatia" target="_blank" rel="noopener noreferrer">Beckov Castle: event calendar</a></li>
-            </ul>
-            <div class="travel-card-thumbs" data-gallery="events-beckov"></div>
-          </div>
-        </article>
-
-        <article class="travel-card">
-          <h2 class="travel-heading">
-            <span class="material-symbols-outlined" aria-hidden="true">explore</span>
-            Things to do in the area
-          </h2>
-          <p>For a relaxed extra day: hop the Matúš Čák Tourist Train around the city and castle, follow a self-guided old-town walk, or unwind at the Trenčianske Teplice spa.</p>
-          <div class="travel-card-bottom">
-            <ul class="travel-links">
-              <li><a href="https://visit.trencin.sk/en/matus-cak-tourist-train/" target="_blank" rel="noopener noreferrer">Matúš Čák Tourist Train (seasonal city + castle route)</a></li>
-              <li><a href="https://visit.trencin.sk/wp-content/uploads/2018/04/City-Walks-Tren%C4%8D%C3%ADn.pdf" target="_blank" rel="noopener noreferrer">City Walks guide (self-guided old-town route)</a></li>
-              <li><a href="https://visit.trencin.sk/en/information-about-trencin/" target="_blank" rel="noopener noreferrer">Tourist Office details and local practical info</a></li>
-            </ul>
-            <div class="travel-card-thumbs" data-gallery="events-thingsToDo"></div>
-          </div>
-        </article>
-
-        <p class="font-body text-xs text-sepia/80 italic mt-4">Last verified February 2026. Check official sites for updates.</p>
+    <section id="regional-map" class="travel-section" aria-labelledby="regional-map-title">
+      <div class="text-center">
+        <h2 id="regional-map-title" class="text-5xl font-header text-sepia mb-2">Regional Map</h2>
+        <p class="font-body text-xs uppercase tracking-widest opacity-70">Wedding spots, airport, and day-trip ideas in one view.</p>
+      </div>
+      <div class="regional-map-shell mt-8">
+        <div id="regional-map-canvas" class="regional-map-canvas" role="application" aria-label="Interactive map with wedding and travel locations"></div>
+      </div>
+      <div class="regional-map-focus-wrap">
+        <p class="regional-map-focus-title">Jump to map point</p>
+        <div id="map-focus-list" class="regional-map-focus-list" role="list" aria-label="Map points quick focus links"></div>
       </div>
     </section>
   </main>
@@ -307,8 +291,26 @@ Slovakia</pre>
     <p id="lightbox-caption" class="lightbox-caption"></p>
   </div>
 
+  <div id="map-detail-modal" class="map-detail-modal hidden" role="dialog" aria-modal="true" aria-labelledby="map-detail-title">
+    <div class="map-detail-panel">
+      <button id="map-detail-close" class="map-detail-close" type="button" aria-label="Close map details">×</button>
+      <div class="map-detail-header">
+        <p id="map-detail-type" class="map-detail-type"></p>
+        <h3 id="map-detail-title" class="map-detail-title">
+          <span id="map-detail-icon" class="material-symbols-outlined map-detail-icon" aria-hidden="true">event</span>
+          <span id="map-detail-title-text"></span>
+        </h3>
+      </div>
+      <div id="map-detail-body" class="map-detail-body"></div>
+      <a id="map-detail-directions" class="map-detail-directions" href="#" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
+    </div>
+  </div>
+
   <script defer src="assets/js/auto-translate.js"></script>
   <script defer src="assets/js/main.js"></script>
+  <script defer src="assets/js/events.js"></script>
   <script defer src="assets/js/gallery.js"></script>
+  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script defer src="assets/js/travel-map.js"></script>
 </body>
 </html>

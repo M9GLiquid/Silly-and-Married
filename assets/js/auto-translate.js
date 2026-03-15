@@ -23,6 +23,25 @@
     });
   };
 
+  const watchForNewIcons = () => {
+    if (typeof MutationObserver === "undefined") return;
+    const observer = new MutationObserver((mutations) => {
+      let needsRefresh = false;
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (!(node instanceof Element)) return;
+          if (node.classList.contains("material-symbols-outlined")) {
+            needsRefresh = true;
+            return;
+          }
+          if (node.querySelector(".material-symbols-outlined")) needsRefresh = true;
+        });
+      });
+      if (needsRefresh) protectIconGlyphs();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  };
+
   const getCookie = (name) => {
     const match = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([.$?*|{}()[\]\\/+^])/g, "\\$1") + "=([^;]*)"));
     return match ? decodeURIComponent(match[1]) : "";
@@ -93,6 +112,7 @@
 
   const init = () => {
     protectIconGlyphs();
+    watchForNewIcons();
     const flagButtons = Array.from(document.querySelectorAll(".lang-flag-btn"));
     if (!flagButtons.length) return;
 
