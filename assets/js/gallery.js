@@ -7,16 +7,10 @@ const lightboxNext = document.getElementById("lightbox-next");
 const galleryItems = document.querySelectorAll(".gallery-item");
 
 const getCaption = (el) => el.getAttribute("data-caption") || "";
+const { resolvePhotoSrc, resolveThumbnailSrc } = window.galleryUtils || { resolvePhotoSrc: () => "", resolveThumbnailSrc: () => "" };
 
 let currentGroup = [];
 let currentIndex = 0;
-
-function resolvePhotoSrc(photo, base) {
-  if (typeof photo === "string") return base + photo;
-  if (photo.src) return photo.src;
-  if (photo.name) return base + photo.name;
-  return "";
-}
 
 async function populateGalleryContainers() {
   const containers = document.querySelectorAll("[data-gallery]");
@@ -46,9 +40,10 @@ async function populateGalleryContainers() {
     if (!gallery) return;
     const base = gallery.src || "";
     const photos = gallery.photos || [];
-    photos.forEach((photo) => {
+    photos.forEach((photo, index) => {
       const src = resolvePhotoSrc(photo, base);
       if (!src) return;
+      const thumbSrc = resolveThumbnailSrc(photo, base);
       const caption = typeof photo === "string" ? "" : (photo.caption || "");
       const btn = document.createElement("button");
       btn.type = "button";
@@ -57,9 +52,11 @@ async function populateGalleryContainers() {
       btn.setAttribute("data-caption", caption);
       const img = document.createElement("img");
       img.className = "travel-card-thumb";
-      img.src = src;
+      img.src = thumbSrc || src;
       img.alt = caption;
-      img.loading = "lazy";
+      img.loading = index < 6 ? "eager" : "lazy";
+      img.decoding = "async";
+      if (index < 3) img.fetchPriority = "high";
       btn.appendChild(img);
       container.appendChild(btn);
     });

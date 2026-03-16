@@ -2,7 +2,7 @@
   "name": "wedding-website",
   "private": true,
   "scripts": {
-    "media:thumbs": "node scripts/generate-media-thumbs.js",
+    "media:thumbs": "node tools/generate-media-thumbs.js",
     "dev:netlify": "netlify dev"
   },
   "dependencies": {

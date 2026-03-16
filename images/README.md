@@ -2,6 +2,8 @@
 
 Edit `gallery.json` to control all site images.
 
+After adding or changing images, run `npm run media:thumbs` to generate WebP thumbnails.
+
 ## Main photo (home polaroid)
 
 ```json

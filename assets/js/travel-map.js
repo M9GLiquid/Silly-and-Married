@@ -161,6 +161,9 @@ document.addEventListener("DOMContentLoaded", () => {
         zIndexOffset: zIndexOffsetByType[location.type] || 0
       }).addTo(map);
       marker.on("click", () => openMapDetail(location));
+      if (location.type === "Event" && location.galleryKey && detailViewApi.preloadEventThumbs) {
+        marker.on("mouseenter", () => detailViewApi.preloadEventThumbs(galleryData, location.galleryKey));
+      }
       markerByLocationId.set(location.id, marker);
       if (location.type === "Wedding Church") markerByFocusKey.get("wedding-church").push(marker);
       if (location.type === "Wedding Venue") markerByFocusKey.get("wedding-venue").push(marker);

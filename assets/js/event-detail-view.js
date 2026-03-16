@@ -45,11 +45,29 @@
     return list;
   };
 
-  const resolvePhotoSrc = (photo, base) => {
-    if (typeof photo === "string") return `${base}${photo}`;
-    if (photo && photo.src) return photo.src;
-    if (photo && photo.name) return `${base}${photo.name}`;
-    return "";
+  const { resolvePhotoSrc, resolveThumbnailSrc } = window.galleryUtils || { resolvePhotoSrc: () => "", resolveThumbnailSrc: () => "" };
+
+  const preloadImage = (src) =>
+    new Promise((resolve) => {
+      const img = new Image();
+      img.decoding = "async";
+      img.onload = () => resolve();
+      img.onerror = () => resolve();
+      img.src = src;
+      if (img.complete) resolve();
+    });
+
+  const preloadEventThumbs = (galleryData, galleryKey, limit = 6) => {
+    if (!galleryData || !galleryKey) return;
+    const gallery = galleryData.events && galleryData.events[galleryKey] ? galleryData.events[galleryKey] : null;
+    if (!gallery || !Array.isArray(gallery.photos) || !gallery.photos.length) return;
+    const base = gallery.src || "";
+    const toPreload = gallery.photos.slice(0, limit).map((photo) => {
+      const src = resolvePhotoSrc(photo, base);
+      const thumbSrc = src ? resolveThumbnailSrc(photo, base) : "";
+      return thumbSrc || src;
+    }).filter(Boolean);
+    toPreload.forEach((src) => preloadImage(src));
   };
 
   const buildEventThumbs = (galleryData, galleryKey) => {
@@ -62,9 +80,10 @@
     thumbs.setAttribute("data-gallery", `events-${galleryKey}`);
     const base = gallery.src || "";
 
-    gallery.photos.forEach((photo) => {
+    gallery.photos.forEach((photo, index) => {
       const src = resolvePhotoSrc(photo, base);
       if (!src) return;
+      const thumbSrc = resolveThumbnailSrc(photo, base);
       const caption = typeof photo === "string" ? "" : (photo.caption || "");
       const button = document.createElement("button");
       button.type = "button";
@@ -73,9 +92,11 @@
       button.setAttribute("data-caption", caption);
       const image = document.createElement("img");
       image.className = "travel-card-thumb";
-      image.src = src;
+      image.src = thumbSrc || src;
       image.alt = caption;
-      image.loading = "lazy";
+      image.loading = index < 6 ? "eager" : "lazy";
+      image.decoding = "async";
+      if (index < 3) image.fetchPriority = "high";
       button.appendChild(image);
       thumbs.appendChild(button);
     });
@@ -124,6 +145,7 @@
 
   window.travelEventDetailView = {
     buildDirectionsUrl,
-    buildDetailContent
+    buildDetailContent,
+    preloadEventThumbs
   };
 })();

@@ -6,175 +6,394 @@
   "church": {
     "src": "images/church/",
     "photos": [
-      { "name": "church.jpg", "caption": "Church exterior in the summer" },
-      { "name": "church2.png", "caption": "Church exterior in the winter" },
-      { "name": "church3.png", "caption": "Church from the front" },
-      { "name": "church4.png", "caption": "Church altar" },
-      { "name": "church5.png", "caption": "Church seating level 3" },
-      { "name": "church6.png", "caption": "Church seating level 2" },
-      { "name": "church7.jpg", "caption": "Church exterior in the summer" }
+      {
+        "name": "church.jpg",
+        "caption": "Church exterior in the summer"
+      },
+      {
+        "name": "church2.png",
+        "caption": "Church exterior in the winter"
+      },
+      {
+        "name": "church3.png",
+        "caption": "Church from the front"
+      },
+      {
+        "name": "church4.png",
+        "caption": "Church altar"
+      },
+      {
+        "name": "church5.png",
+        "caption": "Church seating level 3"
+      },
+      {
+        "name": "church6.png",
+        "caption": "Church seating level 2"
+      },
+      {
+        "name": "church7.jpg",
+        "caption": "Church exterior in the summer"
+      }
     ]
   },
   "venue": {
     "src": "images/venue/",
     "photos": [
-      { "name": "venue3.png", "caption": "Venue exterior" },
-      { "name": "venue4.png", "caption": "Garden area" },
-      { "name": "venue5.png", "caption": "Event space" },
-      { "name": "venue6.png", "caption": "Venue detail" },
-      { "name": "venue7.jpg", "caption": "Venue photo" },
-      { "name": "venue8.jpg", "caption": "Venue photo" },
-      { "name": "venue9.jpg", "caption": "Venue photo" },
-      { "name": "venue10.jpg", "caption": "Venue photo" }
+      {
+        "name": "venue3.png",
+        "caption": "Venue exterior"
+      },
+      {
+        "name": "venue4.png",
+        "caption": "Garden area"
+      },
+      {
+        "name": "venue5.png",
+        "caption": "Event space"
+      },
+      {
+        "name": "venue6.png",
+        "caption": "Venue detail"
+      },
+      {
+        "name": "venue7.jpg",
+        "caption": "Venue photo"
+      },
+      {
+        "name": "venue8.jpg",
+        "caption": "Venue photo"
+      },
+      {
+        "name": "venue9.jpg",
+        "caption": "Venue photo"
+      },
+      {
+        "name": "venue10.jpg",
+        "caption": "Venue photo"
+      }
     ]
   },
   "events": {
     "pohoda": {
       "src": "",
       "photos": [
-        { "src": "images/Pohoda-1.jpg", "caption": "Pohoda Festival photo 1" },
-        { "src": "images/Pohoda-2.jpg", "caption": "Pohoda Festival photo 2" },
-        { "src": "images/Pohoda-3.jpg", "caption": "Pohoda Festival photo 3" },
-        { "src": "images/Pohoda-4.jpg", "caption": "Pohoda Festival photo 4" },
-        { "src": "images/Pohoda-5.jpg", "caption": "Pohoda Festival photo 5" },
-        { "src": "images/Pohoda-6.png", "caption": "Pohoda Festival photo 6" }
+        {
+          "src": "images/Pohoda-1.jpg",
+          "caption": "Pohoda Festival photo 1"
+        },
+        {
+          "src": "images/Pohoda-2.jpg",
+          "caption": "Pohoda Festival photo 2"
+        },
+        {
+          "src": "images/Pohoda-3.jpg",
+          "caption": "Pohoda Festival photo 3"
+        },
+        {
+          "src": "images/Pohoda-4.jpg",
+          "caption": "Pohoda Festival photo 4"
+        },
+        {
+          "src": "images/Pohoda-5.jpg",
+          "caption": "Pohoda Festival photo 5"
+        },
+        {
+          "src": "images/Pohoda-6.png",
+          "caption": "Pohoda Festival photo 6"
+        }
       ]
     },
     "castle": {
       "src": "",
       "photos": [
-        { "src": "https://picsum.photos/id/1043/800/600", "caption": "Castle hill view" },
-        { "src": "https://picsum.photos/id/1069/800/600", "caption": "Old city panorama" },
-        { "src": "https://picsum.photos/id/1076/800/600", "caption": "Historic architecture" }
+        {
+          "src": "images/events/castle/1043.jpg",
+          "caption": "Castle hill view"
+        },
+        {
+          "src": "images/events/castle/1069.jpg",
+          "caption": "Old city panorama"
+        },
+        {
+          "src": "images/events/castle/1076.jpg",
+          "caption": "Historic architecture"
+        }
       ]
     },
     "trencin2026": {
       "src": "",
       "photos": [
-        { "src": "https://picsum.photos/id/1080/800/600", "caption": "City culture scene" },
-        { "src": "https://picsum.photos/id/1068/800/600", "caption": "Concert and events mood" },
-        { "src": "https://picsum.photos/id/1044/800/600", "caption": "City and region overview" }
+        {
+          "src": "images/events/trencin2026/1080.jpg",
+          "caption": "City culture scene"
+        },
+        {
+          "src": "images/events/trencin2026/1068.jpg",
+          "caption": "Concert and events mood"
+        },
+        {
+          "src": "images/events/trencin2026/1044.jpg",
+          "caption": "City and region overview"
+        }
       ]
     },
     "beckov": {
       "src": "",
       "photos": [
-        { "src": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweoBtfXMhpz7xQEu_Cj9nPbH8IincN1hhTmiTycNjhAtaYwKbNKFow66aYsEGIV_sXGCQ8IORKKNnwpJQ-IamSf7QnSh2IENc2OgInVaawR8JRiGAb9IzEU3IDFQuGtm1tPQNCdt=s680-w680-h510-rw", "caption": "Beckov Castle" },
-        { "src": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwequp9CZHIrIyAti6XPYGXAqteJckJQAl3RFvSguMarP411fyJXryHFZEjtJW-U2Ql9EWs_sxAPMw7GI6cU-8M-as791LPeBhKA98vTblmVVE6iTIE0DgP387xCudSZE19AMECaX9Q=s680-w680-h510-rw", "caption": "Beckov Castle" },
-        { "src": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweq1eQ-_9Khvro-bApLLQvPZu2esqWi_hyncqNlbvDyn37BWnDfIhVYG_kJQ-fVRsofWqoHOrIOCrrMOzyVKMtDwnmJ_bdxd2MlkbkQRPejMoaH2fJTh0ZUZvq3ZwwjVkBGrbL6g=s680-w680-h510-rw", "caption": "Beckov Castle" },
-        { "src": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerMftyA2GA1jy2w7hiV-XyNaLM8q6QJM-ukNbYDecoFh9jr4ptXbU4qK8LXlewZOZA31Zp0pjfM1hc3bQTW5-XfR2vgOHz3AzJuoHbq1m1D7CEVrkpY2O1efG3Atx3wu6r6dz4AwQ=s680-w680-h510-rw", "caption": "Beckov Castle" }
+        {
+          "src": "images/events/beckov/img-00.jpg",
+          "caption": "Beckov Castle"
+        },
+        {
+          "src": "images/events/beckov/img-01.jpg",
+          "caption": "Beckov Castle"
+        },
+        {
+          "src": "images/events/beckov/img-02.jpg",
+          "caption": "Beckov Castle"
+        },
+        {
+          "src": "images/events/beckov/img-03.jpg",
+          "caption": "Beckov Castle"
+        }
       ]
     },
     "thingsToDo": {
       "src": "",
       "photos": [
-        { "src": "https://picsum.photos/id/1039/800/600", "caption": "Relaxing day trip" },
-        { "src": "https://picsum.photos/id/1056/800/600", "caption": "Spa and wellness feel" },
-        { "src": "https://picsum.photos/id/1025/800/600", "caption": "Riverside and nature" }
+        {
+          "src": "images/events/thingsToDo/1039.jpg",
+          "caption": "Relaxing day trip"
+        },
+        {
+          "src": "images/events/thingsToDo/1056.jpg",
+          "caption": "Spa and wellness feel"
+        },
+        {
+          "src": "images/events/thingsToDo/1025.jpg",
+          "caption": "Riverside and nature"
+        }
       ]
     },
     "teplice": {
       "src": "",
       "photos": [
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Tren%C4%8Dianske_teplice_-_park.JPG", "caption": "Trenčianske Teplice spa park" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Tren%C4%8Dianske_Teplice_%E2%80%93_Most_sl%C3%A1vy.jpg", "caption": "Most slávy in the spa district" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Tren%C4%8Dianske_Teplice_%E2%80%93_Nefunk%C4%8Dn%C3%A1_font%C3%A1na.jpg", "caption": "Historic spa fountain area" }
+        {
+          "src": "images/events/teplice/Trenčianske_teplice_-_park.JPG",
+          "caption": "Trenčianske Teplice spa park"
+        },
+        {
+          "src": "images/events/teplice/Trenčianske_Teplice_–_Most_slávy.jpg",
+          "caption": "Most slávy in the spa district"
+        },
+        {
+          "src": "images/events/teplice/Trenčianske_Teplice_–_Nefunkčná_fontána.jpg",
+          "caption": "Historic spa fountain area"
+        }
       ]
     },
     "bojnice": {
       "src": "",
       "photos": [
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Bojnice_Castle_Slovakia.jpg", "caption": "Bojnice Castle exterior" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Bojnice_castle_in_February.jpg", "caption": "Castle from the park" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Bojnicky_zamok_4.jpg", "caption": "Bojnice Castle view from town" }
+        {
+          "src": "images/events/bojnice/Bojnice_Castle_Slovakia.jpg",
+          "caption": "Bojnice Castle exterior"
+        },
+        {
+          "src": "images/events/bojnice/Bojnice_castle_in_February.jpg",
+          "caption": "Castle from the park"
+        },
+        {
+          "src": "images/events/bojnice/Bojnicky_zamok_4.jpg",
+          "caption": "Bojnice Castle view from town"
+        }
       ]
     },
     "cachtice": {
       "src": "",
       "photos": [
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Slovakia_Cachtice_hrad_2.JPG", "caption": "Čachtice Castle hilltop ruins" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Main_tower_at_Cachtice_Castle%2C_Slovakia.JPG", "caption": "Main tower and ruins" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Slovakia_Cachtice_hrad_2.JPG", "caption": "Panoramic countryside setting" }
+        {
+          "src": "images/events/cachtice/Slovakia_Cachtice_hrad_2.JPG",
+          "caption": "Čachtice Castle hilltop ruins"
+        },
+        {
+          "src": "images/events/cachtice/Main_tower_at_Cachtice_Castle,_Slovakia.JPG",
+          "caption": "Main tower and ruins"
+        },
+        {
+          "src": "images/events/cachtice/Slovakia_Cachtice_hrad_2-2.JPG",
+          "caption": "Panoramic countryside setting"
+        }
       ]
     },
     "mikulov": {
       "src": "",
       "photos": [
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Mikulov_castle_as_seen_from_N%C3%A1m%C4%9Bst%C3%AD_in_2020.jpg", "caption": "Mikulov castle from the square" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Mikulov_(Nikolsburg)_-_N%C3%A1m%C4%9Bst%C3%AD.JPG", "caption": "Mikulov old town atmosphere" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Mikulov_Castle.jpg", "caption": "Historic skyline and castle" }
+        {
+          "src": "images/events/mikulov/Mikulov_castle_as_seen_from_Náměstí_in_2020.jpg",
+          "caption": "Mikulov castle from the square"
+        },
+        {
+          "src": "images/events/mikulov/Mikulov_(Nikolsburg)_-_Náměstí.JPG",
+          "caption": "Mikulov old town atmosphere"
+        },
+        {
+          "src": "images/events/mikulov/Mikulov_Castle.jpg",
+          "caption": "Historic skyline and castle"
+        }
       ]
     },
     "lednicevaltice": {
       "src": "",
       "photos": [
-        { "src": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweov-oRbXzYNjuy_RuhV9gVUbrPniGCMNa1wZXam_5C5MxpuBELKDTl1QOnmYknIalTI3ALWdU-aYLt6vDwznJl0UH72C8i_GmAIXfgMmPXHWWA07xUHP2H5JzBpepyPObD7Me6rZw=s680-w680-h510-rw", "caption": "Lednice Chateau and gardens" },
-        { "src": "https://whc.unesco.org/uploads/thumbs/site_0763_0011-360-360-20160914115823.jpg", "caption": "UNESCO Lednice-Valtice landscape view" },
-        { "src": "https://whc.unesco.org/uploads/thumbs/site_0763_0013-360-360-20160914115824.jpg", "caption": "Historic architecture in the Lednice-Valtice area" }
+        {
+          "src": "images/events/lednicevaltice/img-00.jpg",
+          "caption": "Lednice Chateau and gardens"
+        },
+        {
+          "src": "images/events/lednicevaltice/site_0763_0011-360-360-20160914115823.jpg",
+          "caption": "UNESCO Lednice-Valtice landscape view"
+        },
+        {
+          "src": "images/events/lednicevaltice/site_0763_0013-360-360-20160914115824.jpg",
+          "caption": "Historic architecture in the Lednice-Valtice area"
+        }
       ]
     },
     "vienna": {
       "src": "",
       "photos": [
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Wien_-_Opernring_-_View_East_on_Staatsoper.jpg", "caption": "Vienna State Opera area" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Oberes_Belvedere_Wien.jpg", "caption": "Belvedere and imperial Vienna" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Staatsoper_Wien_DSC_5273w.jpg", "caption": "Ringstrasse museum district mood" }
+        {
+          "src": "images/events/vienna/Wien_-_Opernring_-_View_East_on_Staatsoper.jpg",
+          "caption": "Vienna State Opera area"
+        },
+        {
+          "src": "images/events/vienna/Oberes_Belvedere_Wien.jpg",
+          "caption": "Belvedere and imperial Vienna"
+        },
+        {
+          "src": "images/events/vienna/Staatsoper_Wien_DSC_5273w.jpg",
+          "caption": "Ringstrasse museum district mood"
+        }
       ]
     },
     "bratislava": {
       "src": "",
       "photos": [
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/View_to_Bratislava_castle_at_night.jpg", "caption": "Bratislava Castle view" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Bratislava_Old_Town_(3706932185).jpg", "caption": "Bratislava Old Town panorama" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Bratislava_Castle_baroque_garden_2022.jpg", "caption": "Castle gardens and riverside atmosphere" }
+        {
+          "src": "images/events/bratislava/View_to_Bratislava_castle_at_night.jpg",
+          "caption": "Bratislava Castle view"
+        },
+        {
+          "src": "images/events/bratislava/Bratislava_Old_Town_(3706932185).jpg",
+          "caption": "Bratislava Old Town panorama"
+        },
+        {
+          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Bratislava_Castle_baroque_garden_2022.jpg",
+          "caption": "Castle gardens and riverside atmosphere"
+        }
       ]
     },
     "cervenykamen": {
       "src": "",
       "photos": [
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Slovakia_Cerveny_kamen_Castle_1.JPG", "caption": "Červený Kameň Castle exterior" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/N%C3%A1mestie_hradu_%C4%8Cerven%C3%BD_kame%C5%88.JPG", "caption": "Castle entrance square" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Slovakia_Cerveny_kamen_Castle_1.JPG", "caption": "Fortress walls and surroundings" }
+        {
+          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Slovakia_Cerveny_kamen_Castle_1.JPG",
+          "caption": "Červený Kameň Castle exterior"
+        },
+        {
+          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/N%C3%A1mestie_hradu_%C4%8Cerven%C3%BD_kame%C5%88.JPG",
+          "caption": "Castle entrance square"
+        },
+        {
+          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Slovakia_Cerveny_kamen_Castle_1.JPG",
+          "caption": "Fortress walls and surroundings"
+        }
       ]
     },
     "zlin": {
       "src": "",
       "photos": [
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Zlin-CZ.jpg", "caption": "Zlín city view" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Zlin_congress_center_02.jpg", "caption": "Zlín Congress Center" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Zl%C3%ADn,_Centr%C3%A1ln%C3%AD_park_Ji%C5%BEn%C3%AD_Svahy,_pohled_k_Tlust%C3%A9_ho%C5%99e.jpg", "caption": "Zlín central park and hills" }
+        {
+          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Zlin-CZ.jpg",
+          "caption": "Zlín city view"
+        },
+        {
+          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Zlin_congress_center_02.jpg",
+          "caption": "Zlín Congress Center"
+        },
+        {
+          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Zl%C3%ADn,_Centr%C3%A1ln%C3%AD_park_Ji%C5%BEn%C3%AD_Svahy,_pohled_k_Tlust%C3%A9_ho%C5%99e.jpg",
+          "caption": "Zlín central park and hills"
+        }
       ]
     },
     "prater": {
       "src": "",
       "photos": [
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Wien,_Prater,_Riesenrad_--_2018_--_3161.jpg", "caption": "Prater giant wheel" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Vienna_-_Riesenrad_Ferris_wheel_-_0266.jpg", "caption": "Prater evening atmosphere" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Giant_Ferris_Wheel_Vienna_from_W_on_2010-09-20.jpg", "caption": "Vienna funfair skyline" }
+        {
+          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Wien,_Prater,_Riesenrad_--_2018_--_3161.jpg",
+          "caption": "Prater giant wheel"
+        },
+        {
+          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Vienna_-_Riesenrad_Ferris_wheel_-_0266.jpg",
+          "caption": "Prater evening atmosphere"
+        },
+        {
+          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Giant_Ferris_Wheel_Vienna_from_W_on_2010-09-20.jpg",
+          "caption": "Vienna funfair skyline"
+        }
       ]
     },
     "aquapark": {
       "src": "",
       "photos": [
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Aquapark_Senec_-_panoramio.jpg", "caption": "Aquapark Senec" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Aquapark_Tatralandia.jpg", "caption": "Thermal and waterpark day vibe" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Waterpark_Slides.jpg", "caption": "Water slides and pools" }
+        {
+          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Aquapark_Senec_-_panoramio.jpg",
+          "caption": "Aquapark Senec"
+        },
+        {
+          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Aquapark_Tatralandia.jpg",
+          "caption": "Thermal and waterpark day vibe"
+        },
+        {
+          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Waterpark_Slides.jpg",
+          "caption": "Water slides and pools"
+        }
       ]
     },
     "zoo": {
       "src": "",
       "photos": [
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/White_Lion.jpg", "caption": "Wildlife park highlight" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Iguana_iguana_-_Zoo_Bratislava_(2).jpg", "caption": "Bratislava Zoo species variety" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/White_Lion.jpg", "caption": "Family-friendly zoo stop" }
+        {
+          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/White_Lion.jpg",
+          "caption": "Wildlife park highlight"
+        },
+        {
+          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Iguana_iguana_-_Zoo_Bratislava_(2).jpg",
+          "caption": "Bratislava Zoo species variety"
+        },
+        {
+          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/White_Lion.jpg",
+          "caption": "Family-friendly zoo stop"
+        }
       ]
     },
     "foodhall": {
       "src": "",
       "photos": [
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Bratislava_star%C3%A1_radnica_4.jpg", "caption": "Historic old-town market setting" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Bratislava_Old_Town_(3706932185).jpg", "caption": "Central Bratislava evening walk" },
-        { "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Bratislava-Old_Town,_Slovakia_-_panoramio_(154).jpg", "caption": "Food and drinks district atmosphere" }
+        {
+          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Bratislava_star%C3%A1_radnica_4.jpg",
+          "caption": "Historic old-town market setting"
+        },
+        {
+          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Bratislava_Old_Town_(3706932185).jpg",
+          "caption": "Central Bratislava evening walk"
+        },
+        {
+          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Bratislava-Old_Town,_Slovakia_-_panoramio_(154).jpg",
+          "caption": "Food and drinks district atmosphere"
+        }
       ]
     }
   }

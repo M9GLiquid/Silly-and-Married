@@ -3,6 +3,8 @@ const mediaViewerTitle = document.getElementById("media-viewer-title");
 const eventTabsWrap = document.getElementById("media-event-tabs");
 const mediaEventDescription = document.getElementById("media-event-description");
 const tabsWrap = document.getElementById("media-category-tabs");
+const categorySelectMobile = document.getElementById("media-category-select-mobile");
+const uploadBtnMobile = document.getElementById("media-upload-btn-mobile");
 const photosGrid = document.getElementById("media-photos-grid");
 const videosGrid = document.getElementById("media-videos-grid");
 const photosEmpty = document.getElementById("media-photos-empty");
@@ -125,7 +127,7 @@ const renderSelectedUploadFiles = () => {
     categorySelect.setAttribute("aria-label", `Category for ${file.name}`);
     const placeholder = document.createElement("option");
     placeholder.value = "";
-    placeholder.textContent = "Choose category";
+    placeholder.textContent = "Select category";
     categorySelect.appendChild(placeholder);
     uploadCategoryOptions.forEach((category) => {
       const option = document.createElement("option");
@@ -150,8 +152,13 @@ const renderSelectedUploadFiles = () => {
     const removeButton = document.createElement("button");
     removeButton.type = "button";
     removeButton.className = "media-upload-file-remove";
-    removeButton.textContent = "Remove";
     removeButton.setAttribute("aria-label", `Remove ${file.name}`);
+    const removeIcon = document.createElement("span");
+    removeIcon.className = "material-symbols-outlined";
+    removeIcon.setAttribute("aria-hidden", "true");
+    removeIcon.textContent = "delete";
+    removeButton.appendChild(removeIcon);
+    removeButton.appendChild(document.createTextNode("Remove"));
     removeButton.addEventListener("click", () => {
       selectedUploadFiles = selectedUploadFiles.filter((_, candidateIndex) => candidateIndex !== index);
       renderSelectedUploadFiles();
@@ -363,7 +370,45 @@ const renderTabs = () => {
     fragment.appendChild(tab);
   });
   tabsWrap.appendChild(fragment);
+
+  if (categorySelectMobile) {
+    categorySelectMobile.innerHTML = "";
+    const albums = categories.filter((c) => !c.isUpload);
+    albums.forEach((category) => {
+      const option = document.createElement("option");
+      option.value = category.slug;
+      option.textContent = category.name;
+      if (category.slug === activeCategorySlug) option.selected = true;
+      categorySelectMobile.appendChild(option);
+    });
+  }
+
+  if (uploadBtnMobile) {
+    uploadBtnMobile.hidden = !categories.some((c) => c.isUpload);
+    uploadBtnMobile.classList.toggle("is-active", isUploadCategoryActive());
+  }
 };
+
+if (categorySelectMobile) {
+  categorySelectMobile.addEventListener("change", () => {
+    const slug = categorySelectMobile.value;
+    if (slug && slug !== activeCategorySlug) {
+      activeCategorySlug = slug;
+      renderTabs();
+      renderActiveCategory();
+    }
+  });
+}
+
+if (uploadBtnMobile) {
+  uploadBtnMobile.addEventListener("click", () => {
+    const uploadCategory = categories.find((c) => c.isUpload);
+    if (!uploadCategory || activeCategorySlug === uploadCategory.slug) return;
+    activeCategorySlug = uploadCategory.slug;
+    renderTabs();
+    renderActiveCategory();
+  });
+}
 
 const renderEventTabs = () => {
   if (!eventTabsWrap) return;
@@ -718,7 +763,7 @@ if (uploadForm) {
       return;
     }
     invalidUploadIndexes = new Set();
-    setUploadValidationMessage("All files are categorized. Upload service is coming soon.");
+    setUploadValidationMessage("Upload service is coming soon.");
     renderSelectedUploadFiles();
   });
 }
@@ -761,4 +806,3 @@ if (document.readyState === "loading") {
 } else {
   loadMedia();
 }
-
