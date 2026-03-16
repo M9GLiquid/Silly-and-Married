@@ -1,0 +1,12 @@
+{
+  "name": "wedding-website",
+  "private": true,
+  "scripts": {
+    "media:thumbs": "node scripts/generate-media-thumbs.js",
+    "dev:netlify": "netlify dev"
+  },
+  "dependencies": {
+    "sharp": "^0.34.4"
+  }
+}
+

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Media gallery for Thomas and Annamária's wedding photos and videos.">
+  <title>Thomas &amp; Annamária - Media</title>
+  <link rel="icon" href="images/hearts.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wdth,wght@70,100..900&family=Noto+Serif:ital,wght@0,400;0,700&family=Gowun+Batang:wght@400;700&family=Pinyon+Script&family=La+Belle+Aurore&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="https://db.onlinewebfonts.com/c/8376ccd594d2b66789059cbeb4f3f472?family=Atteron" type="text/css">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#813d6e",
+            paper: "#c2cbec",
+            sepia: "#7d7648",
+            secondary: "#d7adcd",
+            muted: "#b5c1b5",
+            olive: "#a6a261",
+            "bg-base": "#fde4ea",
+            ink: "#2b2b2b"
+          },
+          fontFamily: {
+            header: ["Noto Serif Display", "serif"],
+            body: ["Gowun Batang", "Noto Serif", "Atteron", "Georgia", "serif"],
+            script: ["Pinyon Script", "cursive"],
+            handwriting: ["La Belle Aurore", "cursive"],
+            typewriter: ["Courier Prime", "monospace"]
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body data-page="media" class="scrapbook-bg text-ink font-body antialiased overflow-x-hidden selection:bg-primary selection:text-bg-base">
+  <a href="#media" class="skip-link" data-scroll-to="media">Skip to main content</a>
+
+  <header class="fixed top-0 left-0 right-0 z-[80] p-4" aria-label="Main header">
+    <div class="max-w-7xl mx-auto flex items-start justify-between gap-4 relative header-shell">
+      <a href="index.html#home" class="site-brand-link bg-white/90 p-4 border border-sepia/20 shadow-lg flex items-center gap-2 no-underline text-inherit hover:opacity-90 transition-opacity" aria-label="Back to home">
+        <span class="material-symbols-outlined text-sepia" aria-hidden="true">favorite</span>
+        <span class="site-brand-title font-header text-3xl leading-none notranslate">Thomas &amp; Annamária</span>
+      </a>
+      <button id="menu-toggle" class="menu-toggle-btn bg-white/90 border border-sepia/30 px-3 py-2 text-xs font-body uppercase tracking-widest shadow-sm" aria-expanded="false" aria-controls="main-nav">
+        Menu
+      </button>
+      <nav id="main-nav" class="mobile-nav-panel" aria-label="Primary" aria-hidden="true">
+        <button id="menu-close" class="menu-close" aria-label="Close menu">×</button>
+        <a class="note-link" href="index.html#home">Home</a>
+        <a class="note-link" href="travel.html#travel">Travel</a>
+        <a class="note-link" href="media.html#media" data-scroll-to="media">Media</a>
+        <a class="note-link" href="story.html">Story</a>
+        <a class="rsvp-home-btn" href="https://forms.gle/Hgje4BP29G5tbi1d7">
+          <span class="material-symbols-outlined" aria-hidden="true">edit_note</span>
+          RSVP
+        </a>
+        <div class="lang-flags" role="group" aria-label="Language">
+          <button type="button" class="lang-flag-btn" data-lang="en" aria-label="English" title="English">
+            <img src="https://flagcdn.com/w20/gb.png" alt="" width="20" height="15" loading="lazy" decoding="async">
+          </button>
+          <button type="button" class="lang-flag-btn" data-lang="sk" aria-label="Slovenčina" title="Slovenčina">
+            <img src="https://flagcdn.com/w20/sk.png" alt="" width="20" height="15" loading="lazy" decoding="async">
+          </button>
+          <button type="button" class="lang-flag-btn" data-lang="sv" aria-label="Svenska" title="Svenska">
+            <img src="https://flagcdn.com/w20/se.png" alt="" width="20" height="15" loading="lazy" decoding="async">
+          </button>
+        </div>
+        <div id="google_translate_element" class="translate-widget-host"></div>
+      </nav>
+    </div>
+  </header>
+  <div id="menu-overlay" class="menu-overlay" hidden aria-hidden="true"></div>
+
+  <main id="media" class="max-w-6xl mx-auto px-4 pt-32 pb-20 space-y-20">
+    <section class="media-page-intro" aria-labelledby="media-title">
+      <div class="text-center">
+        <h1 id="media-title" class="text-6xl font-header text-sepia mb-2">Wedding Memories</h1>
+        <p class="font-body text-xs uppercase tracking-widest opacity-70">Uploads for the upcoming wedding and gallery from Beach Wedding 2024</p>
+      </div>
+    </section>
+
+    <section class="media-upload-section" aria-labelledby="media-upload-title">
+      <header class="media-section-header">
+        <div class="media-upload-title-row">
+          <h2 id="media-upload-title" class="text-3xl font-header text-sepia m-0">
+            Wedding Uploads
+          </h2>
+        </div>
+      </header>
+
+      <div class="media-upload-cards-grid">
+        <article class="media-upload-card" aria-label="Wedding photo upload">
+          <h3 class="media-upload-card-title">Upload Wedding Photos</h3>
+          <p class="media-upload-card-copy">Share candid moments, group photos, and ceremony highlights from your phone or camera.</p>
+          <p class="media-upload-card-copy">A mix of portraits and natural moments helps us remember the full day.</p>
+          <span class="media-upload-cta-wrap" data-tooltip="Coming soon, Check back in a few weeks." tabindex="0" aria-label="Photo upload not active yet">
+            <button type="button" class="media-upload-cta">
+              Upload Wedding Photos
+            </button>
+          </span>
+        </article>
+        <article class="media-upload-card" aria-label="Wedding video upload">
+          <h3 class="media-upload-card-title">Upload Wedding Videos</h3>
+          <p class="media-upload-card-copy">Send short clips from speeches, dancing, and funny moments throughout the celebration.</p>
+          <p class="media-upload-card-copy">Steady videos with clear sound are ideal, but every memory is appreciated.</p>
+          <span class="media-upload-cta-wrap" data-tooltip="Coming soon, Check back in a few weeks." tabindex="0" aria-label="Video upload not active yet">
+            <button type="button" class="media-upload-cta">
+              Upload Wedding Videos
+            </button>
+          </span>
+        </article>
+      </div>
+    </section>
+
+    <section class="media-viewer-section" aria-labelledby="media-viewer-title">
+      <header class="media-section-header">
+        <h2 id="media-viewer-title" class="text-4xl font-header text-sepia">Beach Wedding 2024</h2>
+      </header>
+
+      <div class="media-embed-shell">
+        <div id="media-category-tabs" class="media-category-tabs" role="tablist" aria-label="Beach Wedding 2024 albums">
+          <!-- Populated by assets/js/media.js -->
+        </div>
+        <p id="media-gallery-status" class="media-gallery-status font-body text-sm text-ink/75">Loading photos...</p>
+        <section id="media-photos-section" class="media-category-section" aria-label="Photos">
+          <div class="media-row-header">
+            <div class="media-type-tabs media-type-tabs-inline" role="tablist" aria-label="Media type tabs">
+              <button type="button" class="media-type-tab is-active" role="tab" aria-selected="true" data-media-type-tab="photos">
+                <span class="material-symbols-outlined" aria-hidden="true">photo_library</span>
+                Photos
+              </button>
+              <button type="button" class="media-type-tab" role="tab" aria-selected="false" data-media-type-tab="videos">
+                <span class="material-symbols-outlined" aria-hidden="true">videocam</span>
+                Videos
+              </button>
+            </div>
+            <p id="media-photos-count" class="media-row-count" aria-live="polite">0 / 0 loaded</p>
+          </div>
+          <div id="media-photos-grid" class="media-gallery-grid travel-card-thumbs" role="list" aria-label="Category photos">
+            <!-- Populated by assets/js/media.js -->
+          </div>
+          <div id="media-photos-sentinel" class="media-scroll-sentinel" aria-hidden="true"></div>
+        </section>
+        <section id="media-videos-section" class="media-category-section media-videos-section" aria-label="Videos" hidden>
+          <div class="media-row-header">
+            <div class="media-type-tabs media-type-tabs-inline" role="tablist" aria-label="Media type tabs">
+              <button type="button" class="media-type-tab" role="tab" aria-selected="false" data-media-type-tab="photos">
+                <span class="material-symbols-outlined" aria-hidden="true">photo_library</span>
+                Photos
+              </button>
+              <button type="button" class="media-type-tab is-active" role="tab" aria-selected="true" data-media-type-tab="videos">
+                <span class="material-symbols-outlined" aria-hidden="true">videocam</span>
+                Videos
+              </button>
+            </div>
+            <p id="media-videos-count" class="media-row-count" aria-live="polite">0 / 0 loaded</p>
+          </div>
+          <div id="media-videos-grid" class="media-videos-grid" role="list" aria-label="Category videos">
+            <!-- Populated by assets/js/media.js -->
+          </div>
+          <div id="media-videos-sentinel" class="media-scroll-sentinel" aria-hidden="true"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="text-center pt-8 pb-12 border-t border-sepia/20 space-y-7 max-w-6xl mx-auto px-4">
+    <a href="index.html#home" class="block no-underline text-inherit hover:opacity-90 transition-opacity" aria-label="Back to home">
+      <h2 class="text-6xl font-header text-sepia notranslate">Thomas &amp; Annamária</h2>
+    </a>
+    <p class="font-body text-sm">
+      Questions? Email us at
+      <a href="mailto:sillyandmarried2026@gmail.com" class="text-primary hover:underline italic font-bold">sillyandmarried2026@gmail.com</a>
+    </p>
+    <p class="font-handwriting text-3xl text-sepia">We cannot wait to celebrate with you in Slovakia.</p>
+    <p class="text-[10px] font-body tracking-[0.3em] uppercase opacity-60">© 2026 Thomas &amp; Annamária Wedding</p>
+    <p class="text-[10px] font-body opacity-50">Translation by Google. Results may vary.</p>
+  </footer>
+
+  <div id="lightbox" class="lightbox hidden" role="dialog" aria-modal="true" aria-labelledby="lightbox-caption">
+    <button id="lightbox-close" class="lightbox-close" aria-label="Close photo viewer">×</button>
+    <button id="lightbox-prev" class="lightbox-nav lightbox-prev" aria-label="Previous photo" hidden>‹</button>
+    <button id="lightbox-next" class="lightbox-nav lightbox-next" aria-label="Next photo" hidden>›</button>
+    <img id="lightbox-image" src="" alt="">
+    <p id="lightbox-caption" class="lightbox-caption"></p>
+  </div>
+  <div id="video-modal" class="lightbox hidden" role="dialog" aria-modal="true" aria-labelledby="video-modal-caption">
+    <button id="video-modal-close" class="lightbox-close" aria-label="Close video viewer">×</button>
+    <video id="video-modal-player" controls playsinline preload="metadata" class="video-modal-player"></video>
+    <p id="video-modal-caption" class="lightbox-caption"></p>
+  </div>
+
+  <script defer src="assets/js/auto-translate.js"></script>
+  <script defer src="assets/js/main.js"></script>
+  <script defer src="assets/js/gallery.js"></script>
+  <script defer src="assets/js/media.js"></script>
+</body>
+</html>

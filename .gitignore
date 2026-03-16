@@ -14,3 +14,8 @@ npm-debug.log*
 
 screenshots/
 screenshot/
+# Local Netlify folder
+.netlify
+
+# Dependencies
+node_modules/
