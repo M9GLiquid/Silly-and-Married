@@ -5,7 +5,8 @@
     "media:thumbs": "node tools/generate-media-thumbs.js",
     "media:list": "node tools/generate-media-list.js",
     "build": "npm run media:list",
-    "dev:netlify": "netlify dev"
+    "dev:netlify": "netlify dev",
+    "dev:mobile": "python -m http.server 4173 --bind 0.0.0.0"
   },
   "dependencies": {
     "sharp": "^0.34.4"

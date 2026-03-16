@@ -94,11 +94,20 @@
 }
 
 .header-shell {
+  position: relative;
+  z-index: 1;
   background: rgb(253 228 234 / 65%);
   backdrop-filter: blur(4px);
   border: 1px solid rgb(129 61 110 / 18%);
   border-radius: 0.4rem;
   padding: 0.6rem;
+}
+
+@media (max-width: 1199px) {
+  .header-shell {
+    backdrop-filter: none;
+    background: rgb(253 228 234 / 95%);
+  }
 }
 
 header[aria-label="Main header"] {
@@ -346,14 +355,14 @@ header[aria-label="Main header"] {
 
 .rsvp-home-block {
   position: relative;
-  margin-top: 1rem;
+  margin-top: 1.625rem;
   padding: 1.25rem 1.25rem 1.35rem;
   background: linear-gradient(180deg, rgb(255 255 255 / 98%), rgb(255 255 255 / 94%));
   border: 1px solid rgb(129 61 110 / 20%);
   border-left: 5px solid var(--primary);
   box-shadow: 0 8px 16px rgb(0 0 0 / 10%);
   border-radius: 0.28rem;
-  overflow: hidden;
+  overflow: visible;
   transition: box-shadow 0.22s ease, border-color 0.22s ease;
 }
 
@@ -376,14 +385,15 @@ header[aria-label="Main header"] {
 }
 
 .rsvp-home-block::before {
-  left: 1rem;
+  left: 0.5rem;
   transform: rotate(-4deg);
 }
 
 .rsvp-home-block::after {
-  right: 1rem;
+  right: 0.5rem;
   transform: rotate(4deg);
 }
+
 
 .rsvp-home-desc {
   margin: 0 0 0.7rem;
@@ -456,7 +466,8 @@ header[aria-label="Main header"] {
   visibility: hidden;
   pointer-events: none;
   transition: transform 0.26s ease, opacity 0.2s ease, visibility 0.2s ease;
-  z-index: 1310;
+  z-index: 1500;
+  isolation: isolate;
 }
 
 .mobile-nav-panel.is-open {
@@ -469,9 +480,10 @@ header[aria-label="Main header"] {
 .menu-overlay {
   position: fixed;
   inset: 0;
-  background: rgb(0 0 0 / 35%);
-  backdrop-filter: blur(1px);
-  z-index: 1290;
+  background: rgb(0 0 0 / 40%);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 0;
 }
 
 .menu-close {
@@ -2180,6 +2192,7 @@ body.modal-open {
   .header-shell {
     gap: 0.45rem;
     padding: 0.5rem;
+    min-width: 0;
   }
 
   .site-brand-link {
@@ -2187,6 +2200,7 @@ body.modal-open {
     min-width: 0;
     padding: 0.5rem !important;
     gap: 0.35rem !important;
+    overflow: hidden;
   }
 
   .site-brand-link .material-symbols-outlined {
@@ -2194,7 +2208,24 @@ body.modal-open {
   }
 
   .site-brand-title {
-    font-size: clamp(1.25rem, 6.2vw, 1.7rem) !important;
+    font-size: clamp(1.1rem, 5.5vw, 1.5rem) !important;
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.1;
+  }
+
+  .rsvp-home-block::before,
+  .rsvp-home-block::after {
+    width: 40px;
+    height: 12px;
+  }
+
+  .rsvp-home-block::before {
+    left: 0.35rem;
+  }
+
+  .rsvp-home-block::after {
+    right: 0.35rem;
   }
 
   .menu-toggle-btn {

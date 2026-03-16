@@ -129,6 +129,20 @@
       button.setAttribute("translate", "no");
       button.addEventListener("click", () => {
         if (!buttonLanguage) return;
+        const menuToggle = document.getElementById("menu-toggle");
+        const mainNav = document.getElementById("main-nav");
+        const menuOverlay = document.getElementById("menu-overlay");
+        if (menuToggle?.getAttribute("aria-expanded") === "true" && mainNav) {
+          menuToggle.setAttribute("aria-expanded", "false");
+          mainNav.classList.remove("is-open");
+          mainNav.setAttribute("aria-hidden", "true");
+          mainNav.inert = true;
+          if (menuOverlay) {
+            menuOverlay.hidden = true;
+            menuOverlay.setAttribute("aria-hidden", "true");
+          }
+          document.body.style.overflow = "";
+        }
         applyLanguage(buttonLanguage);
       });
     });
