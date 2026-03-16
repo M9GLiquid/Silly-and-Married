@@ -1,7 +1,12 @@
 const mediaStatus = document.getElementById("media-gallery-status");
+const mediaViewerTitle = document.getElementById("media-viewer-title");
+const eventTabsWrap = document.getElementById("media-event-tabs");
+const mediaEventDescription = document.getElementById("media-event-description");
 const tabsWrap = document.getElementById("media-category-tabs");
 const photosGrid = document.getElementById("media-photos-grid");
 const videosGrid = document.getElementById("media-videos-grid");
+const photosEmpty = document.getElementById("media-photos-empty");
+const videosEmpty = document.getElementById("media-videos-empty");
 const photosCount = document.getElementById("media-photos-count");
 const videosCount = document.getElementById("media-videos-count");
 const photosSentinel = document.getElementById("media-photos-sentinel");
@@ -9,16 +14,27 @@ const videosSentinel = document.getElementById("media-videos-sentinel");
 const mediaTypeTabs = Array.from(document.querySelectorAll("[data-media-type-tab]"));
 const mediaPhotosSection = document.getElementById("media-photos-section");
 const mediaVideosSection = document.getElementById("media-videos-section");
+const mediaUploadSection = document.getElementById("media-upload-category-section");
 const videoModal = document.getElementById("video-modal");
 const videoModalPlayer = document.getElementById("video-modal-player");
 const videoModalCaption = document.getElementById("video-modal-caption");
 const videoModalClose = document.getElementById("video-modal-close");
+const uploadForm = document.getElementById("media-upload-form");
+const uploadInput = document.getElementById("media-upload-input");
+const uploadDropzone = document.getElementById("media-upload-dropzone");
+const uploadSubmit = document.getElementById("media-upload-submit");
+const uploadFilesTitle = document.getElementById("media-upload-files-title");
+const uploadFilesList = document.getElementById("media-upload-files-list");
+const uploadValidation = document.getElementById("media-upload-validation");
 
 const PHOTO_BATCH_SIZE = 24;
 const VIDEO_BATCH_SIZE = 6;
 const PREFETCH_AHEAD_SIZE = 24;
 
 let categories = [];
+let allCategories = [];
+let events = [];
+let activeEventSlug = "";
 let activeCategorySlug = "";
 let activeMediaType = "photos";
 let photoRenderCount = 0;
@@ -28,15 +44,204 @@ let loadingMoreVideos = false;
 let renderVersion = 0;
 let photosObserver = null;
 let videosObserver = null;
+let selectedUploadFiles = [];
+let uploadCategoryOptions = [];
+let invalidUploadIndexes = new Set();
 
-const setStatus = (message, isError = false) => {
+const setStatus = (message, isError = false, isHint = false) => {
   if (!mediaStatus) return;
   mediaStatus.textContent = message;
   mediaStatus.classList.toggle("is-error", isError);
+  mediaStatus.classList.toggle("is-hint", isHint);
+};
+
+const formatFileSize = (bytes) => {
+  if (!Number.isFinite(bytes) || bytes <= 0) return "0 B";
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  if (bytes < 1024 * 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  return `${(bytes / (1024 * 1024 * 1024)).toFixed(1)} GB`;
+};
+
+const dedupeFiles = (files) => {
+  const map = new Map();
+  files.forEach((file) => {
+    const key = `${file.name}::${file.size}::${file.lastModified}`;
+    if (!map.has(key)) {
+      map.set(key, file);
+    }
+  });
+  return Array.from(map.values());
+};
+
+const isUploadCategoryActive = () => activeCategorySlug === "upload";
+
+const isAllowedUploadFile = (file) => {
+  if (!file || typeof file.type !== "string") return false;
+  return file.type.startsWith("image/") || file.type.startsWith("video/");
+};
+
+const updateUploadSubmitState = () => {
+  if (!uploadSubmit) return;
+  const hasFiles = selectedUploadFiles.length > 0;
+  uploadSubmit.disabled = !hasFiles;
+};
+
+const setUploadValidationMessage = (message = "", isError = false) => {
+  if (!uploadValidation) return;
+  uploadValidation.textContent = message;
+  uploadValidation.hidden = !message;
+  uploadValidation.classList.toggle("is-error", isError);
+};
+
+const renderSelectedUploadFiles = () => {
+  if (!uploadFilesList || !uploadFilesTitle) return;
+  uploadFilesList.innerHTML = "";
+  if (!selectedUploadFiles.length) {
+    uploadFilesTitle.textContent = "No files selected yet.";
+    updateUploadSubmitState();
+    return;
+  }
+  uploadFilesTitle.textContent = `${selectedUploadFiles.length} file${selectedUploadFiles.length === 1 ? "" : "s"} selected`;
+  const fragment = document.createDocumentFragment();
+  selectedUploadFiles.forEach((entry, index) => {
+    const file = entry.file;
+    const item = document.createElement("li");
+    item.className = "media-upload-file-item";
+    if (invalidUploadIndexes.has(index)) {
+      item.classList.add("is-invalid");
+    }
+
+    const name = document.createElement("span");
+    name.className = "media-upload-file-name";
+    name.textContent = file.name;
+
+    const meta = document.createElement("span");
+    meta.className = "media-upload-file-meta";
+    meta.textContent = formatFileSize(file.size);
+
+    const categorySelect = document.createElement("select");
+    categorySelect.className = "media-upload-file-select";
+    categorySelect.setAttribute("aria-label", `Category for ${file.name}`);
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "Choose category";
+    categorySelect.appendChild(placeholder);
+    uploadCategoryOptions.forEach((category) => {
+      const option = document.createElement("option");
+      option.value = category.slug;
+      option.textContent = category.name;
+      categorySelect.appendChild(option);
+    });
+    categorySelect.value = entry.categorySlug || "";
+    if (invalidUploadIndexes.has(index)) {
+      categorySelect.classList.add("is-invalid");
+    }
+    categorySelect.addEventListener("change", () => {
+      selectedUploadFiles[index].categorySlug = categorySelect.value;
+      if (categorySelect.value) {
+        invalidUploadIndexes.delete(index);
+      }
+      updateUploadSubmitState();
+      setUploadValidationMessage("");
+      renderSelectedUploadFiles();
+    });
+
+    const removeButton = document.createElement("button");
+    removeButton.type = "button";
+    removeButton.className = "media-upload-file-remove";
+    removeButton.textContent = "Remove";
+    removeButton.setAttribute("aria-label", `Remove ${file.name}`);
+    removeButton.addEventListener("click", () => {
+      selectedUploadFiles = selectedUploadFiles.filter((_, candidateIndex) => candidateIndex !== index);
+      renderSelectedUploadFiles();
+    });
+
+    item.appendChild(name);
+    item.appendChild(meta);
+    item.appendChild(categorySelect);
+    item.appendChild(removeButton);
+    fragment.appendChild(item);
+  });
+  uploadFilesList.appendChild(fragment);
+  updateUploadSubmitState();
+};
+
+const mergeSelectedUploadFiles = (incomingFiles) => {
+  const filtered = incomingFiles.filter((file) => isAllowedUploadFile(file));
+  const existing = selectedUploadFiles.map((entry) => entry.file);
+  const mergedFiles = dedupeFiles([...existing, ...filtered]);
+  selectedUploadFiles = mergedFiles.map((file) => {
+    const previous = selectedUploadFiles.find((entry) => entry.file.name === file.name && entry.file.size === file.size && entry.file.lastModified === file.lastModified);
+    return { file, categorySlug: previous?.categorySlug || "" };
+  });
+  invalidUploadIndexes = new Set();
+  setUploadValidationMessage("");
+  renderSelectedUploadFiles();
 };
 
 const getActiveCategory = () =>
   categories.find((category) => category.slug === activeCategorySlug) || null;
+
+const getActiveEvent = () =>
+  events.find((event) => event.slug === activeEventSlug) || null;
+
+const updateEmptyMediaStatus = (activeCategory) => {
+  if (!activeCategory) {
+    if (photosEmpty) photosEmpty.hidden = true;
+    if (videosEmpty) videosEmpty.hidden = true;
+    if (photosGrid) photosGrid.hidden = false;
+    if (videosGrid) videosGrid.hidden = false;
+    setStatus("");
+    return;
+  }
+  const photosAreEmpty = (activeCategory.photos?.length || 0) === 0;
+  const videosAreEmpty = (activeCategory.videos?.length || 0) === 0;
+  const activeEvent = getActiveEvent();
+  const isWedding2026 = activeEvent?.slug === "wedding-2026";
+  const photoEmptyCopy = isWedding2026
+    ? 'No photos are in this folder yet. <a href="#" class="media-inline-link" data-open-upload>Upload your own photos</a>.'
+    : "No photos are in this folder yet.";
+  const videoEmptyCopy = isWedding2026
+    ? 'No videos are in this folder yet. <a href="#" class="media-inline-link" data-open-upload>Upload your own videos</a>.'
+    : "No videos are in this folder yet.";
+  if (photosGrid) photosGrid.hidden = photosAreEmpty;
+  if (videosGrid) videosGrid.hidden = videosAreEmpty;
+  if (photosEmpty) photosEmpty.hidden = !photosAreEmpty;
+  if (videosEmpty) videosEmpty.hidden = !videosAreEmpty;
+  if (photosEmpty) photosEmpty.innerHTML = photoEmptyCopy;
+  if (videosEmpty) videosEmpty.innerHTML = videoEmptyCopy;
+  setStatus("");
+};
+
+const updateEventDescription = () => {
+  if (!mediaEventDescription) return;
+  const activeEvent = getActiveEvent();
+  const paragraphs = Array.isArray(activeEvent?.description) ? activeEvent.description : [];
+  mediaEventDescription.innerHTML = paragraphs.map((text) => `<p>${text}</p>`).join("");
+};
+
+const openUploadCategory = () => {
+  const uploadCategory = categories.find((category) => category.isUpload);
+  if (!uploadCategory) return;
+  activeCategorySlug = uploadCategory.slug;
+  renderTabs();
+  renderActiveCategory();
+};
+
+const updateUploadCategoryOptions = () => {
+  const activeEvent = getActiveEvent();
+  const list = Array.isArray(activeEvent?.categories) ? activeEvent.categories : [];
+  uploadCategoryOptions = list.filter((category) => !category.isUpload).map((category) => ({ slug: category.slug, name: category.name }));
+  selectedUploadFiles = selectedUploadFiles.map((entry) => {
+    const stillValid = uploadCategoryOptions.some((category) => category.slug === entry.categorySlug);
+    return { ...entry, categorySlug: stillValid ? entry.categorySlug : "" };
+  });
+  invalidUploadIndexes = new Set();
+  setUploadValidationMessage("");
+  renderSelectedUploadFiles();
+  updateUploadSubmitState();
+};
 
 const preloadImage = (src) =>
   new Promise((resolve) => {
@@ -141,6 +346,9 @@ const renderTabs = () => {
     const tab = document.createElement("button");
     tab.type = "button";
     tab.className = "media-category-tab";
+    if (category.isUpload) {
+      tab.classList.add("is-upload");
+    }
     tab.setAttribute("role", "tab");
     tab.setAttribute("aria-selected", String(category.slug === activeCategorySlug));
     tab.textContent = category.name;
@@ -157,8 +365,39 @@ const renderTabs = () => {
   tabsWrap.appendChild(fragment);
 };
 
+const renderEventTabs = () => {
+  if (!eventTabsWrap) return;
+  eventTabsWrap.innerHTML = "";
+  const fragment = document.createDocumentFragment();
+  events.forEach((eventItem) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "media-event-tab";
+    button.setAttribute("role", "tab");
+    const isActive = eventItem.slug === activeEventSlug;
+    button.setAttribute("aria-selected", String(isActive));
+    if (isActive) button.classList.add("is-active");
+    button.textContent = eventItem.name;
+    button.addEventListener("click", () => {
+      if (eventItem.slug === activeEventSlug) return;
+      activeEventSlug = eventItem.slug;
+      categories = eventItem.categories;
+      activeCategorySlug = categories[0]?.slug || "";
+      updateEventDescription();
+      updateUploadCategoryOptions();
+      renderEventTabs();
+      renderTabs();
+      renderActiveCategory();
+    });
+    fragment.appendChild(button);
+  });
+  eventTabsWrap.appendChild(fragment);
+};
+
 const setActiveMediaType = (type) => {
+  if (isUploadCategoryActive()) return;
   activeMediaType = type === "videos" ? "videos" : "photos";
+  const activeCategory = getActiveCategory();
   const photosActive = activeMediaType === "photos";
   mediaTypeTabs.forEach((tab) => {
     const isActive = tab.dataset.mediaTypeTab === activeMediaType;
@@ -170,6 +409,7 @@ const setActiveMediaType = (type) => {
   if (!photosActive && videoRenderCount === 0) {
     loadMoreVideos();
   }
+  updateEmptyMediaStatus(activeCategory);
 };
 
 const updateCounters = (activeCategory) => {
@@ -294,12 +534,28 @@ const renderActiveCategory = async () => {
   const active = getActiveCategory();
   if (!active || !photosGrid || !videosGrid) return;
 
+  if (mediaViewerTitle) {
+    const currentEvent = getActiveEvent();
+    mediaViewerTitle.textContent = currentEvent?.name || "Wedding Memories";
+  }
+
+  if (isUploadCategoryActive()) {
+    teardownObservers();
+    if (mediaPhotosSection) mediaPhotosSection.hidden = true;
+    if (mediaVideosSection) mediaVideosSection.hidden = true;
+    if (mediaUploadSection) mediaUploadSection.hidden = false;
+    setStatus("");
+    return;
+  }
+
   renderVersion += 1;
   const currentRenderVersion = renderVersion;
   photosGrid.innerHTML = "";
   videosGrid.innerHTML = "";
   loadingMorePhotos = false;
   loadingMoreVideos = false;
+  if (mediaUploadSection) mediaUploadSection.hidden = true;
+  if (mediaPhotosSection) mediaPhotosSection.hidden = false;
   photoRenderCount = Math.min(active.photos.length, PHOTO_BATCH_SIZE);
   videoRenderCount = 0;
 
@@ -307,7 +563,8 @@ const renderActiveCategory = async () => {
   updateCounters(active);
   preloadNextPhotoBatch(active);
   setupObservers();
-  setStatus("");
+  updateEmptyMediaStatus(active);
+  setActiveMediaType(activeMediaType);
 };
 
 const fetchMediaData = async () => {
@@ -335,24 +592,66 @@ const fetchMediaData = async () => {
 };
 
 const loadMedia = async () => {
-  if (!tabsWrap || !photosGrid || !videosGrid) return;
+  if (!tabsWrap || !photosGrid || !videosGrid || !eventTabsWrap) return;
 
   try {
     const data = await fetchMediaData();
-    categories = Array.isArray(data.categories)
+    allCategories = Array.isArray(data.categories)
       ? data.categories.filter((category) => (category.photos?.length || 0) + (category.videos?.length || 0) > 0)
       : [];
-    if (!categories.length) {
+    if (!allCategories.length) {
       setStatus("No media categories found in /media folders.");
       return;
     }
 
+    const uploadCategory = { slug: "upload", name: "Upload", photos: [], videos: [], total: 0, isUpload: true };
+    const wedding2026CategorySeeds = [
+      { slug: "church", name: "Church" },
+      { slug: "venue", name: "Venue" },
+      { slug: "dancing", name: "Dancing" },
+      { slug: "guests", name: "Guests & Group Photos" },
+      { slug: "ceremony", name: "Ceremony Moments" },
+      { slug: "reception", name: "Reception Moments" }
+    ];
+    const emptyWeddingCategories = wedding2026CategorySeeds.map((category) => ({
+      slug: category.slug,
+      name: category.name,
+      photos: [],
+      videos: [],
+      total: 0
+    }));
+    events = [
+      {
+        slug: "beach-2024",
+        name: "2024 Beach Ceremony",
+        description: [
+          "<strong>In 2024, we invited our closest 30 people</strong> to join us for a symbolic beach ceremony in northern Denmark - no priest and no legal status, just love and celebration.",
+          "The day unfolded in three beautiful moments: we exchanged vows in the dunes, celebrated with champagne and a run into the sea, and then continued to Benthe and Claes' venue for pizza and a proper party."
+        ],
+        categories: allCategories
+      },
+      {
+        slug: "wedding-2026",
+        name: "2026 Wedding",
+        description: [
+          "<strong>This story is still being written.</strong> We would love your photos and videos so we can tell it properly.",
+          "Use the upload flow and tag each file with a category - then it will appear in the matching folder below. <a href=\"#\" class=\"media-inline-link\" data-open-upload>Upload your own photos or videos</a>."
+        ],
+        categories: [...emptyWeddingCategories, uploadCategory]
+      }
+    ];
+
+    const defaultEvent = events.find((event) => event.slug === "wedding-2026") || events[0];
+    activeEventSlug = defaultEvent.slug;
+    categories = defaultEvent.categories;
     activeCategorySlug = categories[0].slug;
+    updateEventDescription();
+    updateUploadCategoryOptions();
+    renderEventTabs();
     renderTabs();
     await renderActiveCategory();
-    setActiveMediaType(activeMediaType);
   } catch (_error) {
-    setStatus("Could not load Beach Wedding media.", true);
+    setStatus("Could not load wedding media.", true);
   }
 };
 
@@ -367,6 +666,87 @@ if (videoModalClose) {
 if (videoModal) {
   videoModal.addEventListener("click", (event) => {
     if (event.target === videoModal) closeVideoModal();
+  });
+}
+
+if (uploadInput) {
+  uploadInput.addEventListener("change", () => {
+    const files = Array.from(uploadInput.files || []);
+    if (!files.length) return;
+    mergeSelectedUploadFiles(files);
+    uploadInput.value = "";
+  });
+}
+
+if (uploadDropzone) {
+  ["dragenter", "dragover"].forEach((eventName) => {
+    uploadDropzone.addEventListener(eventName, (event) => {
+      event.preventDefault();
+      uploadDropzone.classList.add("is-dragover");
+    });
+  });
+  ["dragleave", "drop"].forEach((eventName) => {
+    uploadDropzone.addEventListener(eventName, (event) => {
+      event.preventDefault();
+      uploadDropzone.classList.remove("is-dragover");
+    });
+  });
+  uploadDropzone.addEventListener("drop", (event) => {
+    const files = Array.from(event.dataTransfer?.files || []);
+    if (!files.length) return;
+    mergeSelectedUploadFiles(files);
+  });
+}
+
+if (uploadForm) {
+  uploadForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (!selectedUploadFiles.length) {
+      setUploadValidationMessage("Please add at least one file before submitting.", true);
+      return;
+    }
+    const missingIndexes = [];
+    selectedUploadFiles.forEach((entry, index) => {
+      if (!entry.categorySlug) {
+        missingIndexes.push(index);
+      }
+    });
+    if (missingIndexes.length) {
+      invalidUploadIndexes = new Set(missingIndexes);
+      setUploadValidationMessage("Please choose a category for each highlighted file.", true);
+      renderSelectedUploadFiles();
+      return;
+    }
+    invalidUploadIndexes = new Set();
+    setUploadValidationMessage("All files are categorized. Upload service is coming soon.");
+    renderSelectedUploadFiles();
+  });
+}
+
+if (mediaEventDescription) {
+  mediaEventDescription.addEventListener("click", (event) => {
+    const trigger = event.target instanceof Element ? event.target.closest("[data-open-upload]") : null;
+    if (!trigger) return;
+    event.preventDefault();
+    openUploadCategory();
+  });
+}
+
+if (photosEmpty) {
+  photosEmpty.addEventListener("click", (event) => {
+    const trigger = event.target instanceof Element ? event.target.closest("[data-open-upload]") : null;
+    if (!trigger) return;
+    event.preventDefault();
+    openUploadCategory();
+  });
+}
+
+if (videosEmpty) {
+  videosEmpty.addEventListener("click", (event) => {
+    const trigger = event.target instanceof Element ? event.target.closest("[data-open-upload]") : null;
+    if (!trigger) return;
+    event.preventDefault();
+    openUploadCategory();
   });
 }
 

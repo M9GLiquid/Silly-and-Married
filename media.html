@@ -87,42 +87,13 @@
       </div>
     </section>
 
-    <section class="media-upload-section" aria-labelledby="media-upload-title">
-      <header class="media-section-header">
-        <div class="media-upload-title-row">
-          <h2 id="media-upload-title" class="text-3xl font-header text-sepia m-0">
-            Wedding Uploads
-          </h2>
-        </div>
-      </header>
-
-      <div class="media-upload-cards-grid">
-        <article class="media-upload-card" aria-label="Wedding photo upload">
-          <h3 class="media-upload-card-title">Upload Wedding Photos</h3>
-          <p class="media-upload-card-copy">Share candid moments, group photos, and ceremony highlights from your phone or camera.</p>
-          <p class="media-upload-card-copy">A mix of portraits and natural moments helps us remember the full day.</p>
-          <span class="media-upload-cta-wrap" data-tooltip="Coming soon, Check back in a few weeks." tabindex="0" aria-label="Photo upload not active yet">
-            <button type="button" class="media-upload-cta">
-              Upload Wedding Photos
-            </button>
-          </span>
-        </article>
-        <article class="media-upload-card" aria-label="Wedding video upload">
-          <h3 class="media-upload-card-title">Upload Wedding Videos</h3>
-          <p class="media-upload-card-copy">Send short clips from speeches, dancing, and funny moments throughout the celebration.</p>
-          <p class="media-upload-card-copy">Steady videos with clear sound are ideal, but every memory is appreciated.</p>
-          <span class="media-upload-cta-wrap" data-tooltip="Coming soon, Check back in a few weeks." tabindex="0" aria-label="Video upload not active yet">
-            <button type="button" class="media-upload-cta">
-              Upload Wedding Videos
-            </button>
-          </span>
-        </article>
-      </div>
-    </section>
-
     <section class="media-viewer-section" aria-labelledby="media-viewer-title">
       <header class="media-section-header">
-        <h2 id="media-viewer-title" class="text-4xl font-header text-sepia">Beach Wedding 2024</h2>
+        <h2 id="media-viewer-title" class="text-4xl font-header text-sepia">Wedding Memories</h2>
+        <div id="media-event-tabs" class="media-event-tabs" role="tablist" aria-label="Select wedding gallery">
+          <!-- Populated by assets/js/media.js -->
+        </div>
+        <div id="media-event-description" class="media-event-description" aria-live="polite"></div>
       </header>
 
       <div class="media-embed-shell">
@@ -147,6 +118,7 @@
           <div id="media-photos-grid" class="media-gallery-grid travel-card-thumbs" role="list" aria-label="Category photos">
             <!-- Populated by assets/js/media.js -->
           </div>
+          <p id="media-photos-empty" class="media-empty-hint" hidden>No pictures or videos available yet.</p>
           <div id="media-photos-sentinel" class="media-scroll-sentinel" aria-hidden="true"></div>
         </section>
         <section id="media-videos-section" class="media-category-section media-videos-section" aria-label="Videos" hidden>
@@ -166,7 +138,38 @@
           <div id="media-videos-grid" class="media-videos-grid" role="list" aria-label="Category videos">
             <!-- Populated by assets/js/media.js -->
           </div>
+          <p id="media-videos-empty" class="media-empty-hint" hidden>No pictures or videos available yet.</p>
           <div id="media-videos-sentinel" class="media-scroll-sentinel" aria-hidden="true"></div>
+        </section>
+        <section id="media-upload-category-section" class="media-category-section" aria-label="Upload media" hidden>
+          <section id="media-upload-panel" class="media-upload-panel" aria-labelledby="media-upload-panel-title">
+            <div class="media-upload-panel-header">
+              <h3 id="media-upload-panel-title" class="media-upload-panel-title">Upload Wedding Media</h3>
+              <p id="media-upload-panel-note" class="media-upload-panel-note">Choose a category, then drag and drop your photos or videos.</p>
+            </div>
+            <form id="media-upload-form" class="media-upload-form" novalidate>
+              <input id="media-upload-input" class="media-upload-input" type="file" accept="image/*,video/*" multiple>
+              <label for="media-upload-input" id="media-upload-dropzone" class="media-upload-dropzone">
+                <span class="media-upload-dropzone-title">Drag and drop files here</span>
+                <span class="media-upload-dropzone-copy">or click to choose files from your device</span>
+              </label>
+              <p class="media-upload-field-label">Select a category for each file below</p>
+              <div class="media-upload-controls">
+              </div>
+              <div class="media-upload-files">
+                <p id="media-upload-files-title" class="media-upload-files-title">No files selected yet.</p>
+                <ul id="media-upload-files-list" class="media-upload-files-list" aria-live="polite"></ul>
+                <p id="media-upload-validation" class="media-upload-validation" hidden></p>
+              </div>
+              <div class="media-upload-controls">
+                <span class="media-upload-cta-wrap" data-tooltip="Coming soon, uploads are not live yet." tabindex="0" aria-label="Upload submission not active yet">
+                  <button id="media-upload-submit" type="submit" class="media-upload-cta media-upload-submit" disabled>
+                    Submit Upload
+                  </button>
+                </span>
+              </div>
+            </form>
+          </section>
         </section>
       </div>
     </section>
