@@ -3,6 +3,8 @@
   "private": true,
   "scripts": {
     "media:thumbs": "node tools/generate-media-thumbs.js",
+    "media:list": "node tools/generate-media-list.js",
+    "build": "npm run media:list",
     "dev:netlify": "netlify dev"
   },
   "dependencies": {

@@ -614,6 +614,8 @@ const renderActiveCategory = async () => {
 
 const fetchMediaData = async () => {
   const endpoints = [
+    "/assets/data/media-list.json",
+    "./assets/data/media-list.json",
     "/.netlify/functions/media-list",
     "./.netlify/functions/media-list",
     "/api/media-list"
@@ -628,12 +630,16 @@ const fetchMediaData = async () => {
       if (!response.ok) {
         throw new Error(`${endpoint} returned ${response.status}`);
       }
-      return await response.json();
+      const data = await response.json();
+      if (data && Array.isArray(data.categories)) {
+        return data;
+      }
+      throw new Error("Invalid media list format");
     } catch (error) {
       lastError = error;
     }
   }
-  throw lastError || new Error("No media function endpoint is reachable");
+  throw lastError || new Error("No media list is reachable");
 };
 
 const loadMedia = async () => {
