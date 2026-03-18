@@ -179,16 +179,24 @@
       "src": "",
       "photos": [
         {
-          "src": "images/events/teplice/Trenčianske_teplice_-_park.JPG",
-          "caption": "Trenčianske Teplice spa park"
+          "src": "images/events/teplice/luhacovice-01.jpg",
+          "caption": "Luhačovice spa architecture"
         },
         {
-          "src": "images/events/teplice/Trenčianske_Teplice_–_Most_slávy.jpg",
-          "caption": "Most slávy in the spa district"
+          "src": "images/events/teplice/luhacovice-02.jpg",
+          "caption": "Spa colonnade surroundings"
         },
         {
-          "src": "images/events/teplice/Trenčianske_Teplice_–_Nefunkčná_fontána.jpg",
-          "caption": "Historic spa fountain area"
+          "src": "images/events/teplice/luhacovice-03.jpg",
+          "caption": "Historic spa promenade"
+        },
+        {
+          "src": "images/events/teplice/luhacovice-04.jpg",
+          "caption": "Luhačovice town and spa district"
+        },
+        {
+          "src": "images/events/teplice/luhacovice-05.jpg",
+          "caption": "Lazne Luhačovice exterior"
         }
       ]
     },

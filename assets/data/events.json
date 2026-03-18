@@ -62,18 +62,18 @@
       "map": { "lat": 48.790926, "lng": 17.898352 }
     },
     {
-      "title": "Trenčianske Teplice Spa",
+      "title": "Spa Luhačovice",
       "icon": "hot_tub",
-      "description": "Thermal pools, wellness, and classic spa-town atmosphere. Ideal for a slower recovery day after travel or wedding celebrations.",
+      "description": "Classic Czech spa-town atmosphere with wellness, architecture, and a relaxed pace. Ideal for a slower recovery day after travel or wedding celebrations.",
       "links": [
         {
           "label": "Official spa site",
-          "href": "https://www.kupele-teplice.sk/en/home/"
+          "href": "https://www.lazneluhacovice.cz/en/"
         }
       ],
       "galleryKey": "teplice",
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=48.9106,18.1669",
-      "map": { "lat": 48.9106, "lng": 18.1669 }
+      "mapsUrl": "https://www.google.com/maps/place/Luha%C4%8Dovice,+Czechia/@49.105294,17.7561598,22918m/data=!3m2!1e3!4b1!4m6!3m5!1s0x47136e4d9b1b50a9:0x400af0f66156630!8m2!3d49.0998215!4d17.757483!16zL20vMGM1Mzhy?entry=ttu&g_ep=EgoyMDI2MDMxNS4wIKXMDSoASAFQAw%3D%3D",
+      "map": { "lat": 49.0998215, "lng": 17.757483 }
     },
     {
       "title": "Bojnice Castle",
