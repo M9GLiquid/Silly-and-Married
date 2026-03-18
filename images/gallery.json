@@ -338,16 +338,28 @@
       "src": "",
       "photos": [
         {
-          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Slovakia_Cerveny_kamen_Castle_1.JPG",
-          "caption": "Červený Kameň Castle exterior"
+          "src": "images/events/cervenykamen/cerveny-kamen-01.jpg",
+          "caption": "Cerveny Kamen Castle exterior"
         },
         {
-          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/N%C3%A1mestie_hradu_%C4%8Cerven%C3%BD_kame%C5%88.JPG",
-          "caption": "Castle entrance square"
+          "src": "images/events/cervenykamen/cerveny-kamen-02.jpg",
+          "caption": "Castle courtyard approach"
         },
         {
-          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Slovakia_Cerveny_kamen_Castle_1.JPG",
-          "caption": "Fortress walls and surroundings"
+          "src": "images/events/cervenykamen/cerveny-kamen-03.jpg",
+          "caption": "Fortress walls and grounds"
+        },
+        {
+          "src": "images/events/cervenykamen/cerveny-kamen-04.jpg",
+          "caption": "Historic castle interior"
+        },
+        {
+          "src": "images/events/cervenykamen/cerveny-kamen-05.jpg",
+          "caption": "Castle panoramic view"
+        },
+        {
+          "src": "images/events/cervenykamen/cerveny-kamen-06.jpg",
+          "caption": "Cerveny Kamen landscape setting"
         }
       ]
     },
