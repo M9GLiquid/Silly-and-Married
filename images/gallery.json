@@ -199,24 +199,28 @@
       "src": "",
       "photos": [
         {
-          "src": "images/events/teplice/luhacovice-01.jpg",
-          "caption": "Luhačovice spa architecture"
+          "src": "images/events/teplice/trencianske-teplice-01.jpg",
+          "caption": "Trencianske Teplice spa view"
         },
         {
-          "src": "images/events/teplice/luhacovice-02.jpg",
-          "caption": "Spa colonnade surroundings"
+          "src": "images/events/teplice/trencianske-teplice-02.jpg",
+          "caption": "Spa district atmosphere"
         },
         {
-          "src": "images/events/teplice/luhacovice-03.jpg",
-          "caption": "Historic spa promenade"
+          "src": "images/events/teplice/trencianske-teplice-03.jpg",
+          "caption": "Thermal pool area"
         },
         {
-          "src": "images/events/teplice/luhacovice-04.jpg",
-          "caption": "Luhačovice town and spa district"
+          "src": "images/events/teplice/trencianske-teplice-04.jpg",
+          "caption": "Wellness treatment setting"
         },
         {
-          "src": "images/events/teplice/luhacovice-05.jpg",
-          "caption": "Lazne Luhačovice exterior"
+          "src": "images/events/teplice/trencianske-teplice-05.jpg",
+          "caption": "Historic spa architecture"
+        },
+        {
+          "src": "images/events/teplice/trencianske-teplice-06.jpg",
+          "caption": "Spa town overview"
         }
       ]
     },
