@@ -677,7 +677,7 @@ const loadMedia = async () => {
         name: "2024 Beach Ceremony",
         description: [
           "<strong>In 2024, we invited our closest 30 people</strong> to join us for a symbolic beach ceremony in northern Denmark - no priest and no legal status, just love and celebration.",
-          "The day unfolded in three beautiful moments: we exchanged vows in the dunes, celebrated with champagne and a run into the sea, and then continued to Benthe and Claes' venue for pizza and a proper party."
+          "The day unfolded in three beautiful moments: we exchanged vows in the dunes, celebrated with champagne and a run into the sea, and then continued to Benthe and Claus' venue for pizza and a proper party."
         ],
         categories: allCategories
       },
