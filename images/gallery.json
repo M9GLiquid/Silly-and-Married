@@ -144,16 +144,24 @@
       "src": "",
       "photos": [
         {
-          "src": "images/events/trencin2026/1080.jpg",
-          "caption": "City culture scene"
+          "src": "images/events/trencin2026/trencin2026-01.jpg",
+          "caption": "Trencin 2026 city event scene"
         },
         {
-          "src": "images/events/trencin2026/1068.jpg",
-          "caption": "Concert and events mood"
+          "src": "images/events/trencin2026/trencin2026-02.jpg",
+          "caption": "Festival lighting and live show"
         },
         {
-          "src": "images/events/trencin2026/1044.jpg",
-          "caption": "City and region overview"
+          "src": "images/events/trencin2026/trencin2026-03.jpg",
+          "caption": "Capital of Culture crowd atmosphere"
+        },
+        {
+          "src": "images/events/trencin2026/trencin2026-04.jpg",
+          "caption": "Trencin 2026 banner and visuals"
+        },
+        {
+          "src": "images/events/trencin2026/trencin2026-05.jpg",
+          "caption": "City promotion for 2026 program"
         }
       ]
     },
