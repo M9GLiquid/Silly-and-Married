@@ -107,16 +107,36 @@
       "src": "",
       "photos": [
         {
-          "src": "images/events/castle/1043.jpg",
-          "caption": "Castle hill view"
+          "src": "images/events/castle/trencin-castle-01.jpg",
+          "caption": "Trencin Castle hillside view"
         },
         {
-          "src": "images/events/castle/1069.jpg",
-          "caption": "Old city panorama"
+          "src": "images/events/castle/trencin-castle-02.jpg",
+          "caption": "Castle walls and towers"
         },
         {
-          "src": "images/events/castle/1076.jpg",
-          "caption": "Historic architecture"
+          "src": "images/events/castle/trencin-castle-03.jpg",
+          "caption": "Historic Trencin skyline"
+        },
+        {
+          "src": "images/events/castle/trencin-castle-04.jpg",
+          "caption": "Castle panorama"
+        },
+        {
+          "src": "images/events/castle/trencin-castle-05.jpg",
+          "caption": "Fortified upper keep"
+        },
+        {
+          "src": "images/events/castle/trencin-castle-06.jpg",
+          "caption": "Trencin Castle exterior"
+        },
+        {
+          "src": "images/events/castle/trencin-castle-07.jpg",
+          "caption": "Castle detail view"
+        },
+        {
+          "src": "images/events/castle/trencin-castle-08.jpg",
+          "caption": "City and castle overview"
         }
       ]
     },
