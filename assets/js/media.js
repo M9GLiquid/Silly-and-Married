@@ -22,10 +22,12 @@ const videoModalPlayer = document.getElementById("video-modal-player");
 const videoModalCaption = document.getElementById("video-modal-caption");
 const videoModalClose = document.getElementById("video-modal-close");
 const uploadForm = document.getElementById("media-upload-form");
-const uploadPhotographerPanel = document.getElementById("media-upload-photographer-panel");
+const uploadPhotographerModal = document.getElementById("media-upload-photographer-modal");
 const uploadPhotographerSame = document.getElementById("media-upload-photographer-same");
 const uploadPhotographerAll = document.getElementById("media-upload-photographer-all");
 const uploadPhotographerList = document.getElementById("media-upload-photographer-list");
+const uploadPhotographerCancel = document.getElementById("media-upload-photographer-cancel");
+const uploadPhotographerConfirm = document.getElementById("media-upload-photographer-confirm");
 const uploadInput = document.getElementById("media-upload-input");
 const uploadDropzone = document.getElementById("media-upload-dropzone");
 const uploadSubmit = document.getElementById("media-upload-submit");
@@ -55,7 +57,6 @@ let selectedUploadFiles = [];
 let uploadCategoryOptions = [];
 let invalidUploadIndexes = new Set();
 let uploadInProgress = false;
-let uploadPhotographerStepShown = false;
 
 const setStatus = (message, isError = false, isHint = false) => {
   if (!mediaStatus) return;
@@ -103,17 +104,19 @@ const setUploadValidationMessage = (message = "", isError = false) => {
   uploadValidation.classList.toggle("is-error", isError);
 };
 
-const setPhotographerStepVisible = (isVisible) => {
-  uploadPhotographerStepShown = isVisible;
-  if (uploadPhotographerPanel) uploadPhotographerPanel.hidden = !isVisible;
-  if (uploadSubmit) {
-    uploadSubmit.lastChild.textContent = isVisible ? " Upload Now" : " Submit Upload";
+const setPhotographerModalVisible = (isVisible) => {
+  if (uploadPhotographerModal) uploadPhotographerModal.hidden = !isVisible;
+  if (isVisible) {
+    renderPhotographerFields();
   }
 };
 
 const renderPhotographerFields = () => {
   if (!uploadPhotographerList) return;
-  const useSame = uploadPhotographerSame ? uploadPhotographerSame.checked : true;
+  const useSame = uploadPhotographerSame ? uploadPhotographerSame.checked : false;
+  if (uploadPhotographerAll) {
+    uploadPhotographerAll.hidden = !useSame;
+  }
   uploadPhotographerList.hidden = useSame;
   uploadPhotographerList.innerHTML = "";
   if (useSame) return;
@@ -249,7 +252,7 @@ const mergeSelectedUploadFiles = (incomingFiles) => {
     return { file, categorySlug: previous?.categorySlug || "", photographer: previous?.photographer || "", status: previous?.status || "", progress: previous?.progress || 0 };
   });
   invalidUploadIndexes = new Set();
-  setPhotographerStepVisible(false);
+  setPhotographerModalVisible(false);
   setUploadValidationMessage("");
   renderSelectedUploadFiles();
 };
@@ -386,6 +389,35 @@ const uploadOneDriveFile = async (entry, index, photographer) => {
     metadataFileName: session.metadataFileName
   });
   updateUploadFileEntry(index, { status: "complete", progress: 100 });
+};
+
+const uploadSelectedFiles = async () => {
+  const useSamePhotographer = uploadPhotographerSame ? uploadPhotographerSame.checked : false;
+  const sharedPhotographer = uploadPhotographerAll?.value.trim() || "";
+  uploadInProgress = true;
+  setPhotographerModalVisible(false);
+  updateUploadSubmitState();
+  setUploadValidationMessage("Uploading. Please keep this page open.");
+  renderSelectedUploadFiles();
+
+  let failures = 0;
+  for (let index = 0; index < selectedUploadFiles.length; index += 1) {
+    try {
+      const photographer = useSamePhotographer ? sharedPhotographer : selectedUploadFiles[index].photographer?.trim() || "";
+      await uploadOneDriveFile(selectedUploadFiles[index], index, photographer);
+    } catch (_error) {
+      failures += 1;
+      updateUploadFileEntry(index, { status: "error" });
+    }
+  }
+
+  uploadInProgress = false;
+  updateUploadSubmitState();
+  if (failures) {
+    setUploadValidationMessage(`${failures} file${failures === 1 ? "" : "s"} could not be uploaded. Please try again.`, true);
+    return;
+  }
+  setUploadValidationMessage("Upload complete. Thank you!");
 };
 
 const preloadImage = (src) =>
@@ -871,12 +903,29 @@ if (uploadPhotographerSame) {
   uploadPhotographerSame.addEventListener("change", () => {
     setUploadValidationMessage("");
     renderPhotographerFields();
+    if (uploadPhotographerSame.checked) {
+      uploadPhotographerAll?.focus();
+    }
   });
 }
 
 if (uploadPhotographerAll) {
   uploadPhotographerAll.addEventListener("input", () => {
     setUploadValidationMessage("");
+  });
+}
+
+if (uploadPhotographerCancel) {
+  uploadPhotographerCancel.addEventListener("click", () => {
+    setPhotographerModalVisible(false);
+    setUploadValidationMessage("");
+  });
+}
+
+if (uploadPhotographerConfirm) {
+  uploadPhotographerConfirm.addEventListener("click", () => {
+    if (uploadInProgress) return;
+    uploadSelectedFiles();
   });
 }
 
@@ -921,39 +970,8 @@ if (uploadForm) {
       return;
     }
     invalidUploadIndexes = new Set();
-    if (!uploadPhotographerStepShown) {
-      setPhotographerStepVisible(true);
-      renderPhotographerFields();
-      uploadPhotographerAll?.focus();
-      setUploadValidationMessage("Photographer is optional. Add a name for recognition, or leave it empty and upload.");
-      return;
-    }
-
-    const useSamePhotographer = uploadPhotographerSame ? uploadPhotographerSame.checked : true;
-    const sharedPhotographer = uploadPhotographerAll?.value.trim() || "";
-    uploadInProgress = true;
-    updateUploadSubmitState();
-    setUploadValidationMessage("Uploading. Please keep this page open.");
-    renderSelectedUploadFiles();
-
-    let failures = 0;
-    for (let index = 0; index < selectedUploadFiles.length; index += 1) {
-      try {
-        const photographer = useSamePhotographer ? sharedPhotographer : selectedUploadFiles[index].photographer?.trim() || "";
-        await uploadOneDriveFile(selectedUploadFiles[index], index, photographer);
-      } catch (_error) {
-        failures += 1;
-        updateUploadFileEntry(index, { status: "error" });
-      }
-    }
-
-    uploadInProgress = false;
-    updateUploadSubmitState();
-    if (failures) {
-      setUploadValidationMessage(`${failures} file${failures === 1 ? "" : "s"} could not be uploaded. Please try again.`, true);
-      return;
-    }
-    setUploadValidationMessage("Upload complete. Thank you!");
+    setPhotographerModalVisible(true);
+    setUploadValidationMessage("");
   });
 }
 

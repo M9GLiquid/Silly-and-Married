@@ -173,20 +173,6 @@
                 <ul id="media-upload-files-list" class="media-upload-files-list" aria-live="polite"></ul>
                 <p id="media-upload-validation" class="media-upload-validation" hidden></p>
               </div>
-              <div id="media-upload-photographer-panel" class="media-upload-photographer-panel" hidden>
-                <div class="media-upload-photographer-heading">
-                  <span class="media-upload-field-label">
-                    Photographer
-                    <span class="media-upload-help" data-tooltip="Add your name to the File for recognition" tabindex="0" aria-label="Add your name to the File for recognition">?</span>
-                  </span>
-                  <label class="media-upload-check">
-                    <input id="media-upload-photographer-same" type="checkbox" checked>
-                    <span>Same photographer for all files</span>
-                  </label>
-                </div>
-                <input id="media-upload-photographer-all" class="media-upload-text-input" type="text" maxlength="120" autocomplete="name">
-                <div id="media-upload-photographer-list" class="media-upload-photographer-list" hidden></div>
-              </div>
               <div class="media-upload-controls">
                 <span class="media-upload-cta-wrap">
                   <button id="media-upload-submit" type="submit" class="media-upload-cta media-upload-submit" disabled>
@@ -196,6 +182,27 @@
                 </span>
               </div>
             </form>
+            <div id="media-upload-photographer-modal" class="media-upload-photographer-modal" hidden>
+              <section class="media-upload-photographer-dialog" aria-labelledby="media-upload-photographer-title">
+                <div class="media-upload-photographer-heading">
+                  <h4 id="media-upload-photographer-title" class="media-upload-files-title">Add photographer credit</h4>
+                  <span class="media-upload-help" data-tooltip="Add your name to the File for recognition" tabindex="0" aria-label="Add your name to the File for recognition">?</span>
+                </div>
+                <label class="media-upload-check">
+                  <input id="media-upload-photographer-same" type="checkbox">
+                  <span>Same photographer for all files</span>
+                </label>
+                <input id="media-upload-photographer-all" class="media-upload-text-input" type="text" maxlength="120" autocomplete="name" hidden>
+                <div id="media-upload-photographer-list" class="media-upload-photographer-list"></div>
+                <div class="media-upload-controls media-upload-dialog-actions">
+                  <button id="media-upload-photographer-cancel" type="button" class="media-upload-dialog-secondary">Back</button>
+                  <button id="media-upload-photographer-confirm" type="button" class="media-upload-cta media-upload-submit">
+                    <span class="material-symbols-outlined" aria-hidden="true">upload</span>
+                    Upload Now
+                  </button>
+                </div>
+              </section>
+            </div>
           </section>
         </section>
       </div>
