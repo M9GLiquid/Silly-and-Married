@@ -3261,7 +3261,7 @@ body {
 
 .media-upload-file-item {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto auto;
+  grid-template-columns: minmax(0, 1fr) auto minmax(11rem, 15rem) auto auto;
   align-items: center;
   gap: 0.5rem;
   font-size: 0.8rem;
@@ -3291,7 +3291,8 @@ body {
   font-family: inherit;
   font-weight: 500;
   min-height: 2.5rem;
-  min-width: 12rem;
+  width: 100%;
+  min-width: 0;
   box-shadow: inset 0 1px 3px rgb(129 61 110 / 8%);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -3351,16 +3352,14 @@ body {
 .media-upload-file-remove {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  justify-content: center;
   border: 2px solid rgb(178 62 62 / 45%);
   background: rgb(255 248 248 / 95%);
   color: rgb(148 41 41 / 95%);
   border-radius: 0.26rem;
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 0.4rem 0.6rem;
+  width: 2.35rem;
+  height: 2.35rem;
+  padding: 0;
   cursor: pointer;
   box-shadow: 0 2px 6px rgb(178 62 62 / 12%);
   transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
@@ -3546,7 +3545,7 @@ body {
     grid-template-areas:
       "name remove"
       "meta remove"
-      "select select";
+      "select status";
     gap: 0.6rem;
     padding: 0.6rem 0.65rem;
     border-radius: 0.28rem;
@@ -3564,8 +3563,15 @@ body {
 
   .media-upload-file-remove {
     grid-area: remove;
-    padding: 0.45rem 0.65rem;
-    font-size: 0.72rem;
+    width: 2.35rem;
+    height: 2.35rem;
+    padding: 0;
+  }
+
+  .media-upload-file-status {
+    grid-area: status;
+    align-self: center;
+    min-width: 4.25rem;
   }
 
   .media-upload-file-select {

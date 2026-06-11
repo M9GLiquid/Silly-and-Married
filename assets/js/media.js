@@ -179,7 +179,6 @@ const renderSelectedUploadFiles = () => {
     removeIcon.setAttribute("aria-hidden", "true");
     removeIcon.textContent = "delete";
     removeButton.appendChild(removeIcon);
-    removeButton.appendChild(document.createTextNode("Remove"));
     removeButton.addEventListener("click", () => {
       selectedUploadFiles = selectedUploadFiles.filter((_, candidateIndex) => candidateIndex !== index);
       renderSelectedUploadFiles();
