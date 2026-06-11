@@ -3410,15 +3410,17 @@ body {
   align-items: center;
   gap: 0.5rem;
   font-size: 0.8rem;
-  border: 1px solid rgb(129 61 110 / 16%);
+  border: 1px solid rgb(43 43 43 / 12%);
   border-radius: 0.22rem;
   padding: 0.34rem 0.44rem;
-  background: rgb(255 255 255 / 88%);
+  background: rgb(248 247 249 / 76%);
 }
 
 .media-upload-photographer-file .media-upload-text-input {
   min-height: 2.5rem;
   padding: 0.5rem 0.65rem;
+  border-color: rgb(43 43 43 / 20%);
+  background: rgb(255 255 255 / 82%);
 }
 
 .media-upload-dialog-actions {
