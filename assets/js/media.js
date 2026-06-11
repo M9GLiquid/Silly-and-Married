@@ -24,9 +24,9 @@ const videoModalClose = document.getElementById("video-modal-close");
 const uploadForm = document.getElementById("media-upload-form");
 const uploadPhotographerModal = document.getElementById("media-upload-photographer-modal");
 const uploadPhotographerSame = document.getElementById("media-upload-photographer-same");
-const uploadPhotographerAll = document.getElementById("media-upload-photographer-all");
 const uploadPhotographerList = document.getElementById("media-upload-photographer-list");
 const uploadPhotographerCancel = document.getElementById("media-upload-photographer-cancel");
+const uploadPhotographerSkip = document.getElementById("media-upload-photographer-skip");
 const uploadPhotographerConfirm = document.getElementById("media-upload-photographer-confirm");
 const uploadInput = document.getElementById("media-upload-input");
 const uploadDropzone = document.getElementById("media-upload-dropzone");
@@ -107,6 +107,7 @@ const setUploadValidationMessage = (message = "", isError = false) => {
 const setPhotographerModalVisible = (isVisible) => {
   if (uploadPhotographerModal) uploadPhotographerModal.hidden = !isVisible;
   if (isVisible) {
+    if (uploadPhotographerSame) uploadPhotographerSame.checked = false;
     renderPhotographerFields();
   }
 };
@@ -114,12 +115,8 @@ const setPhotographerModalVisible = (isVisible) => {
 const renderPhotographerFields = () => {
   if (!uploadPhotographerList) return;
   const useSame = uploadPhotographerSame ? uploadPhotographerSame.checked : false;
-  if (uploadPhotographerAll) {
-    uploadPhotographerAll.hidden = !useSame;
-  }
-  uploadPhotographerList.hidden = useSame;
+  uploadPhotographerList.hidden = false;
   uploadPhotographerList.innerHTML = "";
-  if (useSame) return;
 
   const fragment = document.createDocumentFragment();
   selectedUploadFiles.forEach((entry, index) => {
@@ -137,6 +134,13 @@ const renderPhotographerFields = () => {
     input.value = entry.photographer || "";
     input.placeholder = "Photographer";
     input.addEventListener("input", () => {
+      if (useSame) {
+        selectedUploadFiles = selectedUploadFiles.map((candidate) => ({ ...candidate, photographer: input.value }));
+        uploadPhotographerList.querySelectorAll("input").forEach((candidateInput) => {
+          if (candidateInput !== input) candidateInput.value = input.value;
+        });
+        return;
+      }
       selectedUploadFiles[index].photographer = input.value;
     });
 
@@ -392,8 +396,6 @@ const uploadOneDriveFile = async (entry, index, photographer) => {
 };
 
 const uploadSelectedFiles = async () => {
-  const useSamePhotographer = uploadPhotographerSame ? uploadPhotographerSame.checked : false;
-  const sharedPhotographer = uploadPhotographerAll?.value.trim() || "";
   uploadInProgress = true;
   setPhotographerModalVisible(false);
   updateUploadSubmitState();
@@ -403,7 +405,7 @@ const uploadSelectedFiles = async () => {
   let failures = 0;
   for (let index = 0; index < selectedUploadFiles.length; index += 1) {
     try {
-      const photographer = useSamePhotographer ? sharedPhotographer : selectedUploadFiles[index].photographer?.trim() || "";
+      const photographer = selectedUploadFiles[index].photographer?.trim() || "";
       await uploadOneDriveFile(selectedUploadFiles[index], index, photographer);
     } catch (_error) {
       failures += 1;
@@ -902,16 +904,11 @@ if (uploadInput) {
 if (uploadPhotographerSame) {
   uploadPhotographerSame.addEventListener("change", () => {
     setUploadValidationMessage("");
-    renderPhotographerFields();
     if (uploadPhotographerSame.checked) {
-      uploadPhotographerAll?.focus();
+      const sharedPhotographer = selectedUploadFiles.find((entry) => entry.photographer?.trim())?.photographer || "";
+      selectedUploadFiles = selectedUploadFiles.map((entry) => ({ ...entry, photographer: sharedPhotographer }));
     }
-  });
-}
-
-if (uploadPhotographerAll) {
-  uploadPhotographerAll.addEventListener("input", () => {
-    setUploadValidationMessage("");
+    renderPhotographerFields();
   });
 }
 
@@ -919,6 +916,14 @@ if (uploadPhotographerCancel) {
   uploadPhotographerCancel.addEventListener("click", () => {
     setPhotographerModalVisible(false);
     setUploadValidationMessage("");
+  });
+}
+
+if (uploadPhotographerSkip) {
+  uploadPhotographerSkip.addEventListener("click", () => {
+    if (uploadInProgress) return;
+    selectedUploadFiles = selectedUploadFiles.map((entry) => ({ ...entry, photographer: "" }));
+    uploadSelectedFiles();
   });
 }
 

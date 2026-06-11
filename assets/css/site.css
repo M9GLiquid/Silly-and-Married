@@ -3349,9 +3349,7 @@ body {
   font-weight: 700;
 }
 
-.media-upload-photographer-modal[hidden],
-.media-upload-text-input[hidden],
-.media-upload-photographer-list[hidden] {
+.media-upload-photographer-modal[hidden] {
   display: none;
 }
 
@@ -3386,6 +3384,13 @@ body {
   gap: 0.45rem;
 }
 
+.media-upload-photographer-copy {
+  margin: -0.25rem 0 0;
+  color: rgb(43 43 43 / 72%);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
 .media-upload-check {
   display: inline-flex;
   align-items: center;
@@ -3409,6 +3414,11 @@ body {
   border-radius: 0.22rem;
   padding: 0.34rem 0.44rem;
   background: rgb(255 255 255 / 88%);
+}
+
+.media-upload-photographer-file .media-upload-text-input {
+  min-height: 2.5rem;
+  padding: 0.5rem 0.65rem;
 }
 
 .media-upload-dialog-actions {
