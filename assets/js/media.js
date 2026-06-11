@@ -834,7 +834,8 @@ const loadMedia = async () => {
       { slug: "dancing", name: "Dancing" },
       { slug: "guests", name: "Guests & Group Photos" },
       { slug: "ceremony", name: "Ceremony Moments" },
-      { slug: "reception", name: "Reception Moments" }
+      { slug: "reception", name: "Reception Moments" },
+      { slug: "others", name: "Others" }
     ];
     const emptyWeddingCategories = wedding2026CategorySeeds.map((category) => ({
       slug: category.slug,
