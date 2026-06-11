@@ -162,15 +162,6 @@
               <p id="media-upload-panel-note" class="media-upload-panel-note">Choose a category for each file, then upload your photos or videos.</p>
             </div>
             <form id="media-upload-form" class="media-upload-form" novalidate>
-              <div class="media-upload-details">
-                <label class="media-upload-field">
-                  <span class="media-upload-field-label">
-                    Photographer
-                    <span class="media-upload-help" data-tooltip="Add your name to the File for recognition" tabindex="0" aria-label="Add your name to the File for recognition">?</span>
-                  </span>
-                  <input id="media-upload-photographer" class="media-upload-text-input" type="text" maxlength="120" autocomplete="name">
-                </label>
-              </div>
               <input id="media-upload-input" class="media-upload-input" type="file" accept="image/*,video/*" multiple>
               <label for="media-upload-input" id="media-upload-dropzone" class="media-upload-dropzone">
                 <span class="media-upload-dropzone-title">Drag and drop files here</span>
@@ -181,6 +172,20 @@
                 <p id="media-upload-files-title" class="media-upload-files-title">No files selected yet.</p>
                 <ul id="media-upload-files-list" class="media-upload-files-list" aria-live="polite"></ul>
                 <p id="media-upload-validation" class="media-upload-validation" hidden></p>
+              </div>
+              <div id="media-upload-photographer-panel" class="media-upload-photographer-panel" hidden>
+                <div class="media-upload-photographer-heading">
+                  <span class="media-upload-field-label">
+                    Photographer
+                    <span class="media-upload-help" data-tooltip="Add your name to the File for recognition" tabindex="0" aria-label="Add your name to the File for recognition">?</span>
+                  </span>
+                  <label class="media-upload-check">
+                    <input id="media-upload-photographer-same" type="checkbox" checked>
+                    <span>Same photographer for all files</span>
+                  </label>
+                </div>
+                <input id="media-upload-photographer-all" class="media-upload-text-input" type="text" maxlength="120" autocomplete="name">
+                <div id="media-upload-photographer-list" class="media-upload-photographer-list" hidden></div>
               </div>
               <div class="media-upload-controls">
                 <span class="media-upload-cta-wrap">

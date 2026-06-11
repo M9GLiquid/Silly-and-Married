@@ -3261,7 +3261,7 @@ body {
 
 .media-upload-file-item {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(11rem, 15rem) auto auto;
+  grid-template-columns: auto minmax(0, 1fr) auto minmax(11rem, 15rem) minmax(0, 4.75rem);
   align-items: center;
   gap: 0.5rem;
   font-size: 0.8rem;
@@ -3328,7 +3328,7 @@ body {
 }
 
 .media-upload-file-status {
-  min-width: 5rem;
+  min-width: 0;
   color: rgb(43 43 43 / 72%);
   font-size: 0.72rem;
   text-align: right;
@@ -3347,6 +3347,47 @@ body {
 .media-upload-file-item.is-error .media-upload-file-status {
   color: rgb(148 41 41 / 95%);
   font-weight: 700;
+}
+
+.media-upload-photographer-panel {
+  display: grid;
+  gap: 0.65rem;
+  border: 1px solid rgb(129 61 110 / 20%);
+  background: rgb(255 255 255 / 78%);
+  padding: 0.75rem;
+  border-radius: 0.28rem;
+}
+
+.media-upload-photographer-panel[hidden] {
+  display: none;
+}
+
+.media-upload-photographer-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+}
+
+.media-upload-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: rgb(43 43 43 / 78%);
+}
+
+.media-upload-photographer-list {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.media-upload-photographer-file {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(12rem, 18rem);
+  align-items: center;
+  gap: 0.65rem;
 }
 
 .media-upload-file-remove {
@@ -3543,8 +3584,8 @@ body {
   .media-upload-file-item {
     grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas:
-      "name remove"
-      "meta remove"
+      "remove name"
+      "remove meta"
       "select status";
     gap: 0.6rem;
     padding: 0.6rem 0.65rem;
@@ -3572,6 +3613,13 @@ body {
     grid-area: status;
     align-self: center;
     min-width: 4.25rem;
+  }
+
+  .media-upload-photographer-heading,
+  .media-upload-photographer-file {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: stretch;
   }
 
   .media-upload-file-select {

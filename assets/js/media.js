@@ -22,7 +22,10 @@ const videoModalPlayer = document.getElementById("video-modal-player");
 const videoModalCaption = document.getElementById("video-modal-caption");
 const videoModalClose = document.getElementById("video-modal-close");
 const uploadForm = document.getElementById("media-upload-form");
-const uploadPhotographer = document.getElementById("media-upload-photographer");
+const uploadPhotographerPanel = document.getElementById("media-upload-photographer-panel");
+const uploadPhotographerSame = document.getElementById("media-upload-photographer-same");
+const uploadPhotographerAll = document.getElementById("media-upload-photographer-all");
+const uploadPhotographerList = document.getElementById("media-upload-photographer-list");
 const uploadInput = document.getElementById("media-upload-input");
 const uploadDropzone = document.getElementById("media-upload-dropzone");
 const uploadSubmit = document.getElementById("media-upload-submit");
@@ -52,6 +55,7 @@ let selectedUploadFiles = [];
 let uploadCategoryOptions = [];
 let invalidUploadIndexes = new Set();
 let uploadInProgress = false;
+let uploadPhotographerStepShown = false;
 
 const setStatus = (message, isError = false, isHint = false) => {
   if (!mediaStatus) return;
@@ -99,6 +103,47 @@ const setUploadValidationMessage = (message = "", isError = false) => {
   uploadValidation.classList.toggle("is-error", isError);
 };
 
+const setPhotographerStepVisible = (isVisible) => {
+  uploadPhotographerStepShown = isVisible;
+  if (uploadPhotographerPanel) uploadPhotographerPanel.hidden = !isVisible;
+  if (uploadSubmit) {
+    uploadSubmit.lastChild.textContent = isVisible ? " Upload Now" : " Submit Upload";
+  }
+};
+
+const renderPhotographerFields = () => {
+  if (!uploadPhotographerList) return;
+  const useSame = uploadPhotographerSame ? uploadPhotographerSame.checked : true;
+  uploadPhotographerList.hidden = useSame;
+  uploadPhotographerList.innerHTML = "";
+  if (useSame) return;
+
+  const fragment = document.createDocumentFragment();
+  selectedUploadFiles.forEach((entry, index) => {
+    const label = document.createElement("label");
+    label.className = "media-upload-photographer-file";
+
+    const name = document.createElement("span");
+    name.className = "media-upload-file-name";
+    name.textContent = entry.file.name;
+
+    const input = document.createElement("input");
+    input.className = "media-upload-text-input";
+    input.type = "text";
+    input.maxLength = 120;
+    input.value = entry.photographer || "";
+    input.placeholder = "Photographer";
+    input.addEventListener("input", () => {
+      selectedUploadFiles[index].photographer = input.value;
+    });
+
+    label.appendChild(name);
+    label.appendChild(input);
+    fragment.appendChild(label);
+  });
+  uploadPhotographerList.appendChild(fragment);
+};
+
 const renderSelectedUploadFiles = () => {
   if (!uploadFilesList || !uploadFilesTitle) return;
   uploadFilesList.innerHTML = "";
@@ -126,8 +171,7 @@ const renderSelectedUploadFiles = () => {
 
     const meta = document.createElement("span");
     meta.className = "media-upload-file-meta";
-    const typeLabel = file.type.startsWith("image/") ? "Picture" : file.type.startsWith("video/") ? "Video" : "File";
-    meta.textContent = `${typeLabel} - ${formatFileSize(file.size)}`;
+    meta.textContent = formatFileSize(file.size);
 
     const categorySelect = document.createElement("select");
     categorySelect.className = "media-upload-file-select";
@@ -166,7 +210,7 @@ const renderSelectedUploadFiles = () => {
     } else if (entry.status === "error") {
       status.textContent = "Failed";
     } else {
-      status.textContent = file.type.startsWith("image/") ? "Pictures" : file.type.startsWith("video/") ? "Videos" : "";
+      status.textContent = "";
     }
 
     const removeButton = document.createElement("button");
@@ -184,14 +228,15 @@ const renderSelectedUploadFiles = () => {
       renderSelectedUploadFiles();
     });
 
+    item.appendChild(removeButton);
     item.appendChild(name);
     item.appendChild(meta);
     item.appendChild(categorySelect);
     item.appendChild(status);
-    item.appendChild(removeButton);
     fragment.appendChild(item);
   });
   uploadFilesList.appendChild(fragment);
+  renderPhotographerFields();
   updateUploadSubmitState();
 };
 
@@ -201,9 +246,10 @@ const mergeSelectedUploadFiles = (incomingFiles) => {
   const mergedFiles = dedupeFiles([...existing, ...filtered]);
   selectedUploadFiles = mergedFiles.map((file) => {
     const previous = selectedUploadFiles.find((entry) => entry.file.name === file.name && entry.file.size === file.size && entry.file.lastModified === file.lastModified);
-    return { file, categorySlug: previous?.categorySlug || "", status: previous?.status || "", progress: previous?.progress || 0 };
+    return { file, categorySlug: previous?.categorySlug || "", photographer: previous?.photographer || "", status: previous?.status || "", progress: previous?.progress || 0 };
   });
   invalidUploadIndexes = new Set();
+  setPhotographerStepVisible(false);
   setUploadValidationMessage("");
   renderSelectedUploadFiles();
 };
@@ -821,10 +867,16 @@ if (uploadInput) {
   });
 }
 
-if (uploadPhotographer) {
-  uploadPhotographer.addEventListener("input", () => {
+if (uploadPhotographerSame) {
+  uploadPhotographerSame.addEventListener("change", () => {
     setUploadValidationMessage("");
-    updateUploadSubmitState();
+    renderPhotographerFields();
+  });
+}
+
+if (uploadPhotographerAll) {
+  uploadPhotographerAll.addEventListener("input", () => {
+    setUploadValidationMessage("");
   });
 }
 
@@ -852,7 +904,6 @@ if (uploadForm) {
   uploadForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (uploadInProgress) return;
-    const photographer = uploadPhotographer?.value.trim() || "";
     if (!selectedUploadFiles.length) {
       setUploadValidationMessage("Please add at least one file before submitting.", true);
       return;
@@ -870,6 +921,16 @@ if (uploadForm) {
       return;
     }
     invalidUploadIndexes = new Set();
+    if (!uploadPhotographerStepShown) {
+      setPhotographerStepVisible(true);
+      renderPhotographerFields();
+      uploadPhotographerAll?.focus();
+      setUploadValidationMessage("Photographer is optional. Add a name for recognition, or leave it empty and upload.");
+      return;
+    }
+
+    const useSamePhotographer = uploadPhotographerSame ? uploadPhotographerSame.checked : true;
+    const sharedPhotographer = uploadPhotographerAll?.value.trim() || "";
     uploadInProgress = true;
     updateUploadSubmitState();
     setUploadValidationMessage("Uploading. Please keep this page open.");
@@ -878,6 +939,7 @@ if (uploadForm) {
     let failures = 0;
     for (let index = 0; index < selectedUploadFiles.length; index += 1) {
       try {
+        const photographer = useSamePhotographer ? sharedPhotographer : selectedUploadFiles[index].photographer?.trim() || "";
         await uploadOneDriveFile(selectedUploadFiles[index], index, photographer);
       } catch (_error) {
         failures += 1;
