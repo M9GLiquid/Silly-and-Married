@@ -1,5 +1,4 @@
 const GRAPH_ROOT = "https://graph.microsoft.com/v1.0";
-const TOKEN_ENDPOINT = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
 const IMAGE_PREFIX = "image/";
 const VIDEO_PREFIX = "video/";
 
@@ -65,9 +64,10 @@ const getAccessToken = async () => {
   form.set("client_secret", getRequiredEnv("MS_CLIENT_SECRET"));
   form.set("refresh_token", getRequiredEnv("MS_REFRESH_TOKEN"));
   form.set("grant_type", "refresh_token");
-  form.set("scope", "offline_access User.Read Files.ReadWrite");
 
-  const response = await fetch(TOKEN_ENDPOINT, {
+  const tenantId = process.env.MS_TENANT_ID || "common";
+  const tokenEndpoint = `https://login.microsoftonline.com/${encodeURIComponent(tenantId)}/oauth2/v2.0/token`;
+  const response = await fetch(tokenEndpoint, {
     method: "POST",
     headers: { "content-type": "application/x-www-form-urlencoded" },
     body: form.toString()
