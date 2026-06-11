@@ -2,6 +2,7 @@
   "name": "wedding-website",
   "private": true,
   "scripts": {
+    "auth:onedrive": "node tools/onedrive-auth-helper.js",
     "media:thumbs": "node tools/generate-media-thumbs.js",
     "media:list": "node tools/generate-media-list.js",
     "build": "npm run media:list",
