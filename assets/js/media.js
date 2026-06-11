@@ -22,8 +22,7 @@ const videoModalPlayer = document.getElementById("video-modal-player");
 const videoModalCaption = document.getElementById("video-modal-caption");
 const videoModalClose = document.getElementById("video-modal-close");
 const uploadForm = document.getElementById("media-upload-form");
-const uploadTitle = document.getElementById("media-upload-title");
-const uploadDescription = document.getElementById("media-upload-description");
+const uploadPhotographer = document.getElementById("media-upload-photographer");
 const uploadInput = document.getElementById("media-upload-input");
 const uploadDropzone = document.getElementById("media-upload-dropzone");
 const uploadSubmit = document.getElementById("media-upload-submit");
@@ -90,8 +89,7 @@ const isAllowedUploadFile = (file) => {
 const updateUploadSubmitState = () => {
   if (!uploadSubmit) return;
   const hasFiles = selectedUploadFiles.length > 0;
-  const hasTitle = !!uploadTitle?.value.trim();
-  uploadSubmit.disabled = uploadInProgress || !hasFiles || !hasTitle;
+  uploadSubmit.disabled = uploadInProgress || !hasFiles;
 };
 
 const setUploadValidationMessage = (message = "", isError = false) => {
@@ -131,6 +129,34 @@ const renderSelectedUploadFiles = () => {
     const typeLabel = file.type.startsWith("image/") ? "Picture" : file.type.startsWith("video/") ? "Video" : "File";
     meta.textContent = `${typeLabel} - ${formatFileSize(file.size)}`;
 
+    const categorySelect = document.createElement("select");
+    categorySelect.className = "media-upload-file-select";
+    categorySelect.setAttribute("aria-label", `Category for ${file.name}`);
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "Select category";
+    categorySelect.appendChild(placeholder);
+    uploadCategoryOptions.forEach((category) => {
+      const option = document.createElement("option");
+      option.value = category.slug;
+      option.textContent = category.name;
+      categorySelect.appendChild(option);
+    });
+    categorySelect.value = entry.categorySlug || "";
+    if (invalidUploadIndexes.has(index)) {
+      categorySelect.classList.add("is-invalid");
+    }
+    categorySelect.disabled = uploadInProgress;
+    categorySelect.addEventListener("change", () => {
+      selectedUploadFiles[index].categorySlug = categorySelect.value;
+      if (categorySelect.value) {
+        invalidUploadIndexes.delete(index);
+      }
+      updateUploadSubmitState();
+      setUploadValidationMessage("");
+      renderSelectedUploadFiles();
+    });
+
     const status = document.createElement("span");
     status.className = "media-upload-file-status";
     if (entry.status === "uploading") {
@@ -161,6 +187,7 @@ const renderSelectedUploadFiles = () => {
 
     item.appendChild(name);
     item.appendChild(meta);
+    item.appendChild(categorySelect);
     item.appendChild(status);
     item.appendChild(removeButton);
     fragment.appendChild(item);
@@ -175,7 +202,7 @@ const mergeSelectedUploadFiles = (incomingFiles) => {
   const mergedFiles = dedupeFiles([...existing, ...filtered]);
   selectedUploadFiles = mergedFiles.map((file) => {
     const previous = selectedUploadFiles.find((entry) => entry.file.name === file.name && entry.file.size === file.size && entry.file.lastModified === file.lastModified);
-    return { file, status: previous?.status || "", progress: previous?.progress || 0 };
+    return { file, categorySlug: previous?.categorySlug || "", status: previous?.status || "", progress: previous?.progress || 0 };
   });
   invalidUploadIndexes = new Set();
   setUploadValidationMessage("");
@@ -289,11 +316,13 @@ const uploadFileToSession = async (file, uploadUrl, onProgress) => {
   }
 };
 
-const uploadOneDriveFile = async (entry, index, title, description) => {
+const uploadOneDriveFile = async (entry, index, photographer) => {
   updateUploadFileEntry(index, { status: "uploading", progress: 0 });
+  const category = uploadCategoryOptions.find((option) => option.slug === entry.categorySlug) || null;
   const session = await postJson("/api/onedrive-create-upload-session", {
-    title,
-    description,
+    photographer,
+    categorySlug: entry.categorySlug,
+    categoryName: category?.name || entry.categorySlug,
     fileName: entry.file.name,
     mimeType: entry.file.type,
     size: entry.file.size
@@ -302,8 +331,9 @@ const uploadOneDriveFile = async (entry, index, title, description) => {
     updateUploadFileEntry(index, { status: "uploading", progress });
   });
   await postJson("/api/onedrive-save-metadata", {
-    title: session.title,
-    description: session.description,
+    photographer: session.photographer,
+    categorySlug: session.categorySlug,
+    categoryName: session.categoryName,
     kind: session.kind,
     folder: session.folder,
     originalFileName: session.originalFileName,
@@ -792,8 +822,8 @@ if (uploadInput) {
   });
 }
 
-if (uploadTitle) {
-  uploadTitle.addEventListener("input", () => {
+if (uploadPhotographer) {
+  uploadPhotographer.addEventListener("input", () => {
     setUploadValidationMessage("");
     updateUploadSubmitState();
   });
@@ -823,16 +853,21 @@ if (uploadForm) {
   uploadForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (uploadInProgress) return;
-    const title = uploadTitle?.value.trim() || "";
-    const description = uploadDescription?.value.trim() || "";
-    if (!title) {
-      setUploadValidationMessage("Please add a title before submitting.", true);
-      uploadTitle?.focus();
-      updateUploadSubmitState();
-      return;
-    }
+    const photographer = uploadPhotographer?.value.trim() || "";
     if (!selectedUploadFiles.length) {
       setUploadValidationMessage("Please add at least one file before submitting.", true);
+      return;
+    }
+    const missingIndexes = [];
+    selectedUploadFiles.forEach((entry, index) => {
+      if (!entry.categorySlug) {
+        missingIndexes.push(index);
+      }
+    });
+    if (missingIndexes.length) {
+      invalidUploadIndexes = new Set(missingIndexes);
+      setUploadValidationMessage("Please choose a category for each highlighted file.", true);
+      renderSelectedUploadFiles();
       return;
     }
     invalidUploadIndexes = new Set();
@@ -844,7 +879,7 @@ if (uploadForm) {
     let failures = 0;
     for (let index = 0; index < selectedUploadFiles.length; index += 1) {
       try {
-        await uploadOneDriveFile(selectedUploadFiles[index], index, title, description);
+        await uploadOneDriveFile(selectedUploadFiles[index], index, photographer);
       } catch (_error) {
         failures += 1;
         updateUploadFileEntry(index, { status: "error" });

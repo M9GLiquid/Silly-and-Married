@@ -159,17 +159,16 @@
           <section id="media-upload-panel" class="media-upload-panel" aria-labelledby="media-upload-panel-title">
             <div class="media-upload-panel-header">
               <h3 id="media-upload-panel-title" class="media-upload-panel-title">Upload Wedding Media</h3>
-              <p id="media-upload-panel-note" class="media-upload-panel-note">Add a title, then drag and drop your photos or videos.</p>
+              <p id="media-upload-panel-note" class="media-upload-panel-note">Choose a category for each file, then upload your photos or videos.</p>
             </div>
             <form id="media-upload-form" class="media-upload-form" novalidate>
               <div class="media-upload-details">
                 <label class="media-upload-field">
-                  <span class="media-upload-field-label">Title *</span>
-                  <input id="media-upload-title" class="media-upload-text-input" type="text" maxlength="120" required autocomplete="off">
-                </label>
-                <label class="media-upload-field">
-                  <span class="media-upload-field-label">Description</span>
-                  <textarea id="media-upload-description" class="media-upload-textarea" maxlength="1500" rows="3"></textarea>
+                  <span class="media-upload-field-label">
+                    Photographer
+                    <span class="media-upload-help" data-tooltip="Add your name to the File for recognition" tabindex="0" aria-label="Add your name to the File for recognition">?</span>
+                  </span>
+                  <input id="media-upload-photographer" class="media-upload-text-input" type="text" maxlength="120" autocomplete="name">
                 </label>
               </div>
               <input id="media-upload-input" class="media-upload-input" type="file" accept="image/*,video/*" multiple>
@@ -177,6 +176,7 @@
                 <span class="media-upload-dropzone-title">Drag and drop files here</span>
                 <span class="media-upload-dropzone-copy">or click to choose files from your device</span>
               </label>
+              <p class="media-upload-field-label">Select category for each file</p>
               <div class="media-upload-files">
                 <p id="media-upload-files-title" class="media-upload-files-title">No files selected yet.</p>
                 <ul id="media-upload-files-list" class="media-upload-files-list" aria-live="polite"></ul>

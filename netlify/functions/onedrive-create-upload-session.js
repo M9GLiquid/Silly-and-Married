@@ -19,16 +19,17 @@ exports.handler = async (event) => {
 
   try {
     const body = parseJsonBody(event);
-    const title = sanitizeText(body.title, 120);
-    const description = sanitizeText(body.description, 1500);
+    const photographer = sanitizeText(body.photographer, 120);
+    const categorySlug = sanitizeText(body.categorySlug, 120);
+    const categoryName = sanitizeText(body.categoryName, 120);
     const originalFileName = sanitizeText(body.fileName, 240);
     const mimeType = sanitizeText(body.mimeType, 120).toLowerCase();
     const size = Number(body.size || 0);
     const kind = getFileKind(mimeType);
     const maxBytes = Number(process.env.MAX_UPLOAD_MB || DEFAULT_MAX_UPLOAD_MB) * 1024 * 1024;
 
-    if (!title) {
-      return jsonResponse(400, { error: "Title is required." });
+    if (!categorySlug || !categoryName) {
+      return jsonResponse(400, { error: "Category is required." });
     }
     if (!originalFileName || !kind) {
       return jsonResponse(400, { error: "Only photos and videos can be uploaded." });
@@ -39,7 +40,7 @@ exports.handler = async (event) => {
 
     const rootFolder = getRootFolder();
     const mediaFolder = kind === "picture" ? "Pictures" : "Videos";
-    const storedFileName = buildStoredFileName({ title, originalFileName, mimeType });
+    const storedFileName = buildStoredFileName({ categoryName, photographer, originalFileName, mimeType });
     const filePath = [rootFolder, mediaFolder, storedFileName];
     const graphPath = `/me/drive/root:/${encodeDrivePath(filePath)}:/createUploadSession`;
     const accessToken = await getAccessToken();
@@ -58,8 +59,9 @@ exports.handler = async (event) => {
       uploadUrl: session.uploadUrl,
       expiresAt: session.expirationDateTime,
       kind,
-      title,
-      description,
+      photographer,
+      categorySlug,
+      categoryName,
       originalFileName,
       storedFileName,
       folder: mediaFolder,

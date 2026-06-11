@@ -95,12 +95,14 @@ const graphFetch = async (accessToken, path, options = {}) => {
   return data;
 };
 
-const buildStoredFileName = ({ title, originalFileName, mimeType }) => {
+const buildStoredFileName = ({ categoryName, photographer, originalFileName, mimeType }) => {
   const extension = getFileExtension(originalFileName, mimeType);
-  const titlePart = sanitizeFilePart(title, "wedding-upload");
+  const categoryPart = sanitizeFilePart(categoryName, "wedding-upload");
+  const photographerPart = sanitizeFilePart(photographer, "");
   const originalPart = sanitizeFilePart(String(originalFileName || "").replace(/\.[^/.]+$/, ""), "file");
   const uniquePart = `${new Date().toISOString().replace(/[:.]/g, "-")}-${Math.random().toString(36).slice(2, 9)}`;
-  return `${uniquePart}-${titlePart}-${originalPart}${extension}`;
+  const nameParts = [uniquePart, categoryPart, photographerPart, originalPart].filter(Boolean);
+  return `${nameParts.join("-")}${extension}`;
 };
 
 const getRootFolder = () => sanitizeText(process.env.ONEDRIVE_ROOT_FOLDER || "Wedding Ceremoni 2", 120);

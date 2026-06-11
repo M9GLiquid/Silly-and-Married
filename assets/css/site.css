@@ -3188,6 +3188,50 @@ body {
   color: rgb(43 43 43 / 72%);
 }
 
+.media-upload-help {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  margin-left: 0.25rem;
+  border: 1px solid rgb(129 61 110 / 42%);
+  border-radius: 999px;
+  color: rgb(129 61 110 / 95%);
+  font-size: 0.65rem;
+  line-height: 1;
+  cursor: help;
+}
+
+.media-upload-help::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 0.45rem);
+  width: max-content;
+  max-width: min(18rem, 72vw);
+  transform: translateX(-50%);
+  padding: 0.45rem 0.55rem;
+  border: 1px solid rgb(129 61 110 / 24%);
+  border-radius: 0.24rem;
+  background: rgb(43 43 43 / 96%);
+  color: white;
+  font-size: 0.68rem;
+  letter-spacing: 0;
+  line-height: 1.35;
+  text-transform: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  z-index: 8;
+}
+
+.media-upload-help:hover::after,
+.media-upload-help:focus-visible::after {
+  opacity: 1;
+}
+
 .media-upload-submit {
   margin-top: 0;
 }
@@ -3217,7 +3261,7 @@ body {
 
 .media-upload-file-item {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
   align-items: center;
   gap: 0.5rem;
   font-size: 0.8rem;

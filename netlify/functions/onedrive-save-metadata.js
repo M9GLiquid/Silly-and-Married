@@ -15,17 +15,19 @@ exports.handler = async (event) => {
 
   try {
     const body = parseJsonBody(event);
-    const title = sanitizeText(body.title, 120);
+    const categorySlug = sanitizeText(body.categorySlug, 120);
+    const categoryName = sanitizeText(body.categoryName, 120);
     const storedFileName = sanitizeText(body.storedFileName, 240);
     const metadataFileName = sanitizeText(body.metadataFileName, 240);
 
-    if (!title || !storedFileName || !metadataFileName) {
+    if (!categorySlug || !categoryName || !storedFileName || !metadataFileName) {
       return jsonResponse(400, { error: "Missing metadata fields." });
     }
 
     const metadata = {
-      title,
-      description: sanitizeText(body.description, 1500),
+      photographer: sanitizeText(body.photographer, 120),
+      categorySlug,
+      categoryName,
       kind: sanitizeText(body.kind, 40),
       folder: sanitizeText(body.folder, 80),
       originalFileName: sanitizeText(body.originalFileName, 240),
