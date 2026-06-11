@@ -7,3 +7,13 @@
   to = "/.netlify/functions/media-list"
   status = 200
 
+[[redirects]]
+  from = "/api/onedrive-create-upload-session"
+  to = "/.netlify/functions/onedrive-create-upload-session"
+  status = 200
+
+[[redirects]]
+  from = "/api/onedrive-save-metadata"
+  to = "/.netlify/functions/onedrive-save-metadata"
+  status = 200
+

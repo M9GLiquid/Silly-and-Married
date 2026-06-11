@@ -11,6 +11,8 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+.env
+.env.*
 
 screenshots/
 screenshot/
