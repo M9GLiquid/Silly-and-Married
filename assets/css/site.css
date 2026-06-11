@@ -3472,6 +3472,42 @@ body {
   font-size: 1.1rem;
 }
 
+.media-upload-success-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 1.25rem;
+  z-index: 110;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  max-width: min(90vw, 28rem);
+  transform: translate(-50%, 0.75rem);
+  border: 1px solid rgb(129 61 110 / 26%);
+  border-radius: 0.32rem;
+  background: rgb(255 255 255 / 98%);
+  color: rgb(43 43 43 / 92%);
+  box-shadow: 0 12px 28px rgb(0 0 0 / 20%);
+  padding: 0.8rem 1rem;
+  font-size: 0.86rem;
+  opacity: 0;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.media-upload-success-toast[hidden] {
+  display: none;
+}
+
+.media-upload-success-toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.media-upload-success-toast .material-symbols-outlined {
+  color: rgb(129 61 110 / 95%);
+  font-size: 1.15rem;
+}
+
 .media-upload-file-remove {
   display: inline-flex;
   align-items: center;

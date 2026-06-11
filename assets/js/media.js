@@ -28,6 +28,7 @@ const uploadPhotographerList = document.getElementById("media-upload-photographe
 const uploadPhotographerCancel = document.getElementById("media-upload-photographer-cancel");
 const uploadPhotographerSkip = document.getElementById("media-upload-photographer-skip");
 const uploadPhotographerConfirm = document.getElementById("media-upload-photographer-confirm");
+const uploadSuccessToast = document.getElementById("media-upload-success-toast");
 const uploadInput = document.getElementById("media-upload-input");
 const uploadDropzone = document.getElementById("media-upload-dropzone");
 const uploadSubmit = document.getElementById("media-upload-submit");
@@ -57,6 +58,7 @@ let selectedUploadFiles = [];
 let uploadCategoryOptions = [];
 let invalidUploadIndexes = new Set();
 let uploadInProgress = false;
+let uploadSuccessToastTimer = null;
 
 const setStatus = (message, isError = false, isHint = false) => {
   if (!mediaStatus) return;
@@ -102,6 +104,21 @@ const setUploadValidationMessage = (message = "", isError = false) => {
   uploadValidation.textContent = message;
   uploadValidation.hidden = !message;
   uploadValidation.classList.toggle("is-error", isError);
+};
+
+const showUploadSuccessToast = () => {
+  if (!uploadSuccessToast) return;
+  if (uploadSuccessToastTimer) window.clearTimeout(uploadSuccessToastTimer);
+  uploadSuccessToast.hidden = false;
+  requestAnimationFrame(() => {
+    uploadSuccessToast.classList.add("is-visible");
+  });
+  uploadSuccessToastTimer = window.setTimeout(() => {
+    uploadSuccessToast.classList.remove("is-visible");
+    uploadSuccessToastTimer = window.setTimeout(() => {
+      uploadSuccessToast.hidden = true;
+    }, 220);
+  }, 3600);
 };
 
 const setPhotographerModalVisible = (isVisible) => {
@@ -420,6 +437,7 @@ const uploadSelectedFiles = async () => {
     return;
   }
   setUploadValidationMessage("Upload complete. Thank you!");
+  showUploadSuccessToast();
 };
 
 const preloadImage = (src) =>
