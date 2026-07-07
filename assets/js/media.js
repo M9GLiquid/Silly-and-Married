@@ -22,8 +22,13 @@ const videoModalPlayer = document.getElementById("video-modal-player");
 const videoModalCaption = document.getElementById("video-modal-caption");
 const videoModalClose = document.getElementById("video-modal-close");
 const uploadForm = document.getElementById("media-upload-form");
-const uploadTitle = document.getElementById("media-upload-title");
-const uploadDescription = document.getElementById("media-upload-description");
+const uploadPhotographerModal = document.getElementById("media-upload-photographer-modal");
+const uploadPhotographerSame = document.getElementById("media-upload-photographer-same");
+const uploadPhotographerList = document.getElementById("media-upload-photographer-list");
+const uploadPhotographerCancel = document.getElementById("media-upload-photographer-cancel");
+const uploadPhotographerSkip = document.getElementById("media-upload-photographer-skip");
+const uploadPhotographerConfirm = document.getElementById("media-upload-photographer-confirm");
+const uploadSuccessToast = document.getElementById("media-upload-success-toast");
 const uploadInput = document.getElementById("media-upload-input");
 const uploadDropzone = document.getElementById("media-upload-dropzone");
 const uploadSubmit = document.getElementById("media-upload-submit");
@@ -53,6 +58,7 @@ let selectedUploadFiles = [];
 let uploadCategoryOptions = [];
 let invalidUploadIndexes = new Set();
 let uploadInProgress = false;
+let uploadSuccessToastTimer = null;
 
 const setStatus = (message, isError = false, isHint = false) => {
   if (!mediaStatus) return;
@@ -90,8 +96,7 @@ const isAllowedUploadFile = (file) => {
 const updateUploadSubmitState = () => {
   if (!uploadSubmit) return;
   const hasFiles = selectedUploadFiles.length > 0;
-  const hasTitle = !!uploadTitle?.value.trim();
-  uploadSubmit.disabled = uploadInProgress || !hasFiles || !hasTitle;
+  uploadSubmit.disabled = uploadInProgress || !hasFiles;
 };
 
 const setUploadValidationMessage = (message = "", isError = false) => {
@@ -99,6 +104,68 @@ const setUploadValidationMessage = (message = "", isError = false) => {
   uploadValidation.textContent = message;
   uploadValidation.hidden = !message;
   uploadValidation.classList.toggle("is-error", isError);
+};
+
+const showUploadSuccessToast = () => {
+  if (!uploadSuccessToast) return;
+  if (uploadSuccessToastTimer) window.clearTimeout(uploadSuccessToastTimer);
+  uploadSuccessToast.hidden = false;
+  requestAnimationFrame(() => {
+    uploadSuccessToast.classList.add("is-visible");
+  });
+  uploadSuccessToastTimer = window.setTimeout(() => {
+    uploadSuccessToast.classList.remove("is-visible");
+    uploadSuccessToastTimer = window.setTimeout(() => {
+      uploadSuccessToast.hidden = true;
+    }, 220);
+  }, 3600);
+};
+
+const setPhotographerModalVisible = (isVisible) => {
+  if (uploadPhotographerModal) uploadPhotographerModal.hidden = !isVisible;
+  if (isVisible) {
+    if (uploadPhotographerSame) uploadPhotographerSame.checked = false;
+    renderPhotographerFields();
+  }
+};
+
+const renderPhotographerFields = () => {
+  if (!uploadPhotographerList) return;
+  const useSame = uploadPhotographerSame ? uploadPhotographerSame.checked : false;
+  uploadPhotographerList.hidden = false;
+  uploadPhotographerList.innerHTML = "";
+
+  const fragment = document.createDocumentFragment();
+  selectedUploadFiles.forEach((entry, index) => {
+    const label = document.createElement("label");
+    label.className = "media-upload-photographer-file";
+
+    const name = document.createElement("span");
+    name.className = "media-upload-file-name";
+    name.textContent = entry.file.name;
+
+    const input = document.createElement("input");
+    input.className = "media-upload-text-input";
+    input.type = "text";
+    input.maxLength = 120;
+    input.value = entry.photographer || "";
+    input.placeholder = "Photographer";
+    input.addEventListener("input", () => {
+      if (useSame) {
+        selectedUploadFiles = selectedUploadFiles.map((candidate) => ({ ...candidate, photographer: input.value }));
+        uploadPhotographerList.querySelectorAll("input").forEach((candidateInput) => {
+          if (candidateInput !== input) candidateInput.value = input.value;
+        });
+        return;
+      }
+      selectedUploadFiles[index].photographer = input.value;
+    });
+
+    label.appendChild(name);
+    label.appendChild(input);
+    fragment.appendChild(label);
+  });
+  uploadPhotographerList.appendChild(fragment);
 };
 
 const renderSelectedUploadFiles = () => {
@@ -128,8 +195,35 @@ const renderSelectedUploadFiles = () => {
 
     const meta = document.createElement("span");
     meta.className = "media-upload-file-meta";
-    const typeLabel = file.type.startsWith("image/") ? "Picture" : file.type.startsWith("video/") ? "Video" : "File";
-    meta.textContent = `${typeLabel} - ${formatFileSize(file.size)}`;
+    meta.textContent = formatFileSize(file.size);
+
+    const categorySelect = document.createElement("select");
+    categorySelect.className = "media-upload-file-select";
+    categorySelect.setAttribute("aria-label", `Category for ${file.name}`);
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "Select category";
+    categorySelect.appendChild(placeholder);
+    uploadCategoryOptions.forEach((category) => {
+      const option = document.createElement("option");
+      option.value = category.slug;
+      option.textContent = category.name;
+      categorySelect.appendChild(option);
+    });
+    categorySelect.value = entry.categorySlug || "";
+    if (invalidUploadIndexes.has(index)) {
+      categorySelect.classList.add("is-invalid");
+    }
+    categorySelect.disabled = uploadInProgress;
+    categorySelect.addEventListener("change", () => {
+      selectedUploadFiles[index].categorySlug = categorySelect.value;
+      if (categorySelect.value) {
+        invalidUploadIndexes.delete(index);
+      }
+      updateUploadSubmitState();
+      setUploadValidationMessage("");
+      renderSelectedUploadFiles();
+    });
 
     const status = document.createElement("span");
     status.className = "media-upload-file-status";
@@ -140,7 +234,7 @@ const renderSelectedUploadFiles = () => {
     } else if (entry.status === "error") {
       status.textContent = "Failed";
     } else {
-      status.textContent = file.type.startsWith("image/") ? "Pictures" : file.type.startsWith("video/") ? "Videos" : "";
+      status.textContent = "";
     }
 
     const removeButton = document.createElement("button");
@@ -153,19 +247,20 @@ const renderSelectedUploadFiles = () => {
     removeIcon.setAttribute("aria-hidden", "true");
     removeIcon.textContent = "delete";
     removeButton.appendChild(removeIcon);
-    removeButton.appendChild(document.createTextNode("Remove"));
     removeButton.addEventListener("click", () => {
       selectedUploadFiles = selectedUploadFiles.filter((_, candidateIndex) => candidateIndex !== index);
       renderSelectedUploadFiles();
     });
 
+    item.appendChild(removeButton);
     item.appendChild(name);
     item.appendChild(meta);
+    item.appendChild(categorySelect);
     item.appendChild(status);
-    item.appendChild(removeButton);
     fragment.appendChild(item);
   });
   uploadFilesList.appendChild(fragment);
+  renderPhotographerFields();
   updateUploadSubmitState();
 };
 
@@ -175,9 +270,10 @@ const mergeSelectedUploadFiles = (incomingFiles) => {
   const mergedFiles = dedupeFiles([...existing, ...filtered]);
   selectedUploadFiles = mergedFiles.map((file) => {
     const previous = selectedUploadFiles.find((entry) => entry.file.name === file.name && entry.file.size === file.size && entry.file.lastModified === file.lastModified);
-    return { file, status: previous?.status || "", progress: previous?.progress || 0 };
+    return { file, categorySlug: previous?.categorySlug || "", photographer: previous?.photographer || "", status: previous?.status || "", progress: previous?.progress || 0 };
   });
   invalidUploadIndexes = new Set();
+  setPhotographerModalVisible(false);
   setUploadValidationMessage("");
   renderSelectedUploadFiles();
 };
@@ -289,11 +385,13 @@ const uploadFileToSession = async (file, uploadUrl, onProgress) => {
   }
 };
 
-const uploadOneDriveFile = async (entry, index, title, description) => {
+const uploadOneDriveFile = async (entry, index, photographer) => {
   updateUploadFileEntry(index, { status: "uploading", progress: 0 });
+  const category = uploadCategoryOptions.find((option) => option.slug === entry.categorySlug) || null;
   const session = await postJson("/api/onedrive-create-upload-session", {
-    title,
-    description,
+    photographer,
+    categorySlug: entry.categorySlug,
+    categoryName: category?.name || entry.categorySlug,
     fileName: entry.file.name,
     mimeType: entry.file.type,
     size: entry.file.size
@@ -302,8 +400,9 @@ const uploadOneDriveFile = async (entry, index, title, description) => {
     updateUploadFileEntry(index, { status: "uploading", progress });
   });
   await postJson("/api/onedrive-save-metadata", {
-    title: session.title,
-    description: session.description,
+    photographer: session.photographer,
+    categorySlug: session.categorySlug,
+    categoryName: session.categoryName,
     kind: session.kind,
     folder: session.folder,
     originalFileName: session.originalFileName,
@@ -311,6 +410,34 @@ const uploadOneDriveFile = async (entry, index, title, description) => {
     metadataFileName: session.metadataFileName
   });
   updateUploadFileEntry(index, { status: "complete", progress: 100 });
+};
+
+const uploadSelectedFiles = async () => {
+  uploadInProgress = true;
+  setPhotographerModalVisible(false);
+  updateUploadSubmitState();
+  setUploadValidationMessage("Uploading. Please keep this page open.");
+  renderSelectedUploadFiles();
+
+  let failures = 0;
+  for (let index = 0; index < selectedUploadFiles.length; index += 1) {
+    try {
+      const photographer = selectedUploadFiles[index].photographer?.trim() || "";
+      await uploadOneDriveFile(selectedUploadFiles[index], index, photographer);
+    } catch (_error) {
+      failures += 1;
+      updateUploadFileEntry(index, { status: "error" });
+    }
+  }
+
+  uploadInProgress = false;
+  updateUploadSubmitState();
+  if (failures) {
+    setUploadValidationMessage(`${failures} file${failures === 1 ? "" : "s"} could not be uploaded. Please try again.`, true);
+    return;
+  }
+  setUploadValidationMessage("Upload complete. Thank you!");
+  showUploadSuccessToast();
 };
 
 const preloadImage = (src) =>
@@ -725,7 +852,8 @@ const loadMedia = async () => {
       { slug: "dancing", name: "Dancing" },
       { slug: "guests", name: "Guests & Group Photos" },
       { slug: "ceremony", name: "Ceremony Moments" },
-      { slug: "reception", name: "Reception Moments" }
+      { slug: "reception", name: "Reception Moments" },
+      { slug: "others", name: "Others" }
     ];
     const emptyWeddingCategories = wedding2026CategorySeeds.map((category) => ({
       slug: category.slug,
@@ -792,10 +920,36 @@ if (uploadInput) {
   });
 }
 
-if (uploadTitle) {
-  uploadTitle.addEventListener("input", () => {
+if (uploadPhotographerSame) {
+  uploadPhotographerSame.addEventListener("change", () => {
     setUploadValidationMessage("");
-    updateUploadSubmitState();
+    if (uploadPhotographerSame.checked) {
+      const sharedPhotographer = selectedUploadFiles.find((entry) => entry.photographer?.trim())?.photographer || "";
+      selectedUploadFiles = selectedUploadFiles.map((entry) => ({ ...entry, photographer: sharedPhotographer }));
+    }
+    renderPhotographerFields();
+  });
+}
+
+if (uploadPhotographerCancel) {
+  uploadPhotographerCancel.addEventListener("click", () => {
+    setPhotographerModalVisible(false);
+    setUploadValidationMessage("");
+  });
+}
+
+if (uploadPhotographerSkip) {
+  uploadPhotographerSkip.addEventListener("click", () => {
+    if (uploadInProgress) return;
+    selectedUploadFiles = selectedUploadFiles.map((entry) => ({ ...entry, photographer: "" }));
+    uploadSelectedFiles();
+  });
+}
+
+if (uploadPhotographerConfirm) {
+  uploadPhotographerConfirm.addEventListener("click", () => {
+    if (uploadInProgress) return;
+    uploadSelectedFiles();
   });
 }
 
@@ -823,41 +977,25 @@ if (uploadForm) {
   uploadForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (uploadInProgress) return;
-    const title = uploadTitle?.value.trim() || "";
-    const description = uploadDescription?.value.trim() || "";
-    if (!title) {
-      setUploadValidationMessage("Please add a title before submitting.", true);
-      uploadTitle?.focus();
-      updateUploadSubmitState();
-      return;
-    }
     if (!selectedUploadFiles.length) {
       setUploadValidationMessage("Please add at least one file before submitting.", true);
       return;
     }
-    invalidUploadIndexes = new Set();
-    uploadInProgress = true;
-    updateUploadSubmitState();
-    setUploadValidationMessage("Uploading. Please keep this page open.");
-    renderSelectedUploadFiles();
-
-    let failures = 0;
-    for (let index = 0; index < selectedUploadFiles.length; index += 1) {
-      try {
-        await uploadOneDriveFile(selectedUploadFiles[index], index, title, description);
-      } catch (_error) {
-        failures += 1;
-        updateUploadFileEntry(index, { status: "error" });
+    const missingIndexes = [];
+    selectedUploadFiles.forEach((entry, index) => {
+      if (!entry.categorySlug) {
+        missingIndexes.push(index);
       }
-    }
-
-    uploadInProgress = false;
-    updateUploadSubmitState();
-    if (failures) {
-      setUploadValidationMessage(`${failures} file${failures === 1 ? "" : "s"} could not be uploaded. Please try again.`, true);
+    });
+    if (missingIndexes.length) {
+      invalidUploadIndexes = new Set(missingIndexes);
+      setUploadValidationMessage("Please choose a category for each highlighted file.", true);
+      renderSelectedUploadFiles();
       return;
     }
-    setUploadValidationMessage("Upload complete. Thank you!");
+    invalidUploadIndexes = new Set();
+    setPhotographerModalVisible(true);
+    setUploadValidationMessage("");
   });
 }
 

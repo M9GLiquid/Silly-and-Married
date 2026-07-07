@@ -1,5 +1,4 @@
 const GRAPH_ROOT = "https://graph.microsoft.com/v1.0";
-const TOKEN_ENDPOINT = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
 const IMAGE_PREFIX = "image/";
 const VIDEO_PREFIX = "video/";
 
@@ -65,9 +64,10 @@ const getAccessToken = async () => {
   form.set("client_secret", getRequiredEnv("MS_CLIENT_SECRET"));
   form.set("refresh_token", getRequiredEnv("MS_REFRESH_TOKEN"));
   form.set("grant_type", "refresh_token");
-  form.set("scope", "offline_access User.Read Files.ReadWrite");
 
-  const response = await fetch(TOKEN_ENDPOINT, {
+  const tenantId = process.env.MS_TENANT_ID || "common";
+  const tokenEndpoint = `https://login.microsoftonline.com/${encodeURIComponent(tenantId)}/oauth2/v2.0/token`;
+  const response = await fetch(tokenEndpoint, {
     method: "POST",
     headers: { "content-type": "application/x-www-form-urlencoded" },
     body: form.toString()
@@ -95,12 +95,14 @@ const graphFetch = async (accessToken, path, options = {}) => {
   return data;
 };
 
-const buildStoredFileName = ({ title, originalFileName, mimeType }) => {
+const buildStoredFileName = ({ categoryName, photographer, originalFileName, mimeType }) => {
   const extension = getFileExtension(originalFileName, mimeType);
-  const titlePart = sanitizeFilePart(title, "wedding-upload");
+  const categoryPart = sanitizeFilePart(categoryName, "wedding-upload");
+  const photographerPart = sanitizeFilePart(photographer, "");
   const originalPart = sanitizeFilePart(String(originalFileName || "").replace(/\.[^/.]+$/, ""), "file");
   const uniquePart = `${new Date().toISOString().replace(/[:.]/g, "-")}-${Math.random().toString(36).slice(2, 9)}`;
-  return `${uniquePart}-${titlePart}-${originalPart}${extension}`;
+  const nameParts = [uniquePart, categoryPart, photographerPart, originalPart].filter(Boolean);
+  return `${nameParts.join("-")}${extension}`;
 };
 
 const getRootFolder = () => sanitizeText(process.env.ONEDRIVE_ROOT_FOLDER || "Wedding Ceremoni 2", 120);
