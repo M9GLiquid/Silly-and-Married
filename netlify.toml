@@ -1,5 +1,6 @@
 [build]
-  command = "npm run build"
+  command = "node tools/build-netlify.js"
+  publish = "dist"
   functions = "netlify/functions"
 
 [[redirects]]
@@ -16,4 +17,3 @@
   from = "/api/onedrive-save-metadata"
   to = "/.netlify/functions/onedrive-save-metadata"
   status = 200
-
