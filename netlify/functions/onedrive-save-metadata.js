@@ -1,5 +1,6 @@
 const {
   encodeDrivePath,
+  ensureFolderPath,
   getAccessToken,
   getRootFolder,
   graphFetch,
@@ -35,8 +36,11 @@ exports.handler = async (event) => {
       uploadedAt: new Date().toISOString()
     };
     const rootFolder = getRootFolder();
-    const graphPath = `/me/drive/root:/${encodeDrivePath([rootFolder, "Metadata", metadataFileName])}:/content`;
     const accessToken = await getAccessToken();
+
+    await ensureFolderPath(accessToken, [rootFolder, "Metadata"]);
+
+    const graphPath = `/me/drive/root:/${encodeDrivePath([rootFolder, "Metadata", metadataFileName])}:/content`;
     await graphFetch(accessToken, graphPath, {
       method: "PUT",
       headers: { "content-type": "application/json; charset=utf-8" },
