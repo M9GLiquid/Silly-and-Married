@@ -88,11 +88,49 @@ const graphFetch = async (accessToken, path, options = {}) => {
     }
   });
   const text = await response.text();
-  const data = text ? JSON.parse(text) : null;
+  let data = null;
+  if (text) {
+    try {
+      data = JSON.parse(text);
+    } catch (_error) {
+      data = text;
+    }
+  }
   if (!response.ok) {
     throw new Error(`Microsoft Graph request failed (${response.status}): ${JSON.stringify(data)}`);
   }
   return data;
+};
+
+const ensureFolderPath = async (accessToken, segments) => {
+  let parentPath = [];
+
+  for (const rawSegment of segments) {
+    const segment = sanitizeText(rawSegment, 120);
+    if (!segment) continue;
+
+    const parentEndpoint = parentPath.length
+      ? `/me/drive/root:/${encodeDrivePath(parentPath)}:/children`
+      : "/me/drive/root/children";
+
+    try {
+      await graphFetch(accessToken, parentEndpoint, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          name: segment,
+          folder: {},
+          "@microsoft.graph.conflictBehavior": "fail"
+        })
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      const alreadyExists = message.includes("409") || message.includes("nameAlreadyExists");
+      if (!alreadyExists) throw error;
+    }
+
+    parentPath.push(segment);
+  }
 };
 
 const buildStoredFileName = ({ categoryName, photographer, originalFileName, mimeType }) => {
@@ -109,6 +147,7 @@ const getRootFolder = () => sanitizeText(process.env.ONEDRIVE_ROOT_FOLDER || "We
 
 module.exports = {
   encodeDrivePath,
+  ensureFolderPath,
   getAccessToken,
   getFileKind,
   getRootFolder,
