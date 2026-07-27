@@ -3,10 +3,14 @@
   const uploadForm = document.getElementById("media-upload-form");
   const uploadFilesList = document.getElementById("media-upload-files-list");
   const uploadValidation = document.getElementById("media-upload-validation");
+  const uploadSubmit = document.getElementById("media-upload-submit");
   const sourceCategorySelect = document.getElementById("media-category-select-mobile");
   const uploadNote = document.getElementById("media-upload-panel-note");
   const eventDescription = document.getElementById("media-event-description");
   const lastFailure = { message: "", requestId: "" };
+  const uploadSessions = new Map();
+  let healthReadyUntil = 0;
+  let healthCheckInProgress = false;
 
   const wait = (milliseconds) =>
     new Promise((resolve) => {
@@ -27,12 +31,18 @@
       url.hostname.endsWith(".up.1drv.net") ||
       url.pathname.includes("/up/"));
 
-  const isUploadApi = (url, method) =>
-    method === "POST" &&
-    !!url &&
-    url.origin === window.location.origin &&
-    (url.pathname.endsWith("/api/onedrive-create-upload-session") ||
-      url.pathname.endsWith("/api/onedrive-save-metadata"));
+  const isUploadApi = (url, method) => {
+    if (!url || url.origin !== window.location.origin) return false;
+    if (
+      method === "POST" &&
+      (url.pathname.endsWith("/api/onedrive-create-upload-session") ||
+        url.pathname.endsWith("/api/onedrive-save-metadata") ||
+        url.pathname.endsWith("/api/onedrive-verify-upload"))
+    ) {
+      return true;
+    }
+    return method === "GET" && url.pathname.endsWith("/api/onedrive-health");
+  };
 
   const retryableStatus = (status) =>
     [408, 429, 500, 502, 503, 504].includes(status);
@@ -81,6 +91,96 @@
     lastFailure.requestId = String(requestId || "").slice(0, 120);
   };
 
+  const captureUploadSession = async (url, response) => {
+    if (
+      !response.ok ||
+      !url?.pathname.endsWith("/api/onedrive-create-upload-session")
+    ) {
+      return;
+    }
+    try {
+      const data = await response.clone().json();
+      if (!data?.uploadUrl) return;
+      uploadSessions.set(data.uploadUrl, {
+        folder: data.folder,
+        storedFileName: data.storedFileName
+      });
+    } catch (_error) {
+    }
+  };
+
+  const parseContentRange = (headers) => {
+    const value = headers.get("content-range") || "";
+    const match = value.match(/^bytes\s+(\d+)-(\d+)\/(\d+)$/i);
+    if (!match) return null;
+    return {
+      start: Number(match[1]),
+      end: Number(match[2]),
+      total: Number(match[3])
+    };
+  };
+
+  const verifyCompletedUpload = async (uploadUrl, range) => {
+    const session = uploadSessions.get(uploadUrl);
+    if (!session || range.end + 1 !== range.total) return false;
+
+    try {
+      const response = await originalFetch("/api/onedrive-verify-upload", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          accept: "application/json"
+        },
+        body: JSON.stringify({
+          folder: session.folder,
+          storedFileName: session.storedFileName,
+          expectedSize: range.total
+        }),
+        cache: "no-store"
+      });
+      if (!response.ok) return false;
+      const data = await response.json();
+      return data?.exists === true && data?.sizeMatches === true;
+    } catch (_error) {
+      return false;
+    }
+  };
+
+  const resolveRangeConflict = async (url, headers, response) => {
+    if (response.status !== 416) return null;
+    const range = parseContentRange(headers);
+    if (!range) return null;
+
+    try {
+      const statusResponse = await originalFetch(url.href, {
+        method: "GET",
+        cache: "no-store",
+        credentials: "omit"
+      });
+      if (statusResponse.ok) {
+        const statusData = await statusResponse.json();
+        const expectedRange = statusData?.nextExpectedRanges?.[0] || "";
+        const expectedStart = Number(String(expectedRange).split("-")[0]);
+        if (Number.isFinite(expectedStart) && expectedStart > range.end) {
+          return new Response(JSON.stringify(statusData), {
+            status: 202,
+            headers: { "content-type": "application/json" }
+          });
+        }
+      }
+    } catch (_error) {
+    }
+
+    if (await verifyCompletedUpload(url.href, range)) {
+      return new Response(JSON.stringify({ verified: true }), {
+        status: 201,
+        headers: { "content-type": "application/json" }
+      });
+    }
+
+    return null;
+  };
+
   window.fetch = async (input, init = {}) => {
     const url = toUrl(input);
     const method = String(
@@ -109,6 +209,12 @@
           cache: "no-store",
           credentials: oneDriveUpload ? "omit" : init.credentials
         });
+
+        if (uploadApi) await captureUploadSession(url, response);
+        if (oneDriveUpload && response.status === 416) {
+          const resolvedResponse = await resolveRangeConflict(url, headers, response);
+          if (resolvedResponse) return resolvedResponse;
+        }
 
         if (response.ok) return response;
 
@@ -266,6 +372,31 @@
     });
   };
 
+  const setValidationMessage = (message, isError = false) => {
+    if (!uploadValidation) return;
+    uploadValidation.textContent = message;
+    uploadValidation.hidden = !message;
+    uploadValidation.classList.toggle("is-error", isError);
+  };
+
+  const checkUploadHealth = async () => {
+    if (Date.now() < healthReadyUntil) return;
+
+    const response = await window.fetch("/api/onedrive-health", {
+      method: "GET",
+      headers: { accept: "application/json" },
+      cache: "no-store"
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || data?.ok !== true) {
+      throw new Error(
+        data?.error ||
+          "The upload service is unavailable. Please try again shortly."
+      );
+    }
+    healthReadyUntil = Date.now() + 5 * 60 * 1000;
+  };
+
   let applyQueued = false;
   const queueBatchCategoryApplication = () => {
     if (applyQueued) return;
@@ -283,7 +414,7 @@
 
   uploadForm.addEventListener(
     "submit",
-    (event) => {
+    async (event) => {
       const hasFiles = uploadFilesList.querySelector(".media-upload-file-item");
       if (!hasFiles) return;
 
@@ -291,17 +422,40 @@
         event.preventDefault();
         event.stopImmediatePropagation();
         categorySelect.classList.add("is-invalid");
-        if (uploadValidation) {
-          uploadValidation.textContent =
-            "Please choose one category for all selected files.";
-          uploadValidation.hidden = false;
-          uploadValidation.classList.add("is-error");
-        }
+        setValidationMessage(
+          "Please choose one category for all selected files.",
+          true
+        );
         categorySelect.focus();
         return;
       }
 
       applyBatchCategory();
+
+      if (Date.now() < healthReadyUntil) return;
+
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      if (healthCheckInProgress) return;
+
+      healthCheckInProgress = true;
+      if (uploadSubmit) uploadSubmit.disabled = true;
+      setValidationMessage("Checking the upload service...");
+
+      try {
+        await checkUploadHealth();
+        setValidationMessage("");
+        if (uploadSubmit) uploadSubmit.disabled = false;
+        uploadForm.requestSubmit();
+      } catch (error) {
+        setValidationMessage(
+          error instanceof Error ? error.message : "The upload service is unavailable.",
+          true
+        );
+        if (uploadSubmit) uploadSubmit.disabled = false;
+      } finally {
+        healthCheckInProgress = false;
+      }
     },
     true
   );
