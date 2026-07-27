@@ -1,6 +1,7 @@
 const {
   buildStoredFileName,
   encodeDrivePath,
+  ensureFolderPath,
   getAccessToken,
   getFileKind,
   getRootFolder,
@@ -41,9 +42,12 @@ exports.handler = async (event) => {
     const rootFolder = getRootFolder();
     const mediaFolder = kind === "picture" ? "Pictures" : "Videos";
     const storedFileName = buildStoredFileName({ categoryName, photographer, originalFileName, mimeType });
+    const accessToken = await getAccessToken();
+
+    await ensureFolderPath(accessToken, [rootFolder, mediaFolder]);
+
     const filePath = [rootFolder, mediaFolder, storedFileName];
     const graphPath = `/me/drive/root:/${encodeDrivePath(filePath)}:/createUploadSession`;
-    const accessToken = await getAccessToken();
     const session = await graphFetch(accessToken, graphPath, {
       method: "POST",
       headers: { "content-type": "application/json" },
