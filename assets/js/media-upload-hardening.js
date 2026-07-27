@@ -2,6 +2,7 @@
   const originalFetch = window.fetch.bind(window);
   const uploadForm = document.getElementById("media-upload-form");
   const uploadFilesList = document.getElementById("media-upload-files-list");
+  const uploadInput = document.getElementById("media-upload-input");
   const uploadValidation = document.getElementById("media-upload-validation");
   const uploadSubmit = document.getElementById("media-upload-submit");
   const sourceCategorySelect = document.getElementById("media-category-select-mobile");
@@ -11,6 +12,69 @@
   const uploadSessions = new Map();
   let healthReadyUntil = 0;
   let healthCheckInProgress = false;
+
+  const mimeTypeByExtension = new Map([
+    [".avif", "image/avif"],
+    [".bmp", "image/bmp"],
+    [".gif", "image/gif"],
+    [".heic", "image/heic"],
+    [".heif", "image/heif"],
+    [".jpeg", "image/jpeg"],
+    [".jpg", "image/jpeg"],
+    [".png", "image/png"],
+    [".tif", "image/tiff"],
+    [".tiff", "image/tiff"],
+    [".webp", "image/webp"],
+    [".3gp", "video/3gpp"],
+    [".avi", "video/x-msvideo"],
+    [".m4v", "video/x-m4v"],
+    [".mkv", "video/x-matroska"],
+    [".mov", "video/quicktime"],
+    [".mp4", "video/mp4"],
+    [".webm", "video/webm"]
+  ]);
+
+  const inferMimeType = (fileName) => {
+    const match = String(fileName || "").toLowerCase().match(/(\.[a-z0-9]{1,10})$/);
+    return match ? mimeTypeByExtension.get(match[1]) || "" : "";
+  };
+
+  const normaliseFileTypes = () => {
+    if (
+      !uploadInput?.files?.length ||
+      typeof DataTransfer === "undefined" ||
+      typeof File === "undefined"
+    ) {
+      return;
+    }
+
+    const files = Array.from(uploadInput.files);
+    let changed = false;
+    const transfer = new DataTransfer();
+
+    files.forEach((file) => {
+      const genericType =
+        !file.type || file.type.toLowerCase() === "application/octet-stream";
+      const inferredType = genericType ? inferMimeType(file.name) : "";
+      if (inferredType) {
+        changed = true;
+        transfer.items.add(
+          new File([file], file.name, {
+            type: inferredType,
+            lastModified: file.lastModified
+          })
+        );
+        return;
+      }
+      transfer.items.add(file);
+    });
+
+    if (changed) uploadInput.files = transfer.files;
+  };
+
+  if (uploadInput) {
+    uploadInput.addEventListener("change", normaliseFileTypes, true);
+  }
 
   const wait = (milliseconds) =>
     new Promise((resolve) => {
