@@ -6,6 +6,7 @@ on:
       - "assets/js/**"
       - "netlify/**"
       - "tools/test-onedrive-utils.js"
+      - "tools/test-onedrive-functions.js"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/media-upload-ci.yml"
@@ -55,6 +56,9 @@ jobs:
 
       - name: Run OneDrive reliability tests
         run: npm run test:onedrive
+
+      - name: Run OneDrive function integration tests
+        run: node tools/test-onedrive-functions.js
 
       - name: Run site build command
         run: npm run build
