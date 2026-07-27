@@ -1,0 +1,64 @@
+name: Media Upload CI
+
+on:
+  pull_request:
+    paths:
+      - "assets/js/**"
+      - "netlify/**"
+      - "tools/test-onedrive-utils.js"
+      - "tools/test-onedrive-functions.js"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/media-upload-ci.yml"
+  push:
+    branches:
+      - "agent/fix-multi-photo-upload"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-upload-stack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout relevant files
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .github
+            assets/data
+            assets/js
+            netlify
+            tools
+            package.json
+            package-lock.json
+          sparse-checkout-cone-mode: false
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check JavaScript syntax
+        run: |
+          node --check assets/js/media-upload-hardening.js
+          node --check assets/js/auto-translate.js
+          node --check netlify/functions/onedrive-utils.js
+          node --check netlify/functions/onedrive-create-upload-session.js
+          node --check netlify/functions/onedrive-save-metadata.js
+          node --check netlify/functions/onedrive-health.js
+          node --check netlify/functions/onedrive-verify-upload.js
+
+      - name: Run OneDrive reliability tests
+        run: npm run test:onedrive
+
+      - name: Run OneDrive function integration tests
+        run: node tools/test-onedrive-functions.js
+
+      - name: Run site build command
+        run: npm run build

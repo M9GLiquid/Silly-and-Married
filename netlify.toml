@@ -17,3 +17,12 @@
   to = "/.netlify/functions/onedrive-save-metadata"
   status = 200
 
+[[redirects]]
+  from = "/api/onedrive-health"
+  to = "/.netlify/functions/onedrive-health"
+  status = 200
+
+[[redirects]]
+  from = "/api/onedrive-verify-upload"
+  to = "/.netlify/functions/onedrive-verify-upload"
+  status = 200
