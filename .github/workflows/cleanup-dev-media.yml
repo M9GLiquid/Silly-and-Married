@@ -6,6 +6,9 @@ on:
       - dev
     paths:
       - ".github/workflows/cleanup-dev-media.yml"
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: write
