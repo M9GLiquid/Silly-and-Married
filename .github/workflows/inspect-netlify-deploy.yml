@@ -18,12 +18,21 @@ jobs:
         run: |
           set -u
           deploy_id="6a6ddfd175693300082296e9"
-          endpoint="https://api.netlify.com/api/v1/deploys/$deploy_id"
-          status=$(curl -sS -L -D /tmp/netlify-headers.txt -o /tmp/netlify-deploy.json -w "%{http_code}" "$endpoint" || true)
-          echo "HTTP status: $status"
-          echo "Response headers:"
-          cat /tmp/netlify-headers.txt
-          echo
-          echo "Response body:"
-          cat /tmp/netlify-deploy.json
-          echo
+          build_id="6a6ddfd175693300082296e7"
+          for path in \
+            "deploys/$deploy_id" \
+            "builds/$build_id" \
+            "builds/$build_id/log" \
+            "deploys/$deploy_id/log"; do
+            endpoint="https://api.netlify.com/api/v1/$path"
+            safe_name=$(echo "$path" | tr '/' '-')
+            status=$(curl -sS -L -D "/tmp/$safe_name.headers" -o "/tmp/$safe_name.body" -w "%{http_code}" "$endpoint" || true)
+            echo "===== $path ====="
+            echo "HTTP status: $status"
+            echo "Response headers:"
+            cat "/tmp/$safe_name.headers"
+            echo
+            echo "Response body:"
+            cat "/tmp/$safe_name.body"
+            echo
+          done
