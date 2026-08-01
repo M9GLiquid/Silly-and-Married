@@ -32,6 +32,7 @@ jobs:
             netlify.toml
             package.json
             media.html
+            .dev-media-cleanup-complete
           sparse-checkout-cone-mode: false
 
       - name: Remove raw media from dev deployment tree
