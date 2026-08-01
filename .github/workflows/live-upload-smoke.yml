@@ -1,0 +1,106 @@
+name: Live Upload Smoke Test
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  upload-smoke-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Wait for dev deployment
+        run: sleep 75
+
+      - name: Upload and verify tiny PNG
+        shell: bash
+        run: |
+          set -euo pipefail
+          site="https://dev-sillyandmarried.netlify.app"
+          file_name="chatgpt-live-smoke-${GITHUB_RUN_ID}.png"
+          printf '%s' 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=' | base64 -d > /tmp/smoke.png
+          size=$(wc -c < /tmp/smoke.png | tr -d ' ')
+
+          request=$(jq -n \
+            --arg fileName "$file_name" \
+            --arg mimeType "image/png" \
+            --arg categorySlug "others" \
+            --arg categoryName "Others" \
+            --arg photographer "ChatGPT live smoke test" \
+            --argjson size "$size" \
+            '{fileName:$fileName,mimeType:$mimeType,size:$size,categorySlug:$categorySlug,categoryName:$categoryName,photographer:$photographer}')
+
+          create_status=$(curl -sS -L -o /tmp/session.json -w "%{http_code}" \
+            -H "content-type: application/json" \
+            -d "$request" \
+            "$site/api/onedrive-create-upload-session")
+          echo "Create session status: $create_status"
+          cat /tmp/session.json
+          echo
+          test "$create_status" = "200"
+
+          upload_url=$(jq -r '.uploadUrl' /tmp/session.json)
+          folder=$(jq -r '.folder' /tmp/session.json)
+          stored_file_name=$(jq -r '.storedFileName' /tmp/session.json)
+          metadata_file_name=$(jq -r '.metadataFileName' /tmp/session.json)
+          kind=$(jq -r '.kind' /tmp/session.json)
+          original_file_name=$(jq -r '.originalFileName' /tmp/session.json)
+          category_slug=$(jq -r '.categorySlug' /tmp/session.json)
+          category_name=$(jq -r '.categoryName' /tmp/session.json)
+          photographer=$(jq -r '.photographer' /tmp/session.json)
+          test "$upload_url" != "null"
+
+          end=$((size - 1))
+          upload_status=$(curl -sS -o /tmp/upload-response.json -w "%{http_code}" \
+            -X PUT \
+            -H "content-type: application/octet-stream" \
+            -H "content-range: bytes 0-${end}/${size}" \
+            --data-binary @/tmp/smoke.png \
+            "$upload_url")
+          echo "Upload status: $upload_status"
+          cat /tmp/upload-response.json
+          echo
+          case "$upload_status" in
+            200|201) ;;
+            *) exit 1 ;;
+          esac
+
+          verify_request=$(jq -n \
+            --arg folder "$folder" \
+            --arg storedFileName "$stored_file_name" \
+            --argjson expectedSize "$size" \
+            '{folder:$folder,storedFileName:$storedFileName,expectedSize:$expectedSize}')
+          verify_status=$(curl -sS -L -o /tmp/verify.json -w "%{http_code}" \
+            -H "content-type: application/json" \
+            -d "$verify_request" \
+            "$site/api/onedrive-verify-upload")
+          echo "Verify status: $verify_status"
+          cat /tmp/verify.json
+          echo
+          test "$verify_status" = "200"
+          jq -e '.exists == true and .sizeMatches == true' /tmp/verify.json
+
+          metadata_request=$(jq -n \
+            --arg photographer "$photographer" \
+            --arg categorySlug "$category_slug" \
+            --arg categoryName "$category_name" \
+            --arg kind "$kind" \
+            --arg folder "$folder" \
+            --arg originalFileName "$original_file_name" \
+            --arg storedFileName "$stored_file_name" \
+            --arg metadataFileName "$metadata_file_name" \
+            '{photographer:$photographer,categorySlug:$categorySlug,categoryName:$categoryName,kind:$kind,folder:$folder,originalFileName:$originalFileName,storedFileName:$storedFileName,metadataFileName:$metadataFileName}')
+          metadata_status=$(curl -sS -L -o /tmp/metadata.json -w "%{http_code}" \
+            -H "content-type: application/json" \
+            -d "$metadata_request" \
+            "$site/api/onedrive-save-metadata")
+          echo "Metadata status: $metadata_status"
+          cat /tmp/metadata.json
+          echo
+          test "$metadata_status" = "200"
+          jq -e '.ok == true' /tmp/metadata.json
+          echo "Live upload completed and verified"
