@@ -1,0 +1,61 @@
+name: Verify Dev Deployment
+
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-dev-site:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Wait for Netlify branch deployment
+        run: sleep 75
+
+      - name: Verify media page
+        shell: bash
+        run: |
+          set -euo pipefail
+          site="https://dev-sillyandmarried.netlify.app"
+          status=""
+          for attempt in $(seq 1 12); do
+            status=$(curl -sS -L -o /tmp/media.html -w "%{http_code}" "$site/media.html" || true)
+            if [ "$status" = "200" ]; then
+              break
+            fi
+            echo "Media page attempt $attempt returned $status"
+            sleep 15
+          done
+          test "$status" = "200"
+          grep -q "assets/js/media.js" /tmp/media.html
+          echo "Media page is available"
+
+      - name: Verify hardened uploader is deployed
+        shell: bash
+        run: |
+          set -euo pipefail
+          site="https://dev-sillyandmarried.netlify.app"
+          curl -fsSL "$site/assets/js/media-upload-hardening.js" -o /tmp/media-upload-hardening.js
+          grep -q "onedrive-create-upload-session" /tmp/media-upload-hardening.js
+          grep -q "onedrive-verify-upload" /tmp/media-upload-hardening.js
+          grep -q "Category for all selected files" /tmp/media-upload-hardening.js
+          echo "Hardened uploader is deployed"
+
+      - name: Verify OneDrive upload service
+        shell: bash
+        run: |
+          set -euo pipefail
+          site="https://dev-sillyandmarried.netlify.app"
+          status=$(curl -sS -L -o /tmp/health.json -w "%{http_code}" "$site/api/onedrive-health" || true)
+          echo "Health status: $status"
+          cat /tmp/health.json
+          echo
+          test "$status" = "200"
+          grep -q '"ok":true' /tmp/health.json
+          grep -q '"foldersReady":true' /tmp/health.json
+          echo "OneDrive upload service is ready"
