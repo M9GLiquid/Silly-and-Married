@@ -66,11 +66,7 @@ const readMetadataItem = async (accessToken, item) => {
   }
 };
 
-const getCaption = (metadata, kind) => {
-  const photographer = sanitizeText(metadata?.photographer, 120);
-  const fallback = kind === "picture" ? "Wedding photo" : "Wedding video";
-  return photographer ? `${fallback} by ${photographer}` : fallback;
-};
+const getCaption = (_metadata, kind) => kind === "picture" ? "Wedding photo" : "Wedding video";
 
 const buildUploadedCategories = ({ metadataEntries, pictureItems, videoItems }) => {
   const categoryMap = new Map(

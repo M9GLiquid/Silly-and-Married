@@ -47,8 +47,16 @@ jobs:
           curl -fsSL "$site/assets/js/media.js" -o /tmp/media.js
           grep -q "onedrive-create-upload-session" /tmp/media-upload-hardening.js
           grep -q "onedrive-verify-upload" /tmp/media-upload-hardening.js
-          grep -Fq 'Category for ${file.name}' /tmp/media.js
+          grep -q "queueSelectedUploadFiles" /tmp/media.js
+          grep -q "media-upload-file-remove" /tmp/media.js
+          grep -q "Upload selected files" /tmp/media.html
+          grep -q 'data-media-type-tab="mix"' /tmp/media.html
+          grep -q "All photos and videos" /tmp/media.html
+          grep -q 'id="media-mix-grid"' /tmp/media.html
+          grep -q 'activeMediaType = "mix"' /tmp/media.js
+          ! grep -Fq 'Category for ${file.name}' /tmp/media.js
           ! grep -q "Category for all selected files" /tmp/media-upload-hardening.js
+          ! grep -q "media-upload-photographer-modal" /tmp/media.html
           echo "Hardened uploader is deployed"
 
       - name: Verify OneDrive upload service

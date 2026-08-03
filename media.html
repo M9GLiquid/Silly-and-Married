@@ -114,20 +114,34 @@
         <div id="media-category-tabs" class="media-category-tabs" role="tablist" aria-label="Beach Wedding 2024 albums">
           <!-- Populated by assets/js/media.js -->
         </div>
-        <p id="media-gallery-status" class="media-gallery-status font-body text-sm text-ink/75">Loading photos...</p>
-        <section id="media-photos-section" class="media-category-section" aria-label="Photos">
+        <p id="media-gallery-status" class="media-gallery-status font-body text-sm text-ink/75">Loading media...</p>
+        <div class="media-type-tabs media-type-tabs-inline media-type-tabs-global" role="tablist" aria-label="Media type tabs">
+          <button type="button" class="media-type-tab is-active" role="tab" aria-selected="true" data-media-type-tab="mix">
+            <span class="material-symbols-outlined" aria-hidden="true">view_comfy</span>
+            All
+          </button>
+          <button type="button" class="media-type-tab" role="tab" aria-selected="false" data-media-type-tab="photos">
+            <span class="material-symbols-outlined" aria-hidden="true">photo_library</span>
+            Photos
+          </button>
+          <button type="button" class="media-type-tab" role="tab" aria-selected="false" data-media-type-tab="videos">
+            <span class="material-symbols-outlined" aria-hidden="true">videocam</span>
+            Videos
+          </button>
+        </div>
+        <section id="media-mix-section" class="media-category-section" aria-label="All photos and videos">
           <div class="media-row-header">
-            <div class="media-type-tabs media-type-tabs-inline" role="tablist" aria-label="Media type tabs">
-              <button type="button" class="media-type-tab is-active" role="tab" aria-selected="true" data-media-type-tab="photos">
-                <span class="material-symbols-outlined" aria-hidden="true">photo_library</span>
-                Photos
-              </button>
-              <button type="button" class="media-type-tab" role="tab" aria-selected="false" data-media-type-tab="videos">
-                <span class="material-symbols-outlined" aria-hidden="true">videocam</span>
-                Videos
-              </button>
-            </div>
-            <p id="media-photos-count" class="media-row-count" aria-live="polite">0 / 0 loaded</p>
+            <p id="media-mix-count" class="media-row-count" aria-live="polite">0 / 0</p>
+          </div>
+          <div id="media-mix-grid" class="media-gallery-grid media-mix-grid" role="list" aria-label="All photos and videos">
+            <!-- Populated by assets/js/media.js -->
+          </div>
+          <p id="media-mix-empty" class="media-empty-hint" hidden>No pictures or videos available yet.</p>
+          <div id="media-mix-sentinel" class="media-scroll-sentinel" aria-hidden="true"></div>
+        </section>
+        <section id="media-photos-section" class="media-category-section" aria-label="Photos" hidden>
+          <div class="media-row-header">
+            <p id="media-photos-count" class="media-row-count" aria-live="polite">0 / 0</p>
           </div>
           <div id="media-photos-grid" class="media-gallery-grid travel-card-thumbs" role="list" aria-label="Category photos">
             <!-- Populated by assets/js/media.js -->
@@ -137,17 +151,7 @@
         </section>
         <section id="media-videos-section" class="media-category-section media-videos-section" aria-label="Videos" hidden>
           <div class="media-row-header">
-            <div class="media-type-tabs media-type-tabs-inline" role="tablist" aria-label="Media type tabs">
-              <button type="button" class="media-type-tab" role="tab" aria-selected="false" data-media-type-tab="photos">
-                <span class="material-symbols-outlined" aria-hidden="true">photo_library</span>
-                Photos
-              </button>
-              <button type="button" class="media-type-tab is-active" role="tab" aria-selected="true" data-media-type-tab="videos">
-                <span class="material-symbols-outlined" aria-hidden="true">videocam</span>
-                Videos
-              </button>
-            </div>
-            <p id="media-videos-count" class="media-row-count" aria-live="polite">0 / 0 loaded</p>
+            <p id="media-videos-count" class="media-row-count" aria-live="polite">0 / 0</p>
           </div>
           <div id="media-videos-grid" class="media-videos-grid" role="list" aria-label="Category videos">
             <!-- Populated by assets/js/media.js -->
@@ -158,18 +162,17 @@
         <section id="media-upload-category-section" class="media-category-section" aria-label="Upload media" hidden>
           <section id="media-upload-panel" class="media-upload-panel" aria-labelledby="media-upload-panel-title">
             <div class="media-upload-panel-header">
-              <h3 id="media-upload-panel-title" class="media-upload-panel-title">Upload Wedding Media</h3>
-              <p id="media-upload-panel-note" class="media-upload-panel-note">Choose a category for each file, then upload your photos or videos.</p>
+              <h3 id="media-upload-panel-title" class="media-upload-panel-title">Share Your Photos and Videos</h3>
+              <p id="media-upload-panel-note" class="media-upload-panel-note">Drop or choose your files, then tap the upload button.</p>
             </div>
             <form id="media-upload-form" class="media-upload-form" novalidate>
               <input id="media-upload-input" class="media-upload-input" type="file" accept="image/*,video/*" multiple>
               <label for="media-upload-input" id="media-upload-dropzone" class="media-upload-dropzone">
-                <span class="media-upload-dropzone-title">Drag and drop files here</span>
-                <span class="media-upload-dropzone-copy">or click to choose files from your device</span>
+                <span class="media-upload-dropzone-title">Drop photos or videos here</span>
+                <span class="media-upload-dropzone-copy">or click to choose them</span>
               </label>
-              <p class="media-upload-field-label">Select category for each file</p>
               <div class="media-upload-files">
-                <p id="media-upload-files-title" class="media-upload-files-title">No files selected yet.</p>
+                <p id="media-upload-files-title" class="media-upload-files-title">Waiting for photos or videos.</p>
                 <ul id="media-upload-files-list" class="media-upload-files-list" aria-live="polite"></ul>
                 <p id="media-upload-validation" class="media-upload-validation" hidden></p>
               </div>
@@ -177,38 +180,14 @@
                 <span class="media-upload-cta-wrap">
                   <button id="media-upload-submit" type="submit" class="media-upload-cta media-upload-submit" disabled>
                     <span class="material-symbols-outlined" aria-hidden="true">upload</span>
-                    Submit Upload
+                    Upload selected files
                   </button>
                 </span>
               </div>
             </form>
-            <div id="media-upload-photographer-modal" class="media-upload-photographer-modal" hidden>
-              <section class="media-upload-photographer-dialog" aria-labelledby="media-upload-photographer-title">
-                <div class="media-upload-photographer-heading">
-                  <h4 id="media-upload-photographer-title" class="media-upload-files-title">Add photographer credit?</h4>
-                  <span class="media-upload-help" data-tooltip="Add your name to the File for recognition" tabindex="0" aria-label="Add your name to the File for recognition">?</span>
-                </div>
-                <label class="media-upload-check">
-                  <input id="media-upload-photographer-same" type="checkbox">
-                  <span>Same photographer for all files</span>
-                </label>
-                <div id="media-upload-photographer-list" class="media-upload-photographer-list"></div>
-                <div class="media-upload-controls media-upload-dialog-actions">
-                  <button id="media-upload-photographer-cancel" type="button" class="media-upload-dialog-secondary">Back</button>
-                  <button id="media-upload-photographer-skip" type="button" class="media-upload-dialog-secondary">
-                    <span class="material-symbols-outlined" aria-hidden="true">upload</span>
-                    Upload Without Credit
-                  </button>
-                  <button id="media-upload-photographer-confirm" type="button" class="media-upload-dialog-primary">
-                    <span class="material-symbols-outlined" aria-hidden="true">upload</span>
-                    Upload With Credit
-                  </button>
-                </div>
-              </section>
-            </div>
             <div id="media-upload-success-toast" class="media-upload-success-toast" role="status" aria-live="polite" hidden>
               <span class="material-symbols-outlined" aria-hidden="true">favorite</span>
-              <span>Thank you for the contribution</span>
+              <span>Uploaded — thank you!</span>
             </div>
           </section>
         </section>

@@ -2572,6 +2572,11 @@ body {
   display: block;
 }
 
+.media-category-select-mobile-wrap.is-category-free .media-category-select-label,
+.media-category-select-mobile-wrap.is-category-free .media-category-select-mobile {
+  display: none;
+}
+
 .media-category-tabs {
   display: flex;
   flex-direction: column;
@@ -2671,6 +2676,15 @@ body {
   margin: 0;
 }
 
+.media-type-tabs-global {
+  grid-column: 2;
+  margin: 0.25rem 0 0.15rem;
+}
+
+.media-type-tabs-global[hidden] {
+  display: none;
+}
+
 .media-type-tab {
   display: inline-flex;
   align-items: center;
@@ -2724,7 +2738,7 @@ body {
 
 .media-row-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   margin-bottom: 0.4rem;
 }
@@ -2752,6 +2766,14 @@ body {
   width: 100%;
   height: auto;
   position: static;
+}
+
+.media-mix-grid .media-video-thumb {
+  aspect-ratio: 4 / 3;
+}
+
+.media-mix-grid .media-video-caption {
+  display: none;
 }
 
 .media-gallery-item {
@@ -3261,7 +3283,7 @@ body {
 
 .media-upload-file-item {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto minmax(11rem, 15rem) minmax(0, 4.75rem);
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 4.75rem) auto;
   align-items: center;
   gap: 0.5rem;
   font-size: 0.8rem;
@@ -3541,6 +3563,11 @@ body {
   outline-offset: 2px;
 }
 
+.media-upload-file-remove:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
 .media-upload-validation {
   margin: 0.55rem 0 0;
   font-size: 0.75rem;
@@ -3634,6 +3661,10 @@ body {
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
+  .media-category-select-mobile-wrap.is-category-free .media-upload-btn-mobile {
+    margin-top: 0;
+  }
+
   .media-upload-btn-mobile:hover,
   .media-upload-btn-mobile:focus-visible {
     border-color: rgb(129 61 110 / 75%);
@@ -3702,9 +3733,9 @@ body {
   .media-upload-file-item {
     grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas:
-      "remove name"
-      "remove meta"
-      "select status";
+      "name remove"
+      "meta remove"
+      "status remove";
     gap: 0.6rem;
     padding: 0.6rem 0.65rem;
     border-radius: 0.28rem;
@@ -3720,36 +3751,15 @@ body {
     font-size: 0.75rem;
   }
 
-  .media-upload-file-remove {
-    grid-area: remove;
-    width: 2.35rem;
-    height: 2.35rem;
-    padding: 0;
-  }
-
   .media-upload-file-status {
     grid-area: status;
-    align-self: center;
-    min-width: 4.25rem;
-  }
-
-  .media-upload-photographer-heading,
-  .media-upload-photographer-file {
-    display: grid;
-    grid-template-columns: 1fr;
-    align-items: stretch;
-  }
-
-  .media-upload-dialog-actions {
-    grid-template-columns: 1fr;
-  }
-
-  .media-upload-file-select {
-    grid-area: select;
-    width: 100%;
+    align-self: start;
     min-width: 0;
-    padding: 0.6rem 2.5rem 0.6rem 0.85rem;
-    font-size: 0.95rem;
+  }
+
+  .media-upload-file-remove {
+    grid-area: remove;
+    align-self: center;
   }
 
   .media-gallery-grid {
