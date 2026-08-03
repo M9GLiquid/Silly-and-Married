@@ -26,3 +26,13 @@
   from = "/api/onedrive-verify-upload"
   to = "/.netlify/functions/onedrive-verify-upload"
   status = 200
+
+[[redirects]]
+  from = "/api/onedrive-upload-list"
+  to = "/.netlify/functions/onedrive-upload-list"
+  status = 200
+
+[[redirects]]
+  from = "/api/onedrive-media"
+  to = "/.netlify/functions/onedrive-media"
+  status = 200

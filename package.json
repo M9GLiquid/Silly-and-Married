@@ -3,7 +3,9 @@
   "private": true,
   "scripts": {
     "auth:onedrive": "node tools/onedrive-auth-helper.js",
+    "test": "npm run test:onedrive && npm run test:gallery",
     "test:onedrive": "node tools/test-onedrive-utils.js",
+    "test:gallery": "node --test test/onedrive-gallery.test.js",
     "media:thumbs": "node tools/generate-media-thumbs.js",
     "media:list": "node tools/generate-media-list.js",
     "build": "npm run media:list",

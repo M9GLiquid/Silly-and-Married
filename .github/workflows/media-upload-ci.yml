@@ -7,6 +7,7 @@ on:
       - "netlify/**"
       - "tools/test-onedrive-utils.js"
       - "tools/test-onedrive-functions.js"
+      - "test/**"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/media-upload-ci.yml"
@@ -30,6 +31,7 @@ jobs:
             assets/data
             assets/js
             netlify
+            test
             tools
             package.json
             package-lock.json
@@ -53,9 +55,11 @@ jobs:
           node --check netlify/functions/onedrive-save-metadata.js
           node --check netlify/functions/onedrive-health.js
           node --check netlify/functions/onedrive-verify-upload.js
+          node --check netlify/functions/onedrive-upload-list.js
+          node --check netlify/functions/onedrive-media.js
 
       - name: Run OneDrive reliability tests
-        run: npm run test:onedrive
+        run: npm test
 
       - name: Run OneDrive function integration tests
         run: node tools/test-onedrive-functions.js

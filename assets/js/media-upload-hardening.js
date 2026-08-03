@@ -5,9 +5,6 @@
   const uploadInput = document.getElementById("media-upload-input");
   const uploadValidation = document.getElementById("media-upload-validation");
   const uploadSubmit = document.getElementById("media-upload-submit");
-  const sourceCategorySelect = document.getElementById("media-category-select-mobile");
-  const uploadNote = document.getElementById("media-upload-panel-note");
-  const eventDescription = document.getElementById("media-event-description");
   const lastFailure = { message: "", requestId: "" };
   const uploadSessions = new Map();
   let healthReadyUntil = 0;
@@ -329,112 +326,7 @@
     });
   }
 
-  if (!uploadForm || !uploadFilesList || !sourceCategorySelect) return;
-
-  const categoryLabel = Array.from(
-    uploadForm.querySelectorAll(".media-upload-field-label")
-  ).find((label) => label.textContent.toLowerCase().includes("category"));
-
-  if (!categoryLabel) return;
-
-  categoryLabel.textContent = "Category for all selected files";
-
-  const categorySelect = document.createElement("select");
-  categorySelect.id = "media-upload-batch-category";
-  categorySelect.className = "media-upload-file-select";
-  categorySelect.required = true;
-  categorySelect.setAttribute("aria-label", "Category for all selected files");
-  categoryLabel.insertAdjacentElement("afterend", categorySelect);
-
-  const categoryHint = document.createElement("p");
-  categoryHint.className = "media-upload-batch-category-hint";
-  categoryHint.textContent =
-    "Every picture and video in this upload will use the same category.";
-  categorySelect.insertAdjacentElement("afterend", categoryHint);
-
-  const style = document.createElement("style");
-  style.textContent = `
-    #media-upload-batch-category {
-      max-width: 24rem;
-    }
-
-    .media-upload-batch-category-hint {
-      margin: -0.35rem 0 0;
-      color: rgb(43 43 43 / 68%);
-      font-size: 0.74rem;
-    }
-
-    .media-upload-file-item .media-upload-file-select {
-      display: none !important;
-    }
-
-    .media-upload-file-item {
-      grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 4.75rem) !important;
-    }
-
-    @media (max-width: 700px) {
-      .media-upload-file-item {
-        grid-template-columns: auto minmax(0, 1fr) minmax(0, 4rem) !important;
-      }
-
-      .media-upload-file-item .media-upload-file-meta {
-        display: none;
-      }
-    }
-  `;
-  document.head.appendChild(style);
-
-  if (uploadNote) {
-    uploadNote.textContent =
-      "Choose one category for all selected files, then upload your photos or videos.";
-  }
-
-  const updateEventDescriptionCopy = () => {
-    if (!eventDescription) return;
-    eventDescription.querySelectorAll("p").forEach((paragraph) => {
-      if (!paragraph.textContent.includes("tag each file with a category")) return;
-      paragraph.innerHTML =
-        'Choose one category for your whole upload batch, then it will appear in the matching folder below. <a href="#" class="media-inline-link" data-open-upload>Upload your own photos or videos</a>.';
-    });
-  };
-
-  const refreshCategoryOptions = () => {
-    const previousValue = categorySelect.value;
-    categorySelect.innerHTML = "";
-
-    const placeholder = document.createElement("option");
-    placeholder.value = "";
-    placeholder.textContent = "Select category";
-    categorySelect.appendChild(placeholder);
-
-    Array.from(sourceCategorySelect.options).forEach((sourceOption) => {
-      if (!sourceOption.value) return;
-      const option = document.createElement("option");
-      option.value = sourceOption.value;
-      option.textContent = sourceOption.textContent;
-      categorySelect.appendChild(option);
-    });
-
-    if (
-      Array.from(categorySelect.options).some(
-        (option) => option.value === previousValue
-      )
-    ) {
-      categorySelect.value = previousValue;
-    }
-  };
-
-  const applyBatchCategory = () => {
-    const categoryValue = categorySelect.value;
-    const perFileSelects = Array.from(
-      uploadFilesList.querySelectorAll(".media-upload-file-select")
-    );
-    perFileSelects.forEach((select) => {
-      if (select.value === categoryValue) return;
-      select.value = categoryValue;
-      select.dispatchEvent(new Event("change", { bubbles: true }));
-    });
-  };
+  if (!uploadForm || !uploadFilesList) return;
 
   const setValidationMessage = (message, isError = false) => {
     if (!uploadValidation) return;
@@ -461,40 +353,11 @@
     healthReadyUntil = Date.now() + 5 * 60 * 1000;
   };
 
-  let applyQueued = false;
-  const queueBatchCategoryApplication = () => {
-    if (applyQueued) return;
-    applyQueued = true;
-    window.requestAnimationFrame(() => {
-      applyQueued = false;
-      applyBatchCategory();
-    });
-  };
-
-  categorySelect.addEventListener("change", () => {
-    categorySelect.classList.remove("is-invalid");
-    applyBatchCategory();
-  });
-
   uploadForm.addEventListener(
     "submit",
     async (event) => {
       const hasFiles = uploadFilesList.querySelector(".media-upload-file-item");
       if (!hasFiles) return;
-
-      if (!categorySelect.value) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        categorySelect.classList.add("is-invalid");
-        setValidationMessage(
-          "Please choose one category for all selected files.",
-          true
-        );
-        categorySelect.focus();
-        return;
-      }
-
-      applyBatchCategory();
 
       if (Date.now() < healthReadyUntil) return;
 
@@ -523,27 +386,4 @@
     },
     true
   );
-
-  const fileListObserver = new MutationObserver(queueBatchCategoryApplication);
-  fileListObserver.observe(uploadFilesList, {
-    childList: true,
-    subtree: true
-  });
-
-  const categoryOptionsObserver = new MutationObserver(() => {
-    refreshCategoryOptions();
-    queueBatchCategoryApplication();
-  });
-  categoryOptionsObserver.observe(sourceCategorySelect, { childList: true });
-
-  if (eventDescription) {
-    const eventDescriptionObserver = new MutationObserver(updateEventDescriptionCopy);
-    eventDescriptionObserver.observe(eventDescription, {
-      childList: true,
-      subtree: true
-    });
-  }
-
-  refreshCategoryOptions();
-  updateEventDescriptionCopy();
 })();

@@ -438,6 +438,15 @@ const uploadSelectedFiles = async () => {
   }
   setUploadValidationMessage("Upload complete. Thank you!");
   showUploadSuccessToast();
+  const firstUploadedEntry = selectedUploadFiles[0];
+  const fileName = String(firstUploadedEntry?.file?.name || "").toLowerCase();
+  const isVideo = String(firstUploadedEntry?.file?.type || "").startsWith("video/") ||
+    /\.(3gp|avi|m4v|mkv|mov|mp4|webm)$/.test(fileName);
+  await loadMedia({
+    eventSlug: "wedding-2026",
+    categorySlug: firstUploadedEntry?.categorySlug || "church",
+    mediaType: isVideo ? "videos" : "photos"
+  });
 };
 
 const preloadImage = (src) =>
@@ -832,18 +841,32 @@ const fetchMediaData = async () => {
   throw lastError || new Error("No media list is reachable");
 };
 
-const loadMedia = async () => {
+const fetchUploadedMediaData = async () => {
+  const endpoints = ["/api/onedrive-upload-list", "/.netlify/functions/onedrive-upload-list"];
+  for (const endpoint of endpoints) {
+    try {
+      const response = await fetch(endpoint, {
+        headers: { Accept: "application/json" },
+        cache: "no-store"
+      });
+      if (!response.ok) continue;
+      const data = await response.json();
+      if (data && Array.isArray(data.categories)) return data;
+    } catch (_error) {
+      // A plain static server has no OneDrive functions; keep the local gallery working.
+    }
+  }
+  return { source: "onedrive-uploads", count: 0, categories: [] };
+};
+
+const loadMedia = async (options = {}) => {
   if (!tabsWrap || !photosGrid || !videosGrid || !eventTabsWrap) return;
 
   try {
-    const data = await fetchMediaData();
+    const [data, uploadedData] = await Promise.all([fetchMediaData(), fetchUploadedMediaData()]);
     allCategories = Array.isArray(data.categories)
       ? data.categories.filter((category) => (category.photos?.length || 0) + (category.videos?.length || 0) > 0)
       : [];
-    if (!allCategories.length) {
-      setStatus("No media categories found in /media folders.");
-      return;
-    }
 
     const uploadCategory = { slug: "upload", name: "Upload", photos: [], videos: [], total: 0, isUpload: true };
     const wedding2026CategorySeeds = [
@@ -855,13 +878,21 @@ const loadMedia = async () => {
       { slug: "reception", name: "Reception Moments" },
       { slug: "others", name: "Others" }
     ];
-    const emptyWeddingCategories = wedding2026CategorySeeds.map((category) => ({
-      slug: category.slug,
-      name: category.name,
-      photos: [],
-      videos: [],
-      total: 0
-    }));
+    const uploadedCategoryMap = new Map(
+      (Array.isArray(uploadedData.categories) ? uploadedData.categories : []).map((category) => [category.slug, category])
+    );
+    const wedding2026Categories = wedding2026CategorySeeds.map((category) => {
+      const uploadedCategory = uploadedCategoryMap.get(category.slug);
+      const photos = Array.isArray(uploadedCategory?.photos) ? uploadedCategory.photos : [];
+      const videos = Array.isArray(uploadedCategory?.videos) ? uploadedCategory.videos : [];
+      return {
+        slug: category.slug,
+        name: category.name,
+        photos,
+        videos,
+        total: photos.length + videos.length
+      };
+    });
     events = [
       {
         slug: "beach-2024",
@@ -879,14 +910,21 @@ const loadMedia = async () => {
           "<strong>This story is still being written.</strong> We would love your photos and videos so we can tell it properly.",
           "Use the upload flow and tag each file with a category - then it will appear in the matching folder below. <a href=\"#\" class=\"media-inline-link\" data-open-upload>Upload your own photos or videos</a>."
         ],
-        categories: [...emptyWeddingCategories, uploadCategory]
+        categories: [...wedding2026Categories, uploadCategory]
       }
     ];
 
-    const defaultEvent = events.find((event) => event.slug === "wedding-2026") || events[0];
+    const requestedEventSlug = typeof options?.eventSlug === "string" ? options.eventSlug : "wedding-2026";
+    const defaultEvent = events.find((event) => event.slug === requestedEventSlug) || events[0];
     activeEventSlug = defaultEvent.slug;
     categories = defaultEvent.categories;
-    activeCategorySlug = categories[0].slug;
+    const requestedCategorySlug = typeof options?.categorySlug === "string" ? options.categorySlug : "";
+    activeCategorySlug = categories.some((category) => category.slug === requestedCategorySlug)
+      ? requestedCategorySlug
+      : categories[0].slug;
+    if (options?.mediaType === "photos" || options?.mediaType === "videos") {
+      activeMediaType = options.mediaType;
+    }
     updateEventDescription();
     updateUploadCategoryOptions();
     renderEventTabs();

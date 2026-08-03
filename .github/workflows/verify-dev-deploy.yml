@@ -44,9 +44,11 @@ jobs:
           set -euo pipefail
           site="https://dev-sillyandmarried.netlify.app"
           curl -fsSL "$site/assets/js/media-upload-hardening.js" -o /tmp/media-upload-hardening.js
+          curl -fsSL "$site/assets/js/media.js" -o /tmp/media.js
           grep -q "onedrive-create-upload-session" /tmp/media-upload-hardening.js
           grep -q "onedrive-verify-upload" /tmp/media-upload-hardening.js
-          grep -q "Category for all selected files" /tmp/media-upload-hardening.js
+          grep -Fq 'Category for ${file.name}' /tmp/media.js
+          ! grep -q "Category for all selected files" /tmp/media-upload-hardening.js
           echo "Hardened uploader is deployed"
 
       - name: Verify OneDrive upload service
@@ -61,4 +63,7 @@ jobs:
           test "$status" = "200"
           grep -q '"ok":true' /tmp/health.json
           grep -q '"foldersReady":true' /tmp/health.json
+          gallery_status=$(curl -sS -L -o /tmp/upload-gallery.json -w "%{http_code}" "$site/api/onedrive-upload-list" || true)
+          test "$gallery_status" = "200"
+          grep -q '"source":"onedrive-uploads"' /tmp/upload-gallery.json
           echo "OneDrive upload service is ready"
