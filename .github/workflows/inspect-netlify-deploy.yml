@@ -1,0 +1,38 @@
+name: Inspect Netlify Deploy
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  inspect-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Query failed dev deploy metadata
+        shell: bash
+        run: |
+          set -u
+          deploy_id="6a6ddfd175693300082296e9"
+          build_id="6a6ddfd175693300082296e7"
+          for path in \
+            "deploys/$deploy_id" \
+            "builds/$build_id" \
+            "builds/$build_id/log" \
+            "deploys/$deploy_id/log"; do
+            endpoint="https://api.netlify.com/api/v1/$path"
+            safe_name=$(echo "$path" | tr '/' '-')
+            status=$(curl -sS -L -D "/tmp/$safe_name.headers" -o "/tmp/$safe_name.body" -w "%{http_code}" "$endpoint" || true)
+            echo "===== $path ====="
+            echo "HTTP status: $status"
+            echo "Response headers:"
+            cat "/tmp/$safe_name.headers"
+            echo
+            echo "Response body:"
+            cat "/tmp/$safe_name.body"
+            echo
+          done
