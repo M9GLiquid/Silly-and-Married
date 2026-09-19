@@ -21,8 +21,10 @@ const run = async () => {
 
   {
     let calls = 0;
-    global.fetch = async () => {
+    let tokenRequest = null;
+    global.fetch = async (url, options = {}) => {
       calls += 1;
+      tokenRequest = { url, options };
       return jsonResponse(200, { access_token: "token", expires_in: 3600 });
     };
     const utils = loadFresh();
@@ -31,6 +33,8 @@ const run = async () => {
     assert.equal(first, "token");
     assert.equal(second, "token");
     assert.equal(calls, 1);
+    const tokenForm = new URLSearchParams(tokenRequest.options.body);
+    assert.equal(tokenForm.get("scope"), "offline_access User.Read Files.ReadWrite");
     assert.equal(utils.getFileKind("", "photo.HEIC"), "picture");
     assert.equal(utils.getFileKind("", "clip.MOV"), "video");
   }
