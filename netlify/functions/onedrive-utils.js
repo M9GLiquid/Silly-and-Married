@@ -1,6 +1,7 @@
 const { randomUUID } = require("crypto");
 
 const GRAPH_ROOT = "https://graph.microsoft.com/v1.0";
+const MICROSOFT_SCOPES = ["offline_access", "User.Read", "Files.ReadWrite"];
 const IMAGE_PREFIX = "image/";
 const VIDEO_PREFIX = "video/";
 const TOKEN_EXPIRY_SAFETY_MS = 2 * 60 * 1000;
@@ -166,6 +167,7 @@ const getAccessToken = async ({ forceRefresh = false } = {}) => {
   form.set("client_secret", getRequiredEnv("MS_CLIENT_SECRET"));
   form.set("refresh_token", getRequiredEnv("MS_REFRESH_TOKEN"));
   form.set("grant_type", "refresh_token");
+  form.set("scope", MICROSOFT_SCOPES.join(" "));
 
   const tenantId = process.env.MS_TENANT_ID || "common";
   const tokenEndpoint = `https://login.microsoftonline.com/${encodeURIComponent(tenantId)}/oauth2/v2.0/token`;
