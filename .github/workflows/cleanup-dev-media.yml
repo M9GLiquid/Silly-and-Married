@@ -1,0 +1,79 @@
+name: Cleanup Dev Media
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - ".github/workflows/cleanup-dev-media.yml"
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup-dev-tree:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout lightweight dev tree
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          fetch-depth: 1
+          filter: blob:none
+          sparse-checkout: |
+            .github
+            assets/data
+            netlify
+            tools
+            netlify.toml
+            package.json
+            media.html
+            .dev-media-cleanup-complete
+          sparse-checkout-cone-mode: false
+
+      - name: Remove raw media from dev deployment tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f .dev-media-cleanup-complete ]; then
+            echo "Cleanup already completed"
+            exit 0
+          fi
+
+          node <<'NODE'
+          const fs = require("fs");
+          const path = "assets/data/media-list.json";
+          const data = JSON.parse(fs.readFileSync(path, "utf8"));
+          const categories = Array.isArray(data.categories) ? data.categories : [];
+          for (const category of categories) {
+            const photos = Array.isArray(category.photos) ? category.photos : [];
+            for (const photo of photos) {
+              if (photo.thumbnailSrc) photo.src = photo.thumbnailSrc;
+            }
+            category.videos = [];
+            category.total = photos.length;
+          }
+          data.count = categories.reduce((sum, category) => sum + (category.total || 0), 0);
+          fs.writeFileSync(path, JSON.stringify(data));
+          NODE
+
+          python3 <<'PY'
+          from pathlib import Path
+          path = Path("netlify.toml")
+          text = path.read_text()
+          text = text.replace('command = "npm run build"', 'command = "echo Static site ready"')
+          path.write_text(text)
+          PY
+
+          git ls-files -z media | xargs -0 -r git update-index --force-remove
+          printf '%s\n' "Raw media removed from dev deployment tree. Backup: backup/dev-before-netlify-cleanup" > .dev-media-cleanup-complete
+          git add assets/data/media-list.json netlify.toml .dev-media-cleanup-complete
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Reduce dev deployment tree for Netlify"
+          git push origin HEAD:dev

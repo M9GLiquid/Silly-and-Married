@@ -159,6 +159,13 @@
     init();
   }
 
+  if (document.body?.dataset.page === "media") {
+    const uploadHardeningScript = document.createElement("script");
+    uploadHardeningScript.src = "assets/js/media-upload-hardening.js";
+    uploadHardeningScript.async = false;
+    document.head.appendChild(uploadHardeningScript);
+  }
+
   const script = document.createElement("script");
   script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
   script.async = true;
