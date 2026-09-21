@@ -73,7 +73,10 @@ test("password form is accessible and contains no gallery or secret", async () =
   assert.equal(response.status, 200);
   assert.match(html, /label for="password"/);
   assert.match(html, /type="password"/);
-  assert.doesNotMatch(html, /assets\/js\/media|media-thumbs/);
+  assert.match(html, /<script src="\/assets\/js\/media-login\.js" defer><\/script>/);
+  assert.match(response.headers.get("content-security-policy"), /script-src 'self'/);
+  assert.match(response.headers.get("content-security-policy"), /connect-src 'self'/);
+  assert.doesNotMatch(html, /assets\/js\/media\.js|media-thumbs/);
   assert.ok(!html.includes(secrets.password));
   assert.ok(!html.includes(secrets.secret));
   assert.match(response.headers.get("content-security-policy"), /frame-ancestors 'none'/);
