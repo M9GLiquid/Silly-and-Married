@@ -3,12 +3,13 @@
   "private": true,
   "scripts": {
     "auth:onedrive": "node tools/onedrive-auth-helper.js",
-    "test": "npm run test:onedrive && npm run test:gallery",
+    "test": "npm run test:onedrive && npm run test:gallery && npm run test:media-auth",
+    "test:media-auth": "node --test test/media-auth.test.mjs",
     "test:onedrive": "node tools/test-onedrive-utils.js",
     "test:gallery": "node --test test/onedrive-gallery.test.js",
     "media:thumbs": "node tools/generate-media-thumbs.js",
     "media:list": "node tools/generate-media-list.js",
-    "build": "npm run media:list",
+    "build": "node tools/build-site.js",
     "dev:netlify": "netlify dev",
     "dev:mobile": "python -m http.server 4173 --bind 0.0.0.0"
   },

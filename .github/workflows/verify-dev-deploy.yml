@@ -16,25 +16,39 @@ jobs:
   verify-dev-site:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      MEDIA_PASSWORD: ${{ secrets.MEDIA_PASSWORD }}
     steps:
       - name: Wait for Netlify branch deployment
         run: sleep 75
 
-      - name: Verify media page
+      - name: Verify media gate and sign in
         shell: bash
         run: |
           set -euo pipefail
           site="https://dev-sillyandmarried.netlify.app"
           status=""
           for attempt in $(seq 1 12); do
-            status=$(curl -sS -L -o /tmp/media.html -w "%{http_code}" "$site/media.html" || true)
-            if [ "$status" = "200" ]; then
+            status=$(curl -sS -o /tmp/locked-media.html -w "%{http_code}" "$site/media.html" || true)
+            if [ "$status" = "303" ]; then
               break
             fi
             echo "Media page attempt $attempt returned $status"
             sleep 15
           done
-          test "$status" = "200"
+          test "$status" = "303"
+          curl -fsS "$site/media-access" -o /tmp/media-login.html
+          grep -q 'type="password"' /tmp/media-login.html
+          for path in /assets/data/media-list.json /api/onedrive-upload-list /.netlify/functions/onedrive-media /media-thumbs/private-probe.webp; do
+            status=$(curl -sS -o /dev/null -w "%{http_code}" "$site$path")
+            test "$status" = "401"
+          done
+          test -n "$MEDIA_PASSWORD" || { echo "Set the MEDIA_PASSWORD GitHub Actions secret for authenticated deployment checks."; exit 1; }
+          umask 077
+          status=$(printf '%s' "$MEDIA_PASSWORD" | curl -sS -o /dev/null -w "%{http_code}" -c /tmp/media-cookies \
+            -H "Origin: $site" --data-urlencode password@- "$site/media-access")
+          test "$status" = "303"
+          curl -fsSL -b /tmp/media-cookies "$site/media.html" -o /tmp/media.html
           grep -q "assets/js/media.js" /tmp/media.html
           echo "Media page is available"
 
@@ -64,14 +78,14 @@ jobs:
         run: |
           set -euo pipefail
           site="https://dev-sillyandmarried.netlify.app"
-          status=$(curl -sS -L -o /tmp/health.json -w "%{http_code}" "$site/api/onedrive-health" || true)
+          status=$(curl -sS -L -b /tmp/media-cookies -o /tmp/health.json -w "%{http_code}" "$site/api/onedrive-health" || true)
           echo "Health status: $status"
           cat /tmp/health.json
           echo
           test "$status" = "200"
           grep -q '"ok":true' /tmp/health.json
           grep -q '"foldersReady":true' /tmp/health.json
-          gallery_status=$(curl -sS -L -o /tmp/upload-gallery.json -w "%{http_code}" "$site/api/onedrive-upload-list" || true)
+          gallery_status=$(curl -sS -L -b /tmp/media-cookies -o /tmp/upload-gallery.json -w "%{http_code}" "$site/api/onedrive-upload-list" || true)
           test "$gallery_status" = "200"
           grep -q '"source":"onedrive-uploads"' /tmp/upload-gallery.json
           echo "OneDrive upload service is ready"

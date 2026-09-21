@@ -85,3 +85,5 @@ exports.handler = async (event) => {
     return jsonResponse(publicError.status, publicError.body);
   }
 };
+
+exports.handler = require('../lib/require-media-session.cjs').withMediaSession(exports.handler);

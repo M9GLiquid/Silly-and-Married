@@ -55,3 +55,5 @@ exports.handler = async (event) => {
     });
   }
 };
+
+exports.handler = require('../lib/require-media-session.cjs').withMediaSession(exports.handler);

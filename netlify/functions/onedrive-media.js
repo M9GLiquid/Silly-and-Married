@@ -64,3 +64,5 @@ exports.handler = async (event) => {
 };
 
 exports.isAllowedMediaItem = isAllowedMediaItem;
+
+exports.handler = require('../lib/require-media-session.cjs').withMediaSession(exports.handler);

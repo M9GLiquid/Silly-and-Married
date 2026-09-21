@@ -156,3 +156,5 @@ exports.handler = async (event) => {
 };
 
 exports.buildUploadedCategories = buildUploadedCategories;
+
+exports.handler = require('../lib/require-media-session.cjs').withMediaSession(exports.handler);
