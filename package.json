@@ -3,9 +3,11 @@
   "private": true,
   "scripts": {
     "auth:onedrive": "node tools/onedrive-auth-helper.js",
-    "test": "npm run test:onedrive && npm run test:gallery && npm run test:media-auth",
+    "test": "npm run test:journeys && npm run test:onedrive && npm run test:onedrive-functions && npm run test:gallery && npm run test:media-auth",
+    "test:journeys": "node --test \"tests/*.test.js\" \"tests/*.test.mjs\"",
     "test:media-auth": "node --test test/media-auth.test.mjs",
     "test:onedrive": "node tools/test-onedrive-utils.js",
+    "test:onedrive-functions": "node tools/test-onedrive-functions.js",
     "test:gallery": "node --test test/onedrive-gallery.test.js",
     "media:thumbs": "node tools/generate-media-thumbs.js",
     "media:list": "node tools/generate-media-list.js",
