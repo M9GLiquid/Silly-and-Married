@@ -112,7 +112,7 @@
           </select>
           <button type="button" id="media-upload-btn-mobile" class="media-upload-btn-mobile" data-open-upload aria-label="Upload photos or videos">
             <span class="material-symbols-outlined" aria-hidden="true">upload</span>
-            Upload photos or videos
+            <span data-upload-mobile-label>Upload photos or videos</span>
           </button>
         </div>
         <div id="media-category-tabs" class="media-category-tabs" role="tablist" aria-label="Beach Wedding 2024 albums">
@@ -122,15 +122,15 @@
         <div class="media-type-tabs media-type-tabs-inline media-type-tabs-global" role="tablist" aria-label="Media type tabs">
           <button type="button" class="media-type-tab is-active" role="tab" aria-selected="true" data-media-type-tab="mix">
             <span class="material-symbols-outlined" aria-hidden="true">view_comfy</span>
-            All
+            <span data-media-type-label>All</span>
           </button>
           <button type="button" class="media-type-tab" role="tab" aria-selected="false" data-media-type-tab="photos">
             <span class="material-symbols-outlined" aria-hidden="true">photo_library</span>
-            Photos
+            <span data-media-type-label>Photos</span>
           </button>
           <button type="button" class="media-type-tab" role="tab" aria-selected="false" data-media-type-tab="videos">
             <span class="material-symbols-outlined" aria-hidden="true">videocam</span>
-            Videos
+            <span data-media-type-label>Videos</span>
           </button>
         </div>
         <section id="media-mix-section" class="media-category-section" aria-label="All photos and videos">
@@ -184,14 +184,14 @@
                 <span class="media-upload-cta-wrap">
                   <button id="media-upload-submit" type="submit" class="media-upload-cta media-upload-submit" disabled>
                     <span class="material-symbols-outlined" aria-hidden="true">upload</span>
-                    Upload selected files
+                    <span data-upload-submit-label>Upload selected files</span>
                   </button>
                 </span>
               </div>
             </form>
             <div id="media-upload-success-toast" class="media-upload-success-toast" role="status" aria-live="polite" hidden>
               <span class="material-symbols-outlined" aria-hidden="true">favorite</span>
-              <span>Uploaded — thank you!</span>
+              <span data-upload-success-label>Uploaded — thank you!</span>
             </div>
           </section>
         </section>

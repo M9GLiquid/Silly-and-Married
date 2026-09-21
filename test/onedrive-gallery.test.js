@@ -81,6 +81,13 @@ test("keeps the guest upload flow simple with an explicit submit", () => {
   assert.match(mediaClient, /candidateIndex !== index/);
   assert.match(mediaClient, /remove: "Ta bort"/);
   assert.match(mediaClient, /remove: "Odstrániť"/);
+  assert.match(mediaClient, /all: "Alla"/);
+  assert.match(mediaClient, /photos: "Foton"/);
+  assert.match(mediaClient, /videos: "Videor"/);
+  assert.match(mediaClient, /all: "Všetko"/);
+  assert.match(mediaClient, /upload: "Nahrať"/);
+  assert.match(mediaClient, /const applyMediaUiCopy/);
+  assert.match(mediaClient, /category\.isUpload \? getMediaUiCopy\(\)\.upload/);
   assert.doesNotMatch(mediaClient, /startAutomaticUpload/);
   assert.match(mediaClient, /uploadForm\.addEventListener\("submit"/);
   assert.match(mediaClient, /DEFAULT_UPLOAD_CATEGORY_SLUG = "others"/);
@@ -100,6 +107,7 @@ test("keeps the guest upload flow simple with an explicit submit", () => {
   assert.match(mediaPage, /Upload selected files/i);
   assert.match(mediaPage, /data-media-type-tab="mix"/);
   assert.match(mediaPage, /data-media-type-tab="mix"[\s\S]*?All/);
+  assert.match(mediaPage, /data-media-type-label/);
   assert.match(mediaPage, /id="media-mix-grid"/);
   assert.ok(
     mediaPage.indexOf('data-media-type-tab="mix"') < mediaPage.indexOf('data-media-type-tab="photos"'),
