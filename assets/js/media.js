@@ -44,6 +44,7 @@ const uploadDropzoneCopy = document.querySelector(".media-upload-dropzone-copy")
 const uploadSubmitLabel = document.querySelector("[data-upload-submit-label]");
 const uploadSuccessLabel = document.querySelector("[data-upload-success-label]");
 const uploadMobileLabel = document.querySelector("[data-upload-mobile-label]");
+const uploadCore = window.WeddingMediaUpload;
 
 const PHOTO_BATCH_SIZE = 24;
 const VIDEO_BATCH_SIZE = 6;
@@ -104,6 +105,15 @@ const UPLOAD_COPY = {
     uploading: (completed, total) => `Uploading ${completed} of ${total} — please keep this page open.`,
     uploadComplete: "Upload complete. Thank you!",
     uploadFailures: (count) => `${count} file${count === 1 ? "" : "s"} could not be uploaded. Please try again.`,
+    unsupportedFile: (name) => `“${name}” was skipped. Only photos and videos can be uploaded.`,
+    emptyFile: (name) => `“${name}” is empty (0 B) and cannot be uploaded.`,
+    fileTooLarge: (name, attempted, maximum) => `“${name}” is ${attempted}. The maximum file size is ${maximum}. Choose a smaller file and try again.`,
+    missingFile: "A selected file could not be read. Choose it again.",
+    uploadBusy: "An upload is already in progress. Please wait a moment.",
+    addFile: "Please add at least one photo or video.",
+    moreRejected: (count) => `${count} more file${count === 1 ? " was" : "s were"} skipped.`,
+    moreFailures: (count) => `${count} more failure${count === 1 ? " is" : "s are"} shown beside the affected file${count === 1 ? "" : "s"}.`,
+    genericFailure: "The upload did not finish. Check your connection and try this file again.",
     waiting: "Waiting for photos or videos."
   },
   sk: {
@@ -115,6 +125,15 @@ const UPLOAD_COPY = {
     uploading: (completed, total) => `Nahráva sa ${completed} z ${total} — nechajte túto stránku otvorenú.`,
     uploadComplete: "Nahrávanie je dokončené. Ďakujeme!",
     uploadFailures: (count) => `${count} ${count === 1 ? "súbor sa nepodarilo" : "súbory sa nepodarilo"} nahrať. Skúste to znova.`,
+    unsupportedFile: (name) => `Súbor „${name}“ bol vynechaný. Nahrať je možné iba fotografie a videá.`,
+    emptyFile: (name) => `Súbor „${name}“ je prázdny (0 B) a nedá sa nahrať.`,
+    fileTooLarge: (name, attempted, maximum) => `Súbor „${name}“ má ${attempted}. Maximálna veľkosť súboru je ${maximum}. Vyberte menší súbor a skúste to znova.`,
+    missingFile: "Vybraný súbor sa nepodarilo prečítať. Vyberte ho znova.",
+    uploadBusy: "Nahrávanie už prebieha. Chvíľu počkajte.",
+    addFile: "Pridajte aspoň jednu fotografiu alebo video.",
+    moreRejected: (count) => `Ďalšie súbory boli vynechané: ${count}.`,
+    moreFailures: (count) => `Ďalšie chyby (${count}) sú zobrazené pri príslušných súboroch.`,
+    genericFailure: "Nahrávanie sa nedokončilo. Skontrolujte pripojenie a skúste tento súbor znova.",
     waiting: "Čaká sa na fotografie alebo videá."
   },
   sv: {
@@ -126,6 +145,15 @@ const UPLOAD_COPY = {
     uploading: (completed, total) => `Laddar upp ${completed} av ${total} — håll sidan öppen.`,
     uploadComplete: "Uppladdningen är klar. Tack!",
     uploadFailures: (count) => `${count} ${count === 1 ? "fil" : "filer"} kunde inte laddas upp. Försök igen.`,
+    unsupportedFile: (name) => `”${name}” hoppades över. Endast foton och videor kan laddas upp.`,
+    emptyFile: (name) => `”${name}” är tom (0 B) och kan inte laddas upp.`,
+    fileTooLarge: (name, attempted, maximum) => `”${name}” är ${attempted}. Den största tillåtna filstorleken är ${maximum}. Välj en mindre fil och försök igen.`,
+    missingFile: "En vald fil kunde inte läsas. Välj den igen.",
+    uploadBusy: "En uppladdning pågår redan. Vänta en stund.",
+    addFile: "Lägg till minst ett foto eller en video.",
+    moreRejected: (count) => `${count} fil${count === 1 ? "" : "er"} till hoppades över.`,
+    moreFailures: (count) => `${count} fel till visas bredvid ${count === 1 ? "den berörda filen" : "de berörda filerna"}.`,
+    genericFailure: "Uppladdningen slutfördes inte. Kontrollera anslutningen och försök med filen igen.",
     waiting: "Väntar på foton eller videor."
   }
 };
@@ -189,30 +217,23 @@ const setStatus = (message, isError = false, isHint = false) => {
   mediaStatus.classList.toggle("is-hint", isHint);
 };
 
-const formatFileSize = (bytes) => {
-  if (!Number.isFinite(bytes) || bytes <= 0) return "0 B";
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  if (bytes < 1024 * 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-  return `${(bytes / (1024 * 1024 * 1024)).toFixed(1)} GB`;
-};
-
-const dedupeFiles = (files) => {
-  const map = new Map();
-  files.forEach((file) => {
-    const key = `${file.name}::${file.size}::${file.lastModified}`;
-    if (!map.has(key)) {
-      map.set(key, file);
-    }
-  });
-  return Array.from(map.values());
-};
+const formatFileSize = uploadCore.formatFileSize;
+const dedupeFiles = uploadCore.dedupeFiles;
 
 const isUploadCategoryActive = () => activeCategorySlug === "upload";
 
-const isAllowedUploadFile = (file) => {
-  if (!file || typeof file.type !== "string") return false;
-  return file.type.startsWith("image/") || file.type.startsWith("video/");
+const describeFileValidation = (file, validation, copy = getUploadCopy()) => {
+  const name = String(file?.name || "").trim();
+  if (validation.code === "unsupported_file_type") return copy.unsupportedFile(name);
+  if (validation.code === "empty_file") return copy.emptyFile(name);
+  if (validation.code === "file_too_large") {
+    return copy.fileTooLarge(
+      name,
+      formatFileSize(validation.size),
+      formatFileSize(validation.maxBytes)
+    );
+  }
+  return copy.missingFile;
 };
 
 const updateUploadSubmitState = () => {
@@ -227,6 +248,8 @@ const setUploadValidationMessage = (message = "", isError = false) => {
   uploadValidation.textContent = message;
   uploadValidation.hidden = !message;
   uploadValidation.classList.toggle("is-error", isError);
+  uploadValidation.setAttribute("role", isError ? "alert" : "status");
+  uploadValidation.setAttribute("aria-live", isError ? "assertive" : "polite");
 };
 
 const showUploadSuccessToast = () => {
@@ -279,7 +302,7 @@ const renderSelectedUploadFiles = () => {
     } else if (entry.status === "complete") {
       status.textContent = copy.uploaded;
     } else if (entry.status === "error") {
-      status.textContent = copy.failed;
+      status.textContent = entry.error ? `${copy.failed}: ${entry.error}` : copy.failed;
     } else {
       status.textContent = "";
     }
@@ -313,8 +336,12 @@ const renderSelectedUploadFiles = () => {
 };
 
 const mergeSelectedUploadFiles = (incomingFiles) => {
-  const filtered = incomingFiles.filter((file) => isAllowedUploadFile(file));
-  const rejectedCount = incomingFiles.length - filtered.length;
+  const reviewed = incomingFiles.map((file) => ({
+    file,
+    validation: uploadCore.validateUploadFile(file)
+  }));
+  const filtered = reviewed.filter((entry) => entry.validation.ok).map((entry) => entry.file);
+  const rejected = reviewed.filter((entry) => !entry.validation.ok);
   const existing = selectedUploadFiles.map((entry) => entry.file);
   const mergedFiles = dedupeFiles([...existing, ...filtered]);
   selectedUploadFiles = mergedFiles.map((file) => {
@@ -323,21 +350,25 @@ const mergeSelectedUploadFiles = (incomingFiles) => {
       file,
       categorySlug: DEFAULT_UPLOAD_CATEGORY_SLUG,
       status: previous?.status || "",
-      progress: previous?.progress || 0
+      progress: previous?.progress || 0,
+      error: previous?.error || ""
     };
   });
   const readyMessage = filtered.length ? getUploadCopy().ready : "";
-  const rejectedMessage = rejectedCount
-    ? `${rejectedCount} unsupported file${rejectedCount === 1 ? " was" : "s were"} skipped.`
-    : "";
-  setUploadValidationMessage([readyMessage, rejectedMessage].filter(Boolean).join(" "), rejectedCount > 0);
+  const rejectedMessage = [
+    ...rejected
+      .slice(0, 5)
+      .map(({ file, validation }) => describeFileValidation(file, validation)),
+    ...(rejected.length > 5 ? [getUploadCopy().moreRejected(rejected.length - 5)] : [])
+  ].join(" ");
+  setUploadValidationMessage([readyMessage, rejectedMessage].filter(Boolean).join(" "), rejected.length > 0);
   renderSelectedUploadFiles();
   return filtered.length;
 };
 
 const queueSelectedUploadFiles = (files) => {
   if (uploadInProgress) {
-    setUploadValidationMessage("An upload is already in progress. Please wait a moment.", true);
+    setUploadValidationMessage(getUploadCopy().uploadBusy, true);
     return;
   }
   mergeSelectedUploadFiles(files);
@@ -428,7 +459,7 @@ const updateUploadFileEntry = (index, patch) => {
     } else if (nextEntry.status === "complete") {
       status.textContent = copy.uploaded;
     } else if (nextEntry.status === "error") {
-      status.textContent = copy.failed;
+      status.textContent = nextEntry.error ? `${copy.failed}: ${nextEntry.error}` : copy.failed;
     } else {
       status.textContent = "";
     }
@@ -446,9 +477,17 @@ const postJson = async (url, body) => {
   });
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {
-    throw new Error(data.error || data.details || `Request failed with ${response.status}`);
+    const error = new Error(data.error || data.details || `Request failed with ${response.status}`);
+    error.requestId = data.requestId || response.headers.get("x-nf-request-id") || "";
+    throw error;
   }
   return data;
+};
+
+const readableUploadError = (error, fallback = getUploadCopy().genericFailure) => {
+  const rawMessage = error instanceof Error ? error.message : String(error || "");
+  const message = rawMessage.replace(/\s+/g, " ").trim();
+  return (message || fallback).slice(0, 320);
 };
 
 const uploadFileToSession = async (file, uploadUrl, onProgress) => {
@@ -465,7 +504,19 @@ const uploadFileToSession = async (file, uploadUrl, onProgress) => {
     });
     if (![200, 201, 202].includes(response.status)) {
       const errorText = await response.text().catch(() => "");
-      throw new Error(errorText || `OneDrive upload failed with ${response.status}`);
+      let errorMessage = "";
+      try {
+        const data = JSON.parse(errorText);
+        errorMessage = data?.error?.message || data?.error || data?.message || "";
+      } catch (_error) {
+        errorMessage = errorText;
+      }
+      throw new Error(
+        readableUploadError(
+          errorMessage,
+          `The file upload stopped with status ${response.status}. Please try this file again.`
+        )
+      );
     }
     start = end;
     onProgress(Math.round((start / file.size) * 100));
@@ -513,26 +564,25 @@ const uploadSelectedFiles = async () => {
   setUploadValidationMessage(copy.uploading(0, pendingIndexes.length));
   renderSelectedUploadFiles();
 
-  let failures = 0;
   let completed = 0;
-  let nextPendingIndex = 0;
-  const uploadWorker = async () => {
-    while (nextPendingIndex < pendingIndexes.length) {
-      const index = pendingIndexes[nextPendingIndex];
-      nextPendingIndex += 1;
+  const results = await uploadCore.runBoundedQueue(
+    pendingIndexes,
+    UPLOAD_FILE_CONCURRENCY,
+    async (index) => {
       try {
         await uploadOneDriveFile(selectedUploadFiles[index], index);
-      } catch (_error) {
-        failures += 1;
-        updateUploadFileEntry(index, { status: "error" });
+      } catch (error) {
+        const reason = readableUploadError(error);
+        const reference = error?.requestId ? ` Reference: ${error.requestId}.` : "";
+        updateUploadFileEntry(index, { status: "error", error: `${reason}${reference}` });
+        throw error;
       } finally {
         completed += 1;
         setUploadValidationMessage(copy.uploading(completed, pendingIndexes.length));
       }
     }
-  };
-  const workerCount = Math.min(UPLOAD_FILE_CONCURRENCY, pendingIndexes.length);
-  await Promise.all(Array.from({ length: workerCount }, () => uploadWorker()));
+  );
+  const failures = results.filter((result) => result.status === "rejected").length;
 
   uploadInProgress = false;
   if (uploadInput) uploadInput.disabled = false;
@@ -541,7 +591,14 @@ const uploadSelectedFiles = async () => {
   renderSelectedUploadFiles();
   updateUploadSubmitState();
   if (failures) {
-    setUploadValidationMessage(copy.uploadFailures(failures), true);
+    const failedEntries = selectedUploadFiles
+      .filter((entry) => entry.status === "error" && entry.error)
+      .map((entry) => `${entry.file.name}: ${entry.error}`);
+    const failedDetails = [
+      ...failedEntries.slice(0, 3),
+      ...(failedEntries.length > 3 ? [copy.moreFailures(failedEntries.length - 3)] : [])
+    ].join(" ");
+    setUploadValidationMessage(`${copy.uploadFailures(failures)} ${failedDetails}`.trim(), true);
     return;
   }
   setUploadValidationMessage(copy.uploadComplete);
@@ -1188,7 +1245,7 @@ if (uploadForm) {
     event.preventDefault();
     if (uploadInProgress) return;
     if (!selectedUploadFiles.length) {
-      setUploadValidationMessage("Please add at least one photo or video.", true);
+      setUploadValidationMessage(getUploadCopy().addFile, true);
       return;
     }
     setUploadValidationMessage("");

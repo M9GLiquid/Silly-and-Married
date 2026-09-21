@@ -16,6 +16,13 @@ const {
 
 const DEFAULT_MAX_UPLOAD_MB = 8192;
 
+const formatFileSize = (bytes) => {
+  if (!Number.isFinite(bytes) || bytes <= 0) return "0 B";
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  if (bytes < 1024 * 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  return `${(bytes / (1024 * 1024 * 1024)).toFixed(1)} GB`;
+};
+
 exports.handler = async (event) => {
   const requestId = getRequestId(event);
 
@@ -36,7 +43,10 @@ exports.handler = async (event) => {
     const mimeType = sanitizeText(body.mimeType, 120).toLowerCase();
     const size = Number(body.size || 0);
     const kind = getFileKind(mimeType, originalFileName);
-    const maxUploadMb = Number(process.env.MAX_UPLOAD_MB || DEFAULT_MAX_UPLOAD_MB);
+    const configuredMaxUploadMb = Number(process.env.MAX_UPLOAD_MB || DEFAULT_MAX_UPLOAD_MB);
+    const maxUploadMb = Number.isFinite(configuredMaxUploadMb) && configuredMaxUploadMb > 0
+      ? configuredMaxUploadMb
+      : DEFAULT_MAX_UPLOAD_MB;
     const maxBytes = maxUploadMb * 1024 * 1024;
 
     if (!categorySlug || !categoryName) {
@@ -48,15 +58,30 @@ exports.handler = async (event) => {
     }
     if (!originalFileName || !kind) {
       return jsonResponse(400, {
-        error: "Only supported picture and video files can be uploaded.",
+        error: originalFileName
+          ? `“${originalFileName}” is not a supported photo or video.`
+          : "The selected file has no name. Choose it again.",
         code: "unsupported_file_type",
         requestId
       });
     }
-    if (!Number.isFinite(size) || size <= 0 || size > maxBytes) {
+    if (!Number.isFinite(size) || size <= 0) {
       return jsonResponse(400, {
-        error: `The file must be smaller than ${Math.round(maxUploadMb)} MB.`,
-        code: "invalid_file_size",
+        error: `“${originalFileName}” is empty (0 B) and cannot be uploaded.`,
+        code: "empty_file",
+        fileName: originalFileName,
+        attemptedBytes: Number.isFinite(size) ? size : 0,
+        maxBytes,
+        requestId
+      });
+    }
+    if (size > maxBytes) {
+      return jsonResponse(400, {
+        error: `“${originalFileName}” is ${formatFileSize(size)}. The maximum file size is ${formatFileSize(maxBytes)}. Choose a smaller file and try again.`,
+        code: "file_too_large",
+        fileName: originalFileName,
+        attemptedBytes: size,
+        maxBytes,
         requestId
       });
     }

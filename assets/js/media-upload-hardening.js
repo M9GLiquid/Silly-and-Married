@@ -294,37 +294,17 @@
         lastFailure.message = navigator.onLine
           ? "The connection to the upload service was interrupted."
           : "The device is offline.";
-        if (attempt === maxAttempts - 1) throw error;
+        if (attempt === maxAttempts - 1) {
+          const uploadError = new Error(lastFailure.message);
+          uploadError.requestId = lastFailure.requestId;
+          throw uploadError;
+        }
         await wait(Math.min(600 * 2 ** attempt, 8000));
       }
     }
 
     throw lastNetworkError || new Error("Upload request failed.");
   };
-
-  if (uploadValidation) {
-    const validationObserver = new MutationObserver(() => {
-      const text = uploadValidation.textContent || "";
-      if (
-        !text.includes("could not be uploaded") ||
-        !lastFailure.message ||
-        text.includes("Last error:")
-      ) {
-        return;
-      }
-
-      const reference = lastFailure.requestId
-        ? ` Reference: ${lastFailure.requestId}.`
-        : "";
-      uploadValidation.textContent =
-        `${text} Last error: ${lastFailure.message}.${reference}`.replace("..", ".");
-    });
-    validationObserver.observe(uploadValidation, {
-      childList: true,
-      characterData: true,
-      subtree: true
-    });
-  }
 
   if (!uploadForm || !uploadFilesList) return;
 
@@ -333,6 +313,8 @@
     uploadValidation.textContent = message;
     uploadValidation.hidden = !message;
     uploadValidation.classList.toggle("is-error", isError);
+    uploadValidation.setAttribute("role", isError ? "alert" : "status");
+    uploadValidation.setAttribute("aria-live", isError ? "assertive" : "polite");
   };
 
   const checkUploadHealth = async () => {

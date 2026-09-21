@@ -178,7 +178,7 @@
               <div class="media-upload-files">
                 <p id="media-upload-files-title" class="media-upload-files-title">Waiting for photos or videos.</p>
                 <ul id="media-upload-files-list" class="media-upload-files-list" aria-live="polite"></ul>
-                <p id="media-upload-validation" class="media-upload-validation" hidden></p>
+                <p id="media-upload-validation" class="media-upload-validation" role="status" aria-live="polite" aria-atomic="true" hidden></p>
               </div>
               <div class="media-upload-controls">
                 <span class="media-upload-cta-wrap">
@@ -229,6 +229,7 @@
   <script defer src="assets/js/main.js"></script>
   <script defer src="assets/js/gallery-utils.js"></script>
   <script defer src="assets/js/gallery.js"></script>
+  <script defer src="assets/js/media-upload-core.js"></script>
   <script defer src="assets/js/media.js"></script>
 </body>
 </html>

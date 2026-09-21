@@ -69,13 +69,15 @@ test("only redirects media stored in wedding upload folders", () => {
 test("keeps the guest upload flow simple with an explicit submit", () => {
   const root = path.join(__dirname, "..");
   const mediaClient = fs.readFileSync(path.join(root, "assets/js/media.js"), "utf8");
+  const uploadCore = fs.readFileSync(path.join(root, "assets/js/media-upload-core.js"), "utf8");
   const hardeningClient = fs.readFileSync(path.join(root, "assets/js/media-upload-hardening.js"), "utf8");
   const mediaPage = fs.readFileSync(path.join(root, "media.html"), "utf8");
   const siteCss = fs.readFileSync(path.join(root, "assets/css/site.css"), "utf8");
 
   assert.match(mediaClient, /const queueSelectedUploadFiles/);
   assert.match(mediaClient, /const UPLOAD_FILE_CONCURRENCY = 3/);
-  assert.match(mediaClient, /Promise\.all\(Array\.from\(\{ length: workerCount \}/);
+  assert.match(mediaClient, /uploadCore\.runBoundedQueue/);
+  assert.match(uploadCore, /Promise\.all\(Array\.from\(\{ length: Math\.min\(limit, queue\.length\) \}/);
   assert.match(mediaClient, /data-upload-index/);
   assert.match(mediaClient, /removeButton\.className = "media-upload-file-remove"/);
   assert.match(mediaClient, /candidateIndex !== index/);
