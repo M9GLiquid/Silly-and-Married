@@ -36,6 +36,13 @@ const uploadSubmit = document.getElementById("media-upload-submit");
 const uploadFilesTitle = document.getElementById("media-upload-files-title");
 const uploadFilesList = document.getElementById("media-upload-files-list");
 const uploadValidation = document.getElementById("media-upload-validation");
+const uploadPanelTitle = document.getElementById("media-upload-panel-title");
+const uploadPanelNote = document.getElementById("media-upload-panel-note");
+const uploadDropzoneTitle = document.querySelector(".media-upload-dropzone-title");
+const uploadDropzoneCopy = document.querySelector(".media-upload-dropzone-copy");
+const uploadSubmitLabel = document.querySelector("[data-upload-submit-label]");
+const uploadSuccessLabel = document.querySelector("[data-upload-success-label]");
+const uploadMobileLabel = document.querySelector("[data-upload-mobile-label]");
 
 const PHOTO_BATCH_SIZE = 24;
 const VIDEO_BATCH_SIZE = 6;
@@ -45,6 +52,47 @@ const UPLOAD_FILE_CONCURRENCY = 3;
 const DEFAULT_UPLOAD_CATEGORY_SLUG = "others";
 const DEFAULT_UPLOAD_CATEGORY_NAME = "Others";
 const WEDDING_2026_GALLERY_SLUG = "all-uploads";
+const MEDIA_UI_COPY = {
+  en: {
+    all: "All",
+    photos: "Photos",
+    videos: "Videos",
+    upload: "Upload",
+    uploadMobile: "Upload photos or videos",
+    uploadHeading: "Share Your Photos and Videos",
+    uploadNote: "Drop or choose your files, then tap the upload button.",
+    dropTitle: "Drop photos or videos here",
+    chooseFiles: "or click to choose them",
+    uploadSelected: "Upload selected files",
+    uploadedThanks: "Uploaded — thank you!"
+  },
+  sk: {
+    all: "Všetko",
+    photos: "Fotografie",
+    videos: "Videá",
+    upload: "Nahrať",
+    uploadMobile: "Nahrať fotografie alebo videá",
+    uploadHeading: "Zdieľajte svoje fotografie a videá",
+    uploadNote: "Presuňte alebo vyberte súbory a potom klepnite na tlačidlo nahrať.",
+    dropTitle: "Presuňte sem fotografie alebo videá",
+    chooseFiles: "alebo kliknite a vyberte ich",
+    uploadSelected: "Nahrať vybrané súbory",
+    uploadedThanks: "Nahrané — ďakujeme!"
+  },
+  sv: {
+    all: "Alla",
+    photos: "Foton",
+    videos: "Videor",
+    upload: "Ladda upp",
+    uploadMobile: "Ladda upp foton eller videor",
+    uploadHeading: "Dela dina foton och videor",
+    uploadNote: "Släpp eller välj dina filer och tryck sedan på uppladdningsknappen.",
+    dropTitle: "Släpp foton eller videor här",
+    chooseFiles: "eller klicka för att välja dem",
+    uploadSelected: "Ladda upp valda filer",
+    uploadedThanks: "Uppladdat — tack!"
+  }
+};
 const UPLOAD_COPY = {
   en: {
     failed: "Failed",
@@ -104,6 +152,33 @@ let uploadSuccessToastTimer = null;
 const getUploadCopy = () => {
   const language = window.weddingAutoTranslate?.getLanguage?.() || "en";
   return UPLOAD_COPY[language] || UPLOAD_COPY.en;
+};
+
+const getMediaUiCopy = () => {
+  const language = window.weddingAutoTranslate?.getLanguage?.() || "en";
+  return MEDIA_UI_COPY[language] || MEDIA_UI_COPY.en;
+};
+
+const setOwnedText = (element, text) => {
+  if (!element) return;
+  element.textContent = text;
+  element.classList.add("notranslate");
+  element.setAttribute("translate", "no");
+};
+
+const applyMediaUiCopy = () => {
+  const copy = getMediaUiCopy();
+  mediaTypeTabs.forEach((tab) => {
+    const label = tab.querySelector("[data-media-type-label]");
+    setOwnedText(label, copy[tab.dataset.mediaTypeTab] || copy.all);
+  });
+  setOwnedText(uploadMobileLabel, copy.uploadMobile);
+  setOwnedText(uploadPanelTitle, copy.uploadHeading);
+  setOwnedText(uploadPanelNote, copy.uploadNote);
+  setOwnedText(uploadDropzoneTitle, copy.dropTitle);
+  setOwnedText(uploadDropzoneCopy, copy.chooseFiles);
+  setOwnedText(uploadSubmitLabel, copy.uploadSelected);
+  setOwnedText(uploadSuccessLabel, copy.uploadedThanks);
 };
 
 const setStatus = (message, isError = false, isHint = false) => {
@@ -625,7 +700,11 @@ const renderTabs = () => {
     }
     tab.setAttribute("role", "tab");
     tab.setAttribute("aria-selected", String(category.slug === activeCategorySlug));
-    tab.textContent = category.name;
+    tab.textContent = category.isUpload ? getMediaUiCopy().upload : category.name;
+    if (category.isUpload) {
+      tab.classList.add("notranslate");
+      tab.setAttribute("translate", "no");
+    }
     if (category.slug === activeCategorySlug) {
       tab.classList.add("is-active");
     }
@@ -1158,8 +1237,13 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", loadMedia, { once: true });
-} else {
+const initializeMedia = () => {
+  applyMediaUiCopy();
   loadMedia();
+};
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeMedia, { once: true });
+} else {
+  initializeMedia();
 }
