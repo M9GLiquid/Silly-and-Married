@@ -113,11 +113,53 @@ Then open:
 npm run build
 ```
 
-Generates `assets/data/media-list.json` from the media folder. For thumbnail generation:
+Copies the public site into `dist/` using an explicit allowlist. Local environment
+files, tools, tests, Git files, and server code are never published. The checked-in
+media list is preserved because the original `media/` folder is optional. To
+regenerate the list when the original media folder is available, run
+`npm run media:list`. For thumbnail generation:
 
 ```bash
 npm run media:thumbs
 ```
+
+## Private media access
+
+Netlify Edge Functions protect the entire media page, local media and thumbnails,
+media catalogs, and OneDrive APIs (including their direct function URLs).
+Each serverless function also validates the session independently. The other
+website pages remain public. Guests enter one shared password at `/media-access`;
+an HttpOnly, Secure cookie remembers access for seven days. **Lock gallery** clears
+that browser's cookie. Changing either secret below invalidates existing sessions.
+
+Before deployment, set these in **Netlify → Project configuration → Environment
+variables**, with **Functions** scope, for every deployed context/site:
+
+- `MEDIA_PASSWORD`: the agreed guest password, supplied privately.
+- `MEDIA_SESSION_SECRET`: a random secret with at least 32 characters. Generate
+  one with `node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"`.
+
+Never put the real values in Git, HTML, JavaScript, `netlify.toml`, screenshots,
+or CI output. For local development use the ignored `.env` file and Netlify Dev;
+an ordinary static HTTP server does **not** enforce the gate. Missing secrets
+block access rather than exposing media. The login route is configured for 20
+requests per IP/domain per minute; confirm Netlify accepts the rate-limit rule in
+the deployment log. Authentication responses and protected content use no-store.
+
+Deploy with the repository's `netlify.toml` (publish directory `dist/`) and verify
+signed-out page, JSON, image, and direct function requests are blocked. Then verify
+login, gallery, uploads, and logout in the deployed site. Repeat for any separate
+development site. Older immutable Netlify deployment URLs are not retroactively
+protected and should be removed or restricted separately if they expose media.
+
+The website gate cannot make photos already committed to a public GitHub
+repository private, or recall copies previously downloaded by guests. Use a
+private repository/private storage for those files as well. OneDrive's temporary
+download and thumbnail links can be shared until they expire.
+
+The deployment checks use a GitHub Actions secret named `MEDIA_PASSWORD` to log
+in, never a checked-in password. Set it privately before running authenticated
+deployment checks. See [Netlify environment variable documentation](https://docs.netlify.com/build/edge-functions/environment-variables/).
 
 ## Experimental Note
 

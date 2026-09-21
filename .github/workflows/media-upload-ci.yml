@@ -30,6 +30,8 @@ jobs:
             .github
             assets/data
             assets/js
+            assets/css
+            media.html
             netlify
             test
             tools

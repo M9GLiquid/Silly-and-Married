@@ -199,3 +199,5 @@ exports.handler = async () => {
   }
 };
 
+
+exports.handler = require('../lib/require-media-session.cjs').withMediaSession(exports.handler);

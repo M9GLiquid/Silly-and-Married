@@ -21,3 +21,4 @@ screenshot/
 
 # Dependencies
 node_modules/
+dist/

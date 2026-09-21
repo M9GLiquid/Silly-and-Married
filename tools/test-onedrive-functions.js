@@ -18,9 +18,10 @@ const jsonResponse = (status, data, headers = {}) =>
     headers: { "content-type": "application/json", ...headers }
   });
 
+let mediaCookie;
 const event = (method, body = null) => ({
   httpMethod: method,
-  headers: { "x-nf-request-id": "test-request" },
+  headers: { "x-nf-request-id": "test-request", cookie: mediaCookie },
   body: body === null ? null : JSON.stringify(body)
 });
 
@@ -108,6 +109,10 @@ const runMetadataBestEffortTest = async () => {
 };
 
 const run = async () => {
+  const { createSession, COOKIE_NAME } = await import("../netlify/lib/media-auth.mjs");
+  process.env.MEDIA_PASSWORD = "integration-test-password";
+  process.env.MEDIA_SESSION_SECRET = "integration-test-key-at-least-32-characters";
+  mediaCookie = `${COOKIE_NAME}=${await createSession({ password: process.env.MEDIA_PASSWORD, secret: process.env.MEDIA_SESSION_SECRET })}`;
   process.env.MS_CLIENT_ID = "client";
   process.env.MS_CLIENT_SECRET = "secret";
   process.env.MS_REFRESH_TOKEN = "refresh";
