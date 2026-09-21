@@ -74,12 +74,13 @@ test("combines guest and manually managed media without requiring metadata", () 
     "onedrive:guest-picture"
   ]);
   assert.equal(gallery.photos[0].source, "ours");
-  assert.equal(gallery.photos[0].caption, "Our Portrait");
+  assert.equal(gallery.photos[0].caption, "Wedding photo");
   assert.equal(gallery.photos[0].thumbnailSrc, "https://example.test/our-thumb.jpg");
   assert.equal(gallery.photos[1].source, "guest");
-  assert.equal(gallery.photos[1].caption, "Guest Photo");
+  assert.equal(gallery.photos[1].caption, "Wedding photo");
   assert.equal(gallery.photos[1].src, "/api/onedrive-media?id=guest-picture");
   assert.equal(gallery.videos[0].source, "ours");
+  assert.equal(gallery.videos[0].caption, "Wedding video");
   assert.equal(gallery.videos[1].source, "guest");
 });
 

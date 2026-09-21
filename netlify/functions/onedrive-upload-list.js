@@ -77,15 +77,7 @@ const readMetadataItem = async (accessToken, item) => {
   }
 };
 
-const captionFromFileName = (fileName, kind) => {
-  const caption = sanitizeText(
-    String(fileName || "")
-      .replace(/\.[^/.]+$/, "")
-      .replace(/[_-]+/g, " "),
-    160
-  );
-  return caption || (kind === "picture" ? "Wedding photo" : "Wedding video");
-};
+const getCaption = (kind) => kind === "picture" ? "Wedding photo" : "Wedding video";
 
 const itemDate = (item, metadata) =>
   sanitizeText(
@@ -137,14 +129,11 @@ const buildUploadedGallery = ({
         metadataByName.get(String(item.name || "").toLowerCase()) ||
         null;
       const mediaId = encodeURIComponent(item.id);
-      const originalName = source === "guest" && metadata?.originalFileName
-        ? metadata.originalFileName
-        : item.name;
       const media = {
         id: `onedrive:${item.id}`,
         type: kind === "picture" ? "photo" : "video",
         source,
-        caption: captionFromFileName(originalName, kind),
+        caption: getCaption(kind),
         src: `/api/onedrive-media?id=${mediaId}`,
         thumbnailSrc:
           item.thumbnails?.[0]?.large?.url ||
