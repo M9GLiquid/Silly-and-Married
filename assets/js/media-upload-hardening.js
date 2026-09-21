@@ -315,6 +315,7 @@
     uploadValidation.classList.toggle("is-error", isError);
     uploadValidation.setAttribute("role", isError ? "alert" : "status");
     uploadValidation.setAttribute("aria-live", isError ? "assertive" : "polite");
+    if (isError && message) window.weddingGuestError?.show(message);
   };
 
   const checkUploadHealth = async () => {

@@ -12,6 +12,8 @@ coverage number.
 - `media-page-contract.test.js`: the visible upload form retains an explicit
   submit button, removable queue, accessible error region, and correct script
   order.
+- `guest-error-popup.test.js`: password visibility and the shared accessible,
+  translated popup used by every guest-media error path.
 
 Run everything with `npm test`, or only these journeys with
 `npm run test:journeys`.

@@ -215,6 +215,7 @@ const setStatus = (message, isError = false, isHint = false) => {
   mediaStatus.textContent = message;
   mediaStatus.classList.toggle("is-error", isError);
   mediaStatus.classList.toggle("is-hint", isHint);
+  if (isError && message) window.weddingGuestError?.show(message);
 };
 
 const formatFileSize = uploadCore.formatFileSize;
@@ -250,6 +251,7 @@ const setUploadValidationMessage = (message = "", isError = false) => {
   uploadValidation.classList.toggle("is-error", isError);
   uploadValidation.setAttribute("role", isError ? "alert" : "status");
   uploadValidation.setAttribute("aria-live", isError ? "assertive" : "polite");
+  if (isError && message) window.weddingGuestError?.show(message);
 };
 
 const showUploadSuccessToast = () => {

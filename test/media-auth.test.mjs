@@ -63,7 +63,10 @@ test("wrong and empty passwords are rejected without reflecting input", async ()
     const response = await login(post(value));
     assert.equal(response.status, 401);
     assert.equal(response.headers.get("set-cookie"), null);
-    assert.doesNotMatch(await response.text(), /<script>/);
+    const html = await response.text();
+    if (value) assert.ok(!html.includes(value));
+    assert.doesNotMatch(html, /<script>alert/);
+    assert.match(html, /data-guest-error/);
   }
 });
 
@@ -73,7 +76,13 @@ test("password form is accessible and contains no gallery or secret", async () =
   assert.equal(response.status, 200);
   assert.match(html, /label for="password"/);
   assert.match(html, /type="password"/);
-  assert.match(html, /<script src="\/assets\/js\/media-login\.js" defer><\/script>/);
+  assert.match(html, /id="password-visibility"/);
+  assert.match(html, /aria-controls="password"/);
+  assert.match(html, /aria-pressed="false"/);
+  assert.match(html, /data-show-label="Show password"/);
+  assert.match(html, /data-hide-label="Hide password"/);
+  assert.match(html, /<script src="\/assets\/js\/guest-error-popup\.js\?v=20260921-guest-errors" defer><\/script>/);
+  assert.match(html, /<script src="\/assets\/js\/media-login\.js\?v=20260921-guest-errors" defer><\/script>/);
   assert.match(response.headers.get("content-security-policy"), /script-src 'self'/);
   assert.match(response.headers.get("content-security-policy"), /connect-src 'self'/);
   assert.doesNotMatch(html, /assets\/js\/media\.js|media-thumbs/);

@@ -1,7 +1,19 @@
 (() => {
   const form = document.querySelector("form[action='/media-access']");
   const passwordInput = document.getElementById("password");
+  const visibilityButton = document.getElementById("password-visibility");
   const submitButton = form?.querySelector("button[type='submit']");
+  if (passwordInput && visibilityButton) {
+    visibilityButton.addEventListener("click", () => {
+      const reveal = passwordInput.type === "password";
+      passwordInput.type = reveal ? "text" : "password";
+      visibilityButton.setAttribute("aria-pressed", String(reveal));
+      visibilityButton.textContent = reveal
+        ? visibilityButton.dataset.hideLabel || "Hide password"
+        : visibilityButton.dataset.showLabel || "Show password";
+      passwordInput.focus();
+    });
+  }
   if (!form || !passwordInput || !submitButton || typeof window.fetch !== "function") return;
 
   const showMessage = (message) => {
@@ -11,10 +23,12 @@
       messageElement.id = "password-message";
       messageElement.className = "message";
       messageElement.setAttribute("role", "alert");
+      messageElement.setAttribute("data-guest-error", "");
       form.before(messageElement);
       passwordInput.setAttribute("aria-describedby", "password-message");
     }
     messageElement.textContent = message;
+    window.weddingGuestError?.show(message);
   };
 
   form.addEventListener("submit", async (event) => {
