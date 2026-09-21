@@ -88,6 +88,8 @@ test("keeps the guest upload flow simple with an explicit submit", () => {
   assert.match(mediaClient, /upload: "Nahrať"/);
   assert.match(mediaClient, /const applyMediaUiCopy/);
   assert.match(mediaClient, /category\.isUpload \? getMediaUiCopy\(\)\.upload/);
+  assert.match(mediaClient, /mediaLogoutForm\.addEventListener\("submit"/);
+  assert.match(mediaClient, /window\.location\.assign\("\/media-access"\)/);
   assert.doesNotMatch(mediaClient, /startAutomaticUpload/);
   assert.match(mediaClient, /uploadForm\.addEventListener\("submit"/);
   assert.match(mediaClient, /DEFAULT_UPLOAD_CATEGORY_SLUG = "others"/);
@@ -104,6 +106,7 @@ test("keeps the guest upload flow simple with an explicit submit", () => {
   assert.doesNotMatch(hardeningClient, /Category for all selected files/);
   assert.match(mediaPage, /tap the upload button/i);
   assert.match(mediaPage, /id="media-upload-submit"[^>]*type="submit"[^>]*disabled/);
+  assert.match(mediaPage, /id="media-logout-form"[^>]*method="post"/);
   assert.match(mediaPage, /Upload selected files/i);
   assert.match(mediaPage, /data-media-type-tab="mix"/);
   assert.match(mediaPage, /data-media-type-tab="mix"[\s\S]*?All/);

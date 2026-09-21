@@ -36,6 +36,7 @@ const uploadSubmit = document.getElementById("media-upload-submit");
 const uploadFilesTitle = document.getElementById("media-upload-files-title");
 const uploadFilesList = document.getElementById("media-upload-files-list");
 const uploadValidation = document.getElementById("media-upload-validation");
+const mediaLogoutForm = document.getElementById("media-logout-form");
 const uploadPanelTitle = document.getElementById("media-upload-panel-title");
 const uploadPanelNote = document.getElementById("media-upload-panel-note");
 const uploadDropzoneTitle = document.querySelector(".media-upload-dropzone-title");
@@ -1192,6 +1193,30 @@ if (uploadForm) {
     }
     setUploadValidationMessage("");
     await uploadSelectedFiles();
+  });
+}
+
+if (mediaLogoutForm) {
+  mediaLogoutForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const lockButton = mediaLogoutForm.querySelector("button[type='submit']");
+    if (lockButton) lockButton.disabled = true;
+    try {
+      const response = await fetch(mediaLogoutForm.action, {
+        method: "POST",
+        body: new URLSearchParams(),
+        credentials: "same-origin",
+        redirect: "manual"
+      });
+      if (response.type === "opaqueredirect" || response.status === 303) {
+        window.location.assign("/media-access");
+        return;
+      }
+      throw new Error(`Gallery lock failed with ${response.status}`);
+    } catch (_error) {
+      if (lockButton) lockButton.disabled = false;
+      setStatus("Could not lock the gallery. Please try again.", true);
+    }
   });
 }
 
