@@ -14,7 +14,7 @@ const {
   sanitizeText
 } = require("./onedrive-utils");
 
-const DEFAULT_MAX_UPLOAD_MB = 2048;
+const DEFAULT_MAX_UPLOAD_MB = 8192;
 
 exports.handler = async (event) => {
   const requestId = getRequestId(event);

@@ -74,6 +74,9 @@ test("keeps the guest upload flow simple with an explicit submit", () => {
   const siteCss = fs.readFileSync(path.join(root, "assets/css/site.css"), "utf8");
 
   assert.match(mediaClient, /const queueSelectedUploadFiles/);
+  assert.match(mediaClient, /const UPLOAD_FILE_CONCURRENCY = 3/);
+  assert.match(mediaClient, /Promise\.all\(Array\.from\(\{ length: workerCount \}/);
+  assert.match(mediaClient, /data-upload-index/);
   assert.match(mediaClient, /removeButton\.className = "media-upload-file-remove"/);
   assert.match(mediaClient, /candidateIndex !== index/);
   assert.match(mediaClient, /remove: "Ta bort"/);
@@ -104,4 +107,15 @@ test("keeps the guest upload flow simple with an explicit submit", () => {
   );
   assert.doesNotMatch(mediaPage, /media-upload-photographer-modal/);
   assert.doesNotMatch(mediaPage, /Select category for each file/);
+});
+
+test("allows large files while keeping the limit configurable", () => {
+  const root = path.join(__dirname, "..");
+  const uploadFunction = fs.readFileSync(
+    path.join(root, "netlify/functions/onedrive-create-upload-session.js"),
+    "utf8"
+  );
+
+  assert.match(uploadFunction, /const DEFAULT_MAX_UPLOAD_MB = 8192/);
+  assert.match(uploadFunction, /process\.env\.MAX_UPLOAD_MB \|\| DEFAULT_MAX_UPLOAD_MB/);
 });
