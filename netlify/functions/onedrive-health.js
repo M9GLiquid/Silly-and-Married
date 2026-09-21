@@ -1,4 +1,9 @@
 const {
+  GUEST_UPLOADS_FOLDER,
+  METADATA_FOLDER,
+  OUR_UPLOADS_FOLDER,
+  PICTURES_FOLDER,
+  VIDEOS_FOLDER,
   ensureFolderPath,
   getAccessToken,
   getPublicError,
@@ -27,9 +32,11 @@ exports.handler = async (event) => {
       method: "GET",
       retryAttempts: 3
     });
-    await ensureFolderPath(accessToken, [rootFolder, "Pictures"]);
-    await ensureFolderPath(accessToken, [rootFolder, "Videos"]);
-    await ensureFolderPath(accessToken, [rootFolder, "Metadata"]);
+    await ensureFolderPath(accessToken, [rootFolder, GUEST_UPLOADS_FOLDER, PICTURES_FOLDER]);
+    await ensureFolderPath(accessToken, [rootFolder, GUEST_UPLOADS_FOLDER, VIDEOS_FOLDER]);
+    await ensureFolderPath(accessToken, [rootFolder, OUR_UPLOADS_FOLDER, PICTURES_FOLDER]);
+    await ensureFolderPath(accessToken, [rootFolder, OUR_UPLOADS_FOLDER, VIDEOS_FOLDER]);
+    await ensureFolderPath(accessToken, [rootFolder, METADATA_FOLDER]);
 
     return jsonResponse(200, {
       ok: true,

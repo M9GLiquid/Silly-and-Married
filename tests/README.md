@@ -14,6 +14,10 @@ coverage number.
   order.
 - `guest-error-popup.test.js`: password visibility and the shared accessible,
   translated popup used by every guest-media error path.
+- `../test/onedrive-gallery.test.js`: guest uploads are routed to `Guest
+  Uploads`, manually managed files are read from `Our Uploads` without
+  metadata, both sources appear in one gallery, and media access remains
+  limited to those four photo/video folders.
 
 Run everything with `npm test`, or only these journeys with
 `npm run test:journeys`.

@@ -3,59 +3,174 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 
-const { buildUploadedCategories } = require("../netlify/functions/onedrive-upload-list");
+const {
+  buildUploadedGallery,
+  handler: uploadListHandler
+} = require("../netlify/functions/onedrive-upload-list");
 const { isAllowedMediaItem } = require("../netlify/functions/onedrive-media");
 
-test("maps uploaded photos and videos into their selected categories", () => {
-  const categories = buildUploadedCategories({
+test("combines guest and manually managed media without requiring metadata", () => {
+  const categories = buildUploadedGallery({
     metadataEntries: [
       {
-        driveItemId: "picture-item",
-        storedFileName: "new-photo.jpg",
-        categorySlug: "church",
-        photographer: "Anna",
+        driveItemId: "guest-picture",
+        storedFileName: "stored-photo.jpg",
+        originalFileName: "Guest Photo.jpg",
         uploadedAt: "2026-08-03T00:00:00.000Z"
+      }
+    ],
+    guestPictureItems: [
+      {
+        id: "guest-picture",
+        name: "stored-photo.jpg",
+        file: { mimeType: "image/jpeg" },
+        createdDateTime: "2026-08-02T00:00:00.000Z",
+        thumbnails: [{ large: { url: "https://example.test/guest-thumb.jpg" } }]
+      }
+    ],
+    guestVideoItems: [
+      {
+        id: "guest-video",
+        name: "Guest Clip.mp4",
+        file: { mimeType: "video/mp4" },
+        createdDateTime: "2026-08-01T00:00:00.000Z"
+      }
+    ],
+    ourPictureItems: [
+      {
+        id: "our-picture",
+        name: "Our Portrait.JPG",
+        file: { mimeType: "image/jpeg" },
+        createdDateTime: "2026-08-04T00:00:00.000Z",
+        thumbnails: [{ medium: { url: "https://example.test/our-thumb.jpg" } }]
       },
       {
-        storedFileName: "legacy-video.mp4",
-        categorySlug: "dancing",
-        uploadedAt: "2026-08-02T23:00:00.000Z"
-      }
-    ],
-    pictureItems: [
+        id: "not-media",
+        name: "notes.pdf",
+        file: { mimeType: "application/pdf" }
+      },
       {
-        id: "picture-item",
-        name: "new-photo.jpg",
-        thumbnails: [{ large: { url: "https://example.test/photo-thumb.jpg" } }]
+        id: "nested-folder",
+        name: "More photos",
+        folder: {}
       }
     ],
-    videoItems: [{ id: "video-item", name: "legacy-video.mp4" }]
+    ourVideoItems: [
+      {
+        id: "our-video",
+        name: "First Dance.MOV",
+        file: { mimeType: "video/quicktime" },
+        lastModifiedDateTime: "2026-08-03T12:00:00.000Z"
+      }
+    ]
   });
 
-  const church = categories.find((category) => category.slug === "church");
-  const dancing = categories.find((category) => category.slug === "dancing");
-  assert.equal(church.total, 1);
-  assert.equal(church.photos[0].caption, "Wedding photo");
-  assert.equal(church.photos[0].thumbnailSrc, "https://example.test/photo-thumb.jpg");
-  assert.equal(church.photos[0].src, "/api/onedrive-media?id=picture-item");
-  assert.equal(dancing.total, 1);
-  assert.equal(dancing.videos[0].src, "/api/onedrive-media?id=video-item");
+  assert.equal(categories.length, 1);
+  const gallery = categories[0];
+  assert.equal(gallery.slug, "all-uploads");
+  assert.equal(gallery.total, 4);
+  assert.deepEqual(gallery.photos.map((item) => item.id), [
+    "onedrive:our-picture",
+    "onedrive:guest-picture"
+  ]);
+  assert.equal(gallery.photos[0].source, "ours");
+  assert.equal(gallery.photos[0].caption, "Our Portrait");
+  assert.equal(gallery.photos[0].thumbnailSrc, "https://example.test/our-thumb.jpg");
+  assert.equal(gallery.photos[1].source, "guest");
+  assert.equal(gallery.photos[1].caption, "Guest Photo");
+  assert.equal(gallery.photos[1].src, "/api/onedrive-media?id=guest-picture");
+  assert.equal(gallery.videos[0].source, "ours");
+  assert.equal(gallery.videos[1].source, "guest");
 });
 
-test("only redirects media stored in wedding upload folders", () => {
+test("reads both OneDrive upload areas and returns one combined gallery", async () => {
+  const originalFetch = global.fetch;
+  process.env.MEDIA_PASSWORD = "gallery-test-password";
+  process.env.MEDIA_SESSION_SECRET = "gallery-test-session-secret-at-least-32-chars";
+  process.env.MS_CLIENT_ID = "client";
+  process.env.MS_CLIENT_SECRET = "secret";
+  process.env.MS_REFRESH_TOKEN = "refresh";
+  process.env.MS_TENANT_ID = "common";
+  process.env.ONEDRIVE_ROOT_FOLDER = "Wedding Ceremoni 2";
+  const requestedFolders = [];
+
+  global.fetch = async (url) => {
+    const urlText = String(url);
+    if (urlText.includes("/oauth2/v2.0/token")) {
+      return new Response(JSON.stringify({ access_token: "access", expires_in: 3600 }), {
+        status: 200,
+        headers: { "content-type": "application/json" }
+      });
+    }
+    requestedFolders.push(decodeURIComponent(urlText));
+    const value = urlText.includes("Guest%20Uploads/Pictures")
+      ? [{
+          id: "guest-photo",
+          name: "guest.jpg",
+          file: { mimeType: "image/jpeg" },
+          createdDateTime: "2026-08-01T00:00:00.000Z"
+        }]
+      : urlText.includes("Our%20Uploads/Videos")
+        ? [{
+            id: "our-video",
+            name: "ours.mp4",
+            file: { mimeType: "video/mp4" },
+            createdDateTime: "2026-08-02T00:00:00.000Z"
+          }]
+        : [];
+    return new Response(JSON.stringify({ value }), {
+      status: 200,
+      headers: { "content-type": "application/json" }
+    });
+  };
+
+  try {
+    const { createSession, COOKIE_NAME } = await import("../netlify/lib/media-auth.mjs");
+    const cookie = `${COOKIE_NAME}=${await createSession({
+      password: process.env.MEDIA_PASSWORD,
+      secret: process.env.MEDIA_SESSION_SECRET
+    })}`;
+    const response = await uploadListHandler({
+      httpMethod: "GET",
+      headers: { cookie }
+    });
+    const body = JSON.parse(response.body);
+
+    assert.equal(response.statusCode, 200);
+    assert.equal(body.count, 2);
+    assert.equal(body.categories.length, 1);
+    assert.equal(body.categories[0].photos[0].source, "guest");
+    assert.equal(body.categories[0].videos[0].source, "ours");
+    assert.ok(requestedFolders.some((path) => path.includes("/Guest Uploads/Pictures")));
+    assert.ok(requestedFolders.some((path) => path.includes("/Guest Uploads/Videos")));
+    assert.ok(requestedFolders.some((path) => path.includes("/Our Uploads/Pictures")));
+    assert.ok(requestedFolders.some((path) => path.includes("/Our Uploads/Videos")));
+  } finally {
+    global.fetch = originalFetch;
+  }
+});
+
+test("only redirects media stored in the two approved upload areas", () => {
   assert.equal(
     isAllowedMediaItem(
-      { file: {}, parentReference: { path: "/drive/root:/Wedding%20Ceremoni%202/Pictures" } },
+      { file: {}, parentReference: { path: "/drive/root:/Wedding%20Ceremoni%202/Guest%20Uploads/Pictures" } },
       "Wedding Ceremoni 2"
     ),
     true
   );
   assert.equal(
     isAllowedMediaItem(
-      { file: {}, parentReference: { path: "/drive/root:/Wedding Ceremoni 2/Videos" } },
+      { file: {}, parentReference: { path: "/drive/root:/Wedding Ceremoni 2/Our Uploads/Videos" } },
       "Wedding Ceremoni 2"
     ),
     true
+  );
+  assert.equal(
+    isAllowedMediaItem(
+      { file: {}, parentReference: { path: "/drive/root:/Wedding Ceremoni 2/Pictures" } },
+      "Wedding Ceremoni 2"
+    ),
+    false
   );
   assert.equal(
     isAllowedMediaItem(
@@ -73,6 +188,14 @@ test("keeps the guest upload flow simple with an explicit submit", () => {
   const hardeningClient = fs.readFileSync(path.join(root, "assets/js/media-upload-hardening.js"), "utf8");
   const mediaPage = fs.readFileSync(path.join(root, "media.html"), "utf8");
   const siteCss = fs.readFileSync(path.join(root, "assets/css/site.css"), "utf8");
+  const uploadFunction = fs.readFileSync(
+    path.join(root, "netlify/functions/onedrive-create-upload-session.js"),
+    "utf8"
+  );
+  const galleryFunction = fs.readFileSync(
+    path.join(root, "netlify/functions/onedrive-upload-list.js"),
+    "utf8"
+  );
 
   assert.match(mediaClient, /const queueSelectedUploadFiles/);
   assert.match(mediaClient, /const UPLOAD_FILE_CONCURRENCY = 3/);
@@ -94,7 +217,12 @@ test("keeps the guest upload flow simple with an explicit submit", () => {
   assert.match(mediaClient, /window\.location\.assign\("\/media-access"\)/);
   assert.doesNotMatch(mediaClient, /startAutomaticUpload/);
   assert.match(mediaClient, /uploadForm\.addEventListener\("submit"/);
-  assert.match(mediaClient, /DEFAULT_UPLOAD_CATEGORY_SLUG = "others"/);
+  assert.doesNotMatch(mediaClient, /DEFAULT_UPLOAD_CATEGORY/);
+  assert.doesNotMatch(mediaClient, /categoryName/);
+  assert.doesNotMatch(uploadFunction, /category_required|categorySlug|categoryName/);
+  assert.doesNotMatch(galleryFunction, /CATEGORY_CONFIG|categorySlug|categoryName/);
+  assert.match(uploadFunction, /GUEST_UPLOADS_FOLDER/);
+  assert.match(galleryFunction, /OUR_UPLOADS_FOLDER/);
   assert.match(mediaClient, /WEDDING_2026_GALLERY_SLUG = "all-uploads"/);
   assert.match(mediaClient, /let activeMediaType = "mix"/);
   assert.match(mediaClient, /type === "photos" \|\| type === "videos" \? type : "mix"/);

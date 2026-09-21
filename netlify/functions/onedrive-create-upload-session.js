@@ -1,5 +1,8 @@
 const {
+  GUEST_UPLOADS_FOLDER,
   OneDriveError,
+  PICTURES_FOLDER,
+  VIDEOS_FOLDER,
   buildStoredFileName,
   encodeDrivePath,
   ensureFolderPath,
@@ -36,9 +39,6 @@ exports.handler = async (event) => {
 
   try {
     const body = parseJsonBody(event);
-    const photographer = sanitizeText(body.photographer, 120);
-    const categorySlug = sanitizeText(body.categorySlug, 120);
-    const categoryName = sanitizeText(body.categoryName, 120);
     const originalFileName = sanitizeText(body.fileName, 240);
     const mimeType = sanitizeText(body.mimeType, 120).toLowerCase();
     const size = Number(body.size || 0);
@@ -49,13 +49,6 @@ exports.handler = async (event) => {
       : DEFAULT_MAX_UPLOAD_MB;
     const maxBytes = maxUploadMb * 1024 * 1024;
 
-    if (!categorySlug || !categoryName) {
-      return jsonResponse(400, {
-        error: "Choose a category before uploading.",
-        code: "category_required",
-        requestId
-      });
-    }
     if (!originalFileName || !kind) {
       return jsonResponse(400, {
         error: originalFileName
@@ -87,18 +80,16 @@ exports.handler = async (event) => {
     }
 
     const rootFolder = getRootFolder();
-    const mediaFolder = kind === "picture" ? "Pictures" : "Videos";
+    const mediaFolder = kind === "picture" ? PICTURES_FOLDER : VIDEOS_FOLDER;
     const storedFileName = buildStoredFileName({
-      categoryName,
-      photographer,
       originalFileName,
       mimeType
     });
     const accessToken = await getAccessToken();
 
-    await ensureFolderPath(accessToken, [rootFolder, mediaFolder]);
+    await ensureFolderPath(accessToken, [rootFolder, GUEST_UPLOADS_FOLDER, mediaFolder]);
 
-    const filePath = [rootFolder, mediaFolder, storedFileName];
+    const filePath = [rootFolder, GUEST_UPLOADS_FOLDER, mediaFolder, storedFileName];
     const graphPath = `/me/drive/root:/${encodeDrivePath(filePath)}:/createUploadSession`;
     const session = await graphFetch(accessToken, graphPath, {
       method: "POST",
@@ -123,11 +114,9 @@ exports.handler = async (event) => {
       uploadUrl: session.uploadUrl,
       expiresAt: session.expirationDateTime,
       kind,
-      photographer,
-      categorySlug,
-      categoryName,
       originalFileName,
       storedFileName,
+      sourceFolder: GUEST_UPLOADS_FOLDER,
       folder: mediaFolder,
       metadataFileName: storedFileName.replace(/\.[^/.]+$/, ".json"),
       requestId

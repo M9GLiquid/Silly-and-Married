@@ -1,5 +1,8 @@
 const {
+  GUEST_UPLOADS_FOLDER,
   OneDriveError,
+  PICTURES_FOLDER,
+  VIDEOS_FOLDER,
   encodeDrivePath,
   getAccessToken,
   getPublicError,
@@ -24,11 +27,16 @@ exports.handler = async (event) => {
 
   try {
     const body = parseJsonBody(event);
+    const sourceFolder = sanitizeText(body.sourceFolder, 80) || GUEST_UPLOADS_FOLDER;
     const folder = sanitizeText(body.folder, 40);
     const storedFileName = sanitizeText(body.storedFileName, 240);
     const expectedSize = Number(body.expectedSize || 0);
 
-    if (!["Pictures", "Videos"].includes(folder) || !storedFileName) {
+    if (
+      sourceFolder !== GUEST_UPLOADS_FOLDER ||
+      ![PICTURES_FOLDER, VIDEOS_FOLDER].includes(folder) ||
+      !storedFileName
+    ) {
       return jsonResponse(400, {
         error: "Invalid upload verification request.",
         code: "invalid_verification_request",
@@ -39,6 +47,7 @@ exports.handler = async (event) => {
     const rootFolder = getRootFolder();
     const graphPath = `/me/drive/root:/${encodeDrivePath([
       rootFolder,
+      sourceFolder,
       folder,
       storedFileName
     ])}?$select=id,name,size,file`;

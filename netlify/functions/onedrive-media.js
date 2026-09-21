@@ -1,4 +1,8 @@
 const {
+  GUEST_UPLOADS_FOLDER,
+  OUR_UPLOADS_FOLDER,
+  PICTURES_FOLDER,
+  VIDEOS_FOLDER,
   getAccessToken,
   getRootFolder,
   graphFetch,
@@ -18,7 +22,15 @@ const isAllowedMediaItem = (item, rootFolder) => {
   }
   const normalizedPath = parentPath.replace(/\\/g, "/").toLowerCase();
   const normalizedRoot = String(rootFolder || "").replace(/\\/g, "/").toLowerCase();
-  return normalizedPath.endsWith(`/${normalizedRoot}/pictures`) || normalizedPath.endsWith(`/${normalizedRoot}/videos`);
+  const allowedParents = [
+    [GUEST_UPLOADS_FOLDER, PICTURES_FOLDER],
+    [GUEST_UPLOADS_FOLDER, VIDEOS_FOLDER],
+    [OUR_UPLOADS_FOLDER, PICTURES_FOLDER],
+    [OUR_UPLOADS_FOLDER, VIDEOS_FOLDER]
+  ].map((segments) =>
+    `/${[normalizedRoot, ...segments.map((segment) => segment.toLowerCase())].join("/")}`
+  );
+  return allowedParents.some((allowedParent) => normalizedPath.endsWith(allowedParent));
 };
 
 exports.handler = async (event) => {

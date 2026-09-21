@@ -51,8 +51,6 @@ const VIDEO_BATCH_SIZE = 6;
 const PREFETCH_AHEAD_SIZE = 24;
 const UPLOAD_CHUNK_SIZE = 5 * 1024 * 1024;
 const UPLOAD_FILE_CONCURRENCY = 3;
-const DEFAULT_UPLOAD_CATEGORY_SLUG = "others";
-const DEFAULT_UPLOAD_CATEGORY_NAME = "Others";
 const WEDDING_2026_GALLERY_SLUG = "all-uploads";
 const MEDIA_UI_COPY = {
   en: {
@@ -350,7 +348,6 @@ const mergeSelectedUploadFiles = (incomingFiles) => {
     const previous = selectedUploadFiles.find((entry) => entry.file.name === file.name && entry.file.size === file.size && entry.file.lastModified === file.lastModified);
     return {
       file,
-      categorySlug: DEFAULT_UPLOAD_CATEGORY_SLUG,
       status: previous?.status || "",
       progress: previous?.progress || 0,
       error: previous?.error || ""
@@ -431,15 +428,6 @@ const openUploadCategory = () => {
   activeCategorySlug = uploadCategory.slug;
   renderTabs();
   renderActiveCategory();
-};
-
-const applyUploadDefaults = () => {
-  selectedUploadFiles = selectedUploadFiles.map((entry) => ({
-    ...entry,
-    categorySlug: DEFAULT_UPLOAD_CATEGORY_SLUG
-  }));
-  renderSelectedUploadFiles();
-  updateUploadSubmitState();
 };
 
 const updateUploadFileEntry = (index, patch) => {
@@ -528,9 +516,6 @@ const uploadFileToSession = async (file, uploadUrl, onProgress) => {
 const uploadOneDriveFile = async (entry, index) => {
   updateUploadFileEntry(index, { status: "uploading", progress: 0 });
   const session = await postJson("/api/onedrive-create-upload-session", {
-    photographer: "",
-    categorySlug: DEFAULT_UPLOAD_CATEGORY_SLUG,
-    categoryName: DEFAULT_UPLOAD_CATEGORY_NAME,
     fileName: entry.file.name,
     mimeType: entry.file.type,
     size: entry.file.size
@@ -539,9 +524,7 @@ const uploadOneDriveFile = async (entry, index) => {
     updateUploadFileEntry(index, { status: "uploading", progress });
   });
   await postJson("/api/onedrive-save-metadata", {
-    photographer: "",
-    categorySlug: session.categorySlug,
-    categoryName: session.categoryName,
+    sourceFolder: session.sourceFolder,
     kind: session.kind,
     folder: session.folder,
     originalFileName: session.originalFileName,
@@ -839,7 +822,6 @@ const renderEventTabs = () => {
       activeCategorySlug = categories[0]?.slug || "";
       activeMediaType = "mix";
       updateEventDescription();
-      applyUploadDefaults();
       renderEventTabs();
       renderTabs();
       renderActiveCategory();
@@ -1190,7 +1172,6 @@ const loadMedia = async (options = {}) => {
       activeMediaType = options.mediaType;
     }
     updateEventDescription();
-    applyUploadDefaults();
     renderEventTabs();
     renderTabs();
     await renderActiveCategory();

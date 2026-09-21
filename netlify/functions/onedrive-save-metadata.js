@@ -1,4 +1,8 @@
 const {
+  GUEST_UPLOADS_FOLDER,
+  METADATA_FOLDER,
+  PICTURES_FOLDER,
+  VIDEOS_FOLDER,
   encodeDrivePath,
   ensureFolderPath,
   getAccessToken,
@@ -36,12 +40,21 @@ exports.handler = async (event) => {
     });
   }
 
-  const categorySlug = sanitizeText(body.categorySlug, 120);
-  const categoryName = sanitizeText(body.categoryName, 120);
+  const sourceFolder = sanitizeText(body.sourceFolder, 80) || GUEST_UPLOADS_FOLDER;
+  const kind = sanitizeText(body.kind, 40);
+  const folder = sanitizeText(body.folder, 80);
   const storedFileName = sanitizeText(body.storedFileName, 240);
   const metadataFileName = sanitizeText(body.metadataFileName, 240);
 
-  if (!categorySlug || !categoryName || !storedFileName || !metadataFileName) {
+  const folderMatchesKind =
+    (kind === "picture" && folder === PICTURES_FOLDER) ||
+    (kind === "video" && folder === VIDEOS_FOLDER);
+  if (
+    sourceFolder !== GUEST_UPLOADS_FOLDER ||
+    !folderMatchesKind ||
+    !storedFileName ||
+    !metadataFileName
+  ) {
     console.warn("OneDrive metadata fields were incomplete", { requestId });
     return jsonResponse(200, {
       ok: false,
@@ -52,11 +65,10 @@ exports.handler = async (event) => {
 
   try {
     const metadata = {
-      photographer: sanitizeText(body.photographer, 120),
-      categorySlug,
-      categoryName,
-      kind: sanitizeText(body.kind, 40),
-      folder: sanitizeText(body.folder, 80),
+      source: "guest",
+      sourceFolder,
+      kind,
+      folder,
       originalFileName: sanitizeText(body.originalFileName, 240),
       storedFileName,
       uploadedAt: new Date().toISOString()
@@ -64,11 +76,11 @@ exports.handler = async (event) => {
     const rootFolder = getRootFolder();
     const accessToken = await getAccessToken();
 
-    await ensureFolderPath(accessToken, [rootFolder, "Metadata"]);
+    await ensureFolderPath(accessToken, [rootFolder, METADATA_FOLDER]);
 
     const graphPath = `/me/drive/root:/${encodeDrivePath([
       rootFolder,
-      "Metadata",
+      METADATA_FOLDER,
       metadataFileName
     ])}:/content`;
     await graphFetch(accessToken, graphPath, {

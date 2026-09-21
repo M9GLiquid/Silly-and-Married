@@ -28,6 +28,11 @@ const VIDEO_EXTENSIONS = new Set([
   ".mp4",
   ".webm"
 ]);
+const GUEST_UPLOADS_FOLDER = "Guest Uploads";
+const OUR_UPLOADS_FOLDER = "Our Uploads";
+const PICTURES_FOLDER = "Pictures";
+const VIDEOS_FOLDER = "Videos";
+const METADATA_FOLDER = "Metadata";
 
 let cachedAccessToken = "";
 let cachedAccessTokenExpiresAt = 0;
@@ -369,22 +374,14 @@ const ensureFolderPath = async (accessToken, segments) => {
   }
 };
 
-const buildStoredFileName = ({
-  categoryName,
-  photographer,
-  originalFileName,
-  mimeType
-}) => {
+const buildStoredFileName = ({ originalFileName, mimeType }) => {
   const extension = getFileExtension(originalFileName, mimeType);
-  const categoryPart = sanitizeFilePart(categoryName, "wedding-upload");
-  const photographerPart = sanitizeFilePart(photographer, "");
   const originalPart = sanitizeFilePart(
     String(originalFileName || "").replace(/\.[^/.]+$/, ""),
     "file"
   );
   const uniquePart = `${new Date().toISOString().replace(/[:.]/g, "-")}-${randomUUID().slice(0, 8)}`;
-  const nameParts = [uniquePart, categoryPart, photographerPart, originalPart].filter(Boolean);
-  return `${nameParts.join("-")}${extension}`;
+  return `${uniquePart}-${originalPart}${extension}`;
 };
 
 const getRootFolder = () =>
@@ -415,7 +412,12 @@ const getPublicError = (error, fallbackMessage, requestId) => {
 };
 
 module.exports = {
+  GUEST_UPLOADS_FOLDER,
+  METADATA_FOLDER,
   OneDriveError,
+  OUR_UPLOADS_FOLDER,
+  PICTURES_FOLDER,
+  VIDEOS_FOLDER,
   buildStoredFileName,
   encodeDrivePath,
   ensureFolderPath,

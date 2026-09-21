@@ -61,9 +61,6 @@ const runCreateSessionTest = async () => {
   const { handler } = require(createPath);
   const response = await handler(
     event("POST", {
-      photographer: "",
-      categorySlug: "guests",
-      categoryName: "Guests",
       fileName: "IMG_0001.HEIC",
       mimeType: "",
       size: 3 * 1024 * 1024 * 1024
@@ -74,8 +71,11 @@ const runCreateSessionTest = async () => {
   const responseBody = JSON.parse(response.body);
   assert.ok(responseBody.uploadUrl);
   assert.equal(responseBody.kind, "picture");
+  assert.equal(responseBody.sourceFolder, "Guest Uploads");
+  assert.equal(responseBody.folder, "Pictures");
+  assert.doesNotMatch(responseBody.storedFileName, /Guests|Others/i);
   assert.equal(tokenCalls, 1);
-  assert.ok(createdFolders.has("Wedding Ceremoni 2/Pictures"));
+  assert.ok(createdFolders.has("Wedding Ceremoni 2/Guest Uploads/Pictures"));
 };
 
 const runMetadataBestEffortTest = async () => {
@@ -92,8 +92,7 @@ const runMetadataBestEffortTest = async () => {
   const { handler } = require(metadataPath);
   const response = await handler(
     event("POST", {
-      categorySlug: "guests",
-      categoryName: "Guests",
+      sourceFolder: "Guest Uploads",
       storedFileName: "file.jpg",
       metadataFileName: "file.json",
       kind: "picture",
@@ -108,6 +107,39 @@ const runMetadataBestEffortTest = async () => {
   assert.ok(responseBody.warning.includes("uploaded"));
 };
 
+const runVerifyUploadTest = async () => {
+  resetModules();
+  let verifiedPath = "";
+  global.fetch = async (url) => {
+    if (url.includes("/oauth2/v2.0/token")) {
+      return jsonResponse(200, { access_token: "access", expires_in: 3600 });
+    }
+    verifiedPath = decodeURIComponent(String(url));
+    return jsonResponse(200, {
+      id: "uploaded-item",
+      name: "file.jpg",
+      size: 4096,
+      file: { mimeType: "image/jpeg" }
+    });
+  };
+
+  const { handler } = require(verifyPath);
+  const response = await handler(
+    event("POST", {
+      sourceFolder: "Guest Uploads",
+      folder: "Pictures",
+      storedFileName: "file.jpg",
+      expectedSize: 4096
+    })
+  );
+  const responseBody = JSON.parse(response.body);
+
+  assert.equal(response.statusCode, 200);
+  assert.equal(responseBody.exists, true);
+  assert.equal(responseBody.sizeMatches, true);
+  assert.match(verifiedPath, /Wedding Ceremoni 2\/Guest Uploads\/Pictures\/file\.jpg/);
+};
+
 const run = async () => {
   const { createSession, COOKIE_NAME } = await import("../netlify/lib/media-auth.mjs");
   process.env.MEDIA_PASSWORD = "integration-test-password";
@@ -120,6 +152,7 @@ const run = async () => {
   process.env.ONEDRIVE_ROOT_FOLDER = "Wedding Ceremoni 2";
 
   await runCreateSessionTest();
+  await runVerifyUploadTest();
   await runMetadataBestEffortTest();
   console.log("OneDrive function integration tests passed");
 };

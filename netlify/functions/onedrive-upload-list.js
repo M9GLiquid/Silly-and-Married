@@ -1,41 +1,52 @@
 const {
+  GUEST_UPLOADS_FOLDER,
+  METADATA_FOLDER,
+  OneDriveError,
+  OUR_UPLOADS_FOLDER,
+  PICTURES_FOLDER,
+  VIDEOS_FOLDER,
   encodeDrivePath,
   getAccessToken,
+  getFileKind,
   getRootFolder,
   graphFetch,
   jsonResponse,
   sanitizeText
 } = require("./onedrive-utils");
 
-const MAX_ITEMS = 800;
+const MAX_ITEMS_PER_FOLDER = 2000;
 const METADATA_CONCURRENCY = 10;
-const CATEGORY_CONFIG = [
-  { slug: "church", name: "Church" },
-  { slug: "venue", name: "Venue" },
-  { slug: "dancing", name: "Dancing" },
-  { slug: "guests", name: "Guests & Group Photos" },
-  { slug: "ceremony", name: "Ceremony Moments" },
-  { slug: "reception", name: "Reception Moments" },
-  { slug: "others", name: "Others" }
-];
 
 const toGraphPath = (nextLink) => {
   const url = new URL(nextLink);
   return `${url.pathname.replace(/^\/v1\.0/, "")}${url.search}`;
 };
 
-const listFolderItems = async (accessToken, rootFolder, folder, expandThumbnails = false) => {
-  let graphPath = `/me/drive/root:/${encodeDrivePath([rootFolder, folder])}:/children?$top=200`;
+const listFolderItems = async (
+  accessToken,
+  rootFolder,
+  pathSegments,
+  expandThumbnails = false
+) => {
+  let graphPath = `/me/drive/root:/${encodeDrivePath([
+    rootFolder,
+    ...pathSegments
+  ])}:/children?$top=200`;
   if (expandThumbnails) graphPath += "&$expand=thumbnails";
   const items = [];
 
-  while (graphPath && items.length < MAX_ITEMS) {
-    const data = await graphFetch(accessToken, graphPath);
-    items.push(...(Array.isArray(data?.value) ? data.value : []));
-    graphPath = data?.["@odata.nextLink"] ? toGraphPath(data["@odata.nextLink"]) : "";
+  try {
+    while (graphPath && items.length < MAX_ITEMS_PER_FOLDER) {
+      const data = await graphFetch(accessToken, graphPath);
+      items.push(...(Array.isArray(data?.value) ? data.value : []));
+      graphPath = data?.["@odata.nextLink"] ? toGraphPath(data["@odata.nextLink"]) : "";
+    }
+  } catch (error) {
+    if (error instanceof OneDriveError && error.status === 404) return [];
+    throw error;
   }
 
-  return items.slice(0, MAX_ITEMS);
+  return items.slice(0, MAX_ITEMS_PER_FOLDER);
 };
 
 const mapWithConcurrency = async (items, limit, mapper) => {
@@ -66,57 +77,97 @@ const readMetadataItem = async (accessToken, item) => {
   }
 };
 
-const getCaption = (_metadata, kind) => kind === "picture" ? "Wedding photo" : "Wedding video";
-
-const buildUploadedCategories = ({ metadataEntries, pictureItems, videoItems }) => {
-  const categoryMap = new Map(
-    CATEGORY_CONFIG.map((category) => [category.slug, { ...category, photos: [], videos: [], total: 0 }])
+const captionFromFileName = (fileName, kind) => {
+  const caption = sanitizeText(
+    String(fileName || "")
+      .replace(/\.[^/.]+$/, "")
+      .replace(/[_-]+/g, " "),
+    160
   );
-  const itemById = new Map();
-  const itemByName = new Map();
+  return caption || (kind === "picture" ? "Wedding photo" : "Wedding video");
+};
 
-  pictureItems.forEach((item) => {
-    const record = { item, kind: "picture" };
-    itemById.set(item.id, record);
-    itemByName.set(String(item.name || "").toLowerCase(), record);
+const itemDate = (item, metadata) =>
+  sanitizeText(
+    metadata?.uploadedAt || item?.createdDateTime || item?.lastModifiedDateTime,
+    80
+  );
+
+const newestFirst = (left, right) => {
+  const leftDate = Date.parse(left.uploadedAt || 0);
+  const rightDate = Date.parse(right.uploadedAt || 0);
+  return (Number.isFinite(rightDate) ? rightDate : 0) -
+    (Number.isFinite(leftDate) ? leftDate : 0);
+};
+
+const buildUploadedGallery = ({
+  metadataEntries = [],
+  guestPictureItems = [],
+  guestVideoItems = [],
+  ourPictureItems = [],
+  ourVideoItems = []
+}) => {
+  const metadataByItemId = new Map();
+  const metadataByName = new Map();
+  metadataEntries.filter(Boolean).forEach((metadata) => {
+    const driveItemId = sanitizeText(metadata.driveItemId, 240);
+    const storedFileName = sanitizeText(metadata.storedFileName, 240).toLowerCase();
+    if (driveItemId) metadataByItemId.set(driveItemId, metadata);
+    if (storedFileName) metadataByName.set(storedFileName, metadata);
   });
-  videoItems.forEach((item) => {
-    const record = { item, kind: "video" };
-    itemById.set(item.id, record);
-    itemByName.set(String(item.name || "").toLowerCase(), record);
-  });
 
-  metadataEntries
-    .filter(Boolean)
-    .sort((left, right) => Date.parse(right.uploadedAt || 0) - Date.parse(left.uploadedAt || 0))
-    .forEach((metadata) => {
-      const category = categoryMap.get(sanitizeText(metadata.categorySlug, 120).toLowerCase());
-      if (!category) return;
-      const record =
-        itemById.get(sanitizeText(metadata.driveItemId, 240)) ||
-        itemByName.get(sanitizeText(metadata.storedFileName, 240).toLowerCase());
-      if (!record?.item?.id) return;
+  const photos = [];
+  const videos = [];
+  const seenIds = new Set();
+  const sources = [
+    { source: "guest", kind: "picture", items: guestPictureItems },
+    { source: "guest", kind: "video", items: guestVideoItems },
+    { source: "ours", kind: "picture", items: ourPictureItems },
+    { source: "ours", kind: "video", items: ourVideoItems }
+  ];
 
-      const mediaId = encodeURIComponent(record.item.id);
+  sources.forEach(({ source, kind, items }) => {
+    items.forEach((item) => {
+      if (!item?.id || item.folder || seenIds.has(item.id)) return;
+      if (getFileKind(item.file?.mimeType, item.name) !== kind) return;
+      seenIds.add(item.id);
+
+      const metadata =
+        metadataByItemId.get(String(item.id)) ||
+        metadataByName.get(String(item.name || "").toLowerCase()) ||
+        null;
+      const mediaId = encodeURIComponent(item.id);
+      const originalName = source === "guest" && metadata?.originalFileName
+        ? metadata.originalFileName
+        : item.name;
       const media = {
-        id: `onedrive:${record.item.id}`,
-        type: record.kind === "picture" ? "photo" : "video",
-        caption: getCaption(metadata, record.kind),
+        id: `onedrive:${item.id}`,
+        type: kind === "picture" ? "photo" : "video",
+        source,
+        caption: captionFromFileName(originalName, kind),
         src: `/api/onedrive-media?id=${mediaId}`,
         thumbnailSrc:
-          record.kind === "picture"
-            ? record.item.thumbnails?.[0]?.large?.url || `/api/onedrive-media?id=${mediaId}`
-            : "",
+          item.thumbnails?.[0]?.large?.url ||
+          item.thumbnails?.[0]?.medium?.url ||
+          (kind === "picture" ? `/api/onedrive-media?id=${mediaId}` : ""),
         isFavorite: false,
-        uploadedAt: sanitizeText(metadata.uploadedAt, 80)
+        uploadedAt: itemDate(item, metadata)
       };
 
-      if (record.kind === "picture") category.photos.push(media);
-      else category.videos.push(media);
-      category.total += 1;
+      if (kind === "picture") photos.push(media);
+      else videos.push(media);
     });
+  });
 
-  return CATEGORY_CONFIG.map((config) => categoryMap.get(config.slug));
+  photos.sort(newestFirst);
+  videos.sort(newestFirst);
+  return [{
+    slug: "all-uploads",
+    name: "All uploads",
+    photos,
+    videos,
+    total: photos.length + videos.length
+  }];
 };
 
 exports.handler = async (event) => {
@@ -127,16 +178,32 @@ exports.handler = async (event) => {
   try {
     const accessToken = await getAccessToken();
     const rootFolder = getRootFolder();
-    const [pictureItems, videoItems, metadataItems] = await Promise.all([
-      listFolderItems(accessToken, rootFolder, "Pictures", true),
-      listFolderItems(accessToken, rootFolder, "Videos", false),
-      listFolderItems(accessToken, rootFolder, "Metadata", false)
+    const [
+      guestPictureItems,
+      guestVideoItems,
+      ourPictureItems,
+      ourVideoItems,
+      metadataItems
+    ] = await Promise.all([
+      listFolderItems(accessToken, rootFolder, [GUEST_UPLOADS_FOLDER, PICTURES_FOLDER], true),
+      listFolderItems(accessToken, rootFolder, [GUEST_UPLOADS_FOLDER, VIDEOS_FOLDER], true),
+      listFolderItems(accessToken, rootFolder, [OUR_UPLOADS_FOLDER, PICTURES_FOLDER], true),
+      listFolderItems(accessToken, rootFolder, [OUR_UPLOADS_FOLDER, VIDEOS_FOLDER], true),
+      listFolderItems(accessToken, rootFolder, [METADATA_FOLDER], false)
     ]);
-    const metadataEntries = await mapWithConcurrency(metadataItems, METADATA_CONCURRENCY, (item) =>
-      readMetadataItem(accessToken, item)
+    const metadataEntries = await mapWithConcurrency(
+      metadataItems,
+      METADATA_CONCURRENCY,
+      (item) => readMetadataItem(accessToken, item)
     );
-    const categories = buildUploadedCategories({ metadataEntries, pictureItems, videoItems });
-    const count = categories.reduce((sum, category) => sum + category.total, 0);
+    const categories = buildUploadedGallery({
+      metadataEntries,
+      guestPictureItems,
+      guestVideoItems,
+      ourPictureItems,
+      ourVideoItems
+    });
+    const count = categories[0].total;
 
     return {
       statusCode: 200,
@@ -155,6 +222,6 @@ exports.handler = async (event) => {
   }
 };
 
-exports.buildUploadedCategories = buildUploadedCategories;
+exports.buildUploadedGallery = buildUploadedGallery;
 
 exports.handler = require('../lib/require-media-session.cjs').withMediaSession(exports.handler);

@@ -15,12 +15,7 @@ const { handler } = require("../netlify/functions/onedrive-create-upload-session
 const request = (body) => ({
   httpMethod: "POST",
   headers: { cookie, "x-nf-request-id": "upload-error-journey" },
-  body: JSON.stringify({
-    photographer: "",
-    categorySlug: "others",
-    categoryName: "Others",
-    ...body
-  })
+  body: JSON.stringify(body)
 });
 
 test("server explains a 9 GB rejection without contacting OneDrive", async () => {

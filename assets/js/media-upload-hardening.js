@@ -163,6 +163,7 @@
       const data = await response.clone().json();
       if (!data?.uploadUrl) return;
       uploadSessions.set(data.uploadUrl, {
+        sourceFolder: data.sourceFolder,
         folder: data.folder,
         storedFileName: data.storedFileName
       });
@@ -193,6 +194,7 @@
           accept: "application/json"
         },
         body: JSON.stringify({
+          sourceFolder: session.sourceFolder,
           folder: session.folder,
           storedFileName: session.storedFileName,
           expectedSize: range.total

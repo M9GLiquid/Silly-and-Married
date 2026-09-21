@@ -27,9 +27,9 @@ test("error feedback is visible, announced, and includes individual failure reas
 });
 
 test("upload validation loads before the gallery client", () => {
-  const popupIndex = page.indexOf('src="assets/js/guest-error-popup.js?v=20260921-guest-errors"');
-  const coreIndex = page.indexOf('src="assets/js/media-upload-core.js?v=20260921-guest-errors"');
-  const mediaIndex = page.indexOf('src="assets/js/media.js?v=20260921-guest-errors"');
+  const popupIndex = page.indexOf('src="assets/js/guest-error-popup.js?v=20260921-onedrive-folders"');
+  const coreIndex = page.indexOf('src="assets/js/media-upload-core.js?v=20260921-onedrive-folders"');
+  const mediaIndex = page.indexOf('src="assets/js/media.js?v=20260921-onedrive-folders"');
   assert.ok(popupIndex >= 0);
   assert.ok(coreIndex >= 0);
   assert.ok(coreIndex > popupIndex);
@@ -37,7 +37,7 @@ test("upload validation loads before the gallery client", () => {
 });
 
 test("media upload scripts use one cache-busting release version", () => {
-  const version = "20260921-guest-errors";
+  const version = "20260921-onedrive-folders";
   assert.match(page, new RegExp(`guest-error-popup\\.js\\?v=${version}`));
   assert.match(page, new RegExp(`auto-translate\\.js\\?v=${version}`));
   assert.match(page, new RegExp(`media-upload-core\\.js\\?v=${version}`));
