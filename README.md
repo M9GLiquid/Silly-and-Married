@@ -130,7 +130,9 @@ media catalogs, and OneDrive APIs (including their direct function URLs).
 Each serverless function also validates the session independently. The other
 website pages remain public. Guests enter one shared password at `/media-access`;
 an HttpOnly, Secure cookie remembers access for seven days. **Lock gallery** clears
-that browser's cookie. Changing either secret below invalidates existing sessions.
+that browser's cookie. The login uses a same-origin request when JavaScript is
+available and retains its regular server-side form as a fallback. Changing either
+secret below invalidates existing sessions.
 
 Before deployment, set these in **Netlify → Project configuration → Environment
 variables**, with **Functions** scope, for every deployed context/site:

@@ -89,9 +89,10 @@ ${message ? `<p class="message" role="alert" id="password-message">${message}</p
 <form method="post" action="/media-access"><label for="password">Wedding password</label>
 <input id="password" name="password" type="password" autocomplete="current-password" required maxlength="256"${message ? ' aria-describedby="password-message"' : ""}>
 <button type="submit">Open our memories</button></form><p class="note">Please keep the password among our wedding guests.</p>
-<a class="back" href="/index.html">Back to our wedding website</a></main></body></html>`;
+<a class="back" href="/index.html">Back to our wedding website</a></main>
+<script src="/assets/js/media-login.js" defer></script></body></html>`;
   return new Response(html, { status, headers: { ...privateHeaders,
     "content-type": "text/html; charset=utf-8",
-    "content-security-policy": "default-src 'none'; style-src 'unsafe-inline'; img-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'"
+    "content-security-policy": "default-src 'none'; style-src 'unsafe-inline'; img-src 'self'; script-src 'self'; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'"
   } });
 }
