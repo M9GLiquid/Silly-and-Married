@@ -66,7 +66,7 @@ const runCreateSessionTest = async () => {
       categoryName: "Guests",
       fileName: "IMG_0001.HEIC",
       mimeType: "",
-      size: 1234
+      size: 3 * 1024 * 1024 * 1024
     })
   );
 

@@ -41,6 +41,7 @@ const PHOTO_BATCH_SIZE = 24;
 const VIDEO_BATCH_SIZE = 6;
 const PREFETCH_AHEAD_SIZE = 24;
 const UPLOAD_CHUNK_SIZE = 5 * 1024 * 1024;
+const UPLOAD_FILE_CONCURRENCY = 3;
 const DEFAULT_UPLOAD_CATEGORY_SLUG = "others";
 const DEFAULT_UPLOAD_CATEGORY_NAME = "Others";
 const WEDDING_2026_GALLERY_SLUG = "all-uploads";
@@ -51,6 +52,9 @@ const UPLOAD_COPY = {
     ready: "Ready to upload. Tap Upload selected files.",
     remove: "Remove",
     uploaded: "Uploaded",
+    uploading: (completed, total) => `Uploading ${completed} of ${total} — please keep this page open.`,
+    uploadComplete: "Upload complete. Thank you!",
+    uploadFailures: (count) => `${count} file${count === 1 ? "" : "s"} could not be uploaded. Please try again.`,
     waiting: "Waiting for photos or videos."
   },
   sk: {
@@ -59,6 +63,9 @@ const UPLOAD_COPY = {
     ready: "Pripravené na nahratie. Klepnite na Nahrať vybrané súbory.",
     remove: "Odstrániť",
     uploaded: "Nahrané",
+    uploading: (completed, total) => `Nahráva sa ${completed} z ${total} — nechajte túto stránku otvorenú.`,
+    uploadComplete: "Nahrávanie je dokončené. Ďakujeme!",
+    uploadFailures: (count) => `${count} ${count === 1 ? "súbor sa nepodarilo" : "súbory sa nepodarilo"} nahrať. Skúste to znova.`,
     waiting: "Čaká sa na fotografie alebo videá."
   },
   sv: {
@@ -67,6 +74,9 @@ const UPLOAD_COPY = {
     ready: "Redo att ladda upp. Tryck på Ladda upp valda filer.",
     remove: "Ta bort",
     uploaded: "Uppladdad",
+    uploading: (completed, total) => `Laddar upp ${completed} av ${total} — håll sidan öppen.`,
+    uploadComplete: "Uppladdningen är klar. Tack!",
+    uploadFailures: (count) => `${count} ${count === 1 ? "fil" : "filer"} kunde inte laddas upp. Försök igen.`,
     waiting: "Väntar på foton eller videor."
   }
 };
@@ -173,6 +183,7 @@ const renderSelectedUploadFiles = () => {
     const file = entry.file;
     const item = document.createElement("li");
     item.className = "media-upload-file-item";
+    item.dataset.uploadIndex = String(index);
     if (entry.status) {
       item.classList.add(`is-${entry.status}`);
     }
@@ -323,10 +334,29 @@ const applyUploadDefaults = () => {
 };
 
 const updateUploadFileEntry = (index, patch) => {
-  selectedUploadFiles = selectedUploadFiles.map((entry, candidateIndex) =>
-    candidateIndex === index ? { ...entry, ...patch } : entry
-  );
-  renderSelectedUploadFiles();
+  const currentEntry = selectedUploadFiles[index];
+  if (!currentEntry) return;
+  const nextEntry = { ...currentEntry, ...patch };
+  selectedUploadFiles[index] = nextEntry;
+
+  const item = uploadFilesList?.querySelector(`[data-upload-index="${index}"]`);
+  if (!item) return;
+  item.classList.remove("is-uploading", "is-complete", "is-error");
+  if (nextEntry.status) item.classList.add(`is-${nextEntry.status}`);
+
+  const status = item.querySelector(".media-upload-file-status");
+  if (status) {
+    const copy = getUploadCopy();
+    if (nextEntry.status === "uploading") {
+      status.textContent = `${nextEntry.progress || 0}%`;
+    } else if (nextEntry.status === "complete") {
+      status.textContent = copy.uploaded;
+    } else if (nextEntry.status === "error") {
+      status.textContent = copy.failed;
+    } else {
+      status.textContent = "";
+    }
+  }
 };
 
 const postJson = async (url, body) => {
@@ -403,29 +433,42 @@ const uploadSelectedFiles = async () => {
   if (uploadDropzone) uploadDropzone.setAttribute("aria-disabled", "true");
   if (uploadForm) uploadForm.setAttribute("aria-busy", "true");
   updateUploadSubmitState();
-  setUploadValidationMessage("Uploading — please keep this page open.");
+  const copy = getUploadCopy();
+  setUploadValidationMessage(copy.uploading(0, pendingIndexes.length));
   renderSelectedUploadFiles();
 
   let failures = 0;
-  for (const index of pendingIndexes) {
-    try {
-      await uploadOneDriveFile(selectedUploadFiles[index], index);
-    } catch (_error) {
-      failures += 1;
-      updateUploadFileEntry(index, { status: "error" });
+  let completed = 0;
+  let nextPendingIndex = 0;
+  const uploadWorker = async () => {
+    while (nextPendingIndex < pendingIndexes.length) {
+      const index = pendingIndexes[nextPendingIndex];
+      nextPendingIndex += 1;
+      try {
+        await uploadOneDriveFile(selectedUploadFiles[index], index);
+      } catch (_error) {
+        failures += 1;
+        updateUploadFileEntry(index, { status: "error" });
+      } finally {
+        completed += 1;
+        setUploadValidationMessage(copy.uploading(completed, pendingIndexes.length));
+      }
     }
-  }
+  };
+  const workerCount = Math.min(UPLOAD_FILE_CONCURRENCY, pendingIndexes.length);
+  await Promise.all(Array.from({ length: workerCount }, () => uploadWorker()));
 
   uploadInProgress = false;
   if (uploadInput) uploadInput.disabled = false;
   if (uploadDropzone) uploadDropzone.removeAttribute("aria-disabled");
   if (uploadForm) uploadForm.removeAttribute("aria-busy");
+  renderSelectedUploadFiles();
   updateUploadSubmitState();
   if (failures) {
-    setUploadValidationMessage(`${failures} file${failures === 1 ? "" : "s"} could not be uploaded. Please try again.`, true);
+    setUploadValidationMessage(copy.uploadFailures(failures), true);
     return;
   }
-  setUploadValidationMessage("Upload complete. Thank you!");
+  setUploadValidationMessage(copy.uploadComplete);
   showUploadSuccessToast();
   selectedUploadFiles = [];
   renderSelectedUploadFiles();

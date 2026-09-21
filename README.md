@@ -161,6 +161,12 @@ The deployment checks use a GitHub Actions secret named `MEDIA_PASSWORD` to log
 in, never a checked-in password. Set it privately before running authenticated
 deployment checks. See [Netlify environment variable documentation](https://docs.netlify.com/build/edge-functions/environment-variables/).
 
+Guest uploads use resumable 5 MiB OneDrive chunks and process up to three files
+at once. This bounded queue supports hundreds of selected photos and videos
+without starting every upload simultaneously on a guest's device. The default
+per-file limit is 8 GiB; set `MAX_UPLOAD_MB` in Netlify to override it for every
+deploy context.
+
 ## Experimental Note
 
 This project is explicitly an **experiment in Agentic and Vibe Coding**.
