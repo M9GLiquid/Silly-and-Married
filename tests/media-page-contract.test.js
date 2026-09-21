@@ -6,6 +6,7 @@ const path = require("node:path");
 const root = path.resolve(__dirname, "..");
 const page = fs.readFileSync(path.join(root, "media.html"), "utf8");
 const client = fs.readFileSync(path.join(root, "assets/js/media.js"), "utf8");
+const translationClient = fs.readFileSync(path.join(root, "assets/js/auto-translate.js"), "utf8");
 
 test("guest reviews a removable queue before explicit upload", () => {
   assert.match(page, /id="media-upload-input"[^>]*multiple/);
@@ -26,8 +27,16 @@ test("error feedback is visible, announced, and includes individual failure reas
 });
 
 test("upload validation loads before the gallery client", () => {
-  const coreIndex = page.indexOf('src="assets/js/media-upload-core.js"');
-  const mediaIndex = page.indexOf('src="assets/js/media.js"');
+  const coreIndex = page.indexOf('src="assets/js/media-upload-core.js?v=20260921-upload-errors"');
+  const mediaIndex = page.indexOf('src="assets/js/media.js?v=20260921-upload-errors"');
   assert.ok(coreIndex >= 0);
   assert.ok(mediaIndex > coreIndex);
+});
+
+test("media upload scripts use one cache-busting release version", () => {
+  const version = "20260921-upload-errors";
+  assert.match(page, new RegExp(`auto-translate\\.js\\?v=${version}`));
+  assert.match(page, new RegExp(`media-upload-core\\.js\\?v=${version}`));
+  assert.match(page, new RegExp(`media\\.js\\?v=${version}`));
+  assert.match(translationClient, new RegExp(`media-upload-hardening\\.js\\?v=${version}`));
 });

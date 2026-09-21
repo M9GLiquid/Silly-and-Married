@@ -161,7 +161,7 @@
 
   if (document.body?.dataset.page === "media") {
     const uploadHardeningScript = document.createElement("script");
-    uploadHardeningScript.src = "assets/js/media-upload-hardening.js";
+    uploadHardeningScript.src = "assets/js/media-upload-hardening.js?v=20260921-upload-errors";
     uploadHardeningScript.async = false;
     document.head.appendChild(uploadHardeningScript);
   }
