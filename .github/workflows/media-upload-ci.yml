@@ -8,12 +8,24 @@ on:
       - "tools/test-onedrive-utils.js"
       - "tools/test-onedrive-functions.js"
       - "test/**"
+      - "tests/**"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/media-upload-ci.yml"
   push:
     branches:
-      - "agent/fix-multi-photo-upload"
+      - "main"
+      - "dev"
+    paths:
+      - "assets/js/**"
+      - "netlify/**"
+      - "tools/test-onedrive-utils.js"
+      - "tools/test-onedrive-functions.js"
+      - "test/**"
+      - "tests/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/media-upload-ci.yml"
 
 permissions:
   contents: read
@@ -34,6 +46,7 @@ jobs:
             media.html
             netlify
             test
+            tests
             tools
             package.json
             package-lock.json
@@ -50,7 +63,11 @@ jobs:
 
       - name: Check JavaScript syntax
         run: |
+          node --check assets/js/guest-error-popup.js
+          node --check assets/js/media-login.js
+          node --check assets/js/media-upload-core.js
           node --check assets/js/media-upload-hardening.js
+          node --check assets/js/media.js
           node --check assets/js/auto-translate.js
           node --check netlify/functions/onedrive-utils.js
           node --check netlify/functions/onedrive-create-upload-session.js
